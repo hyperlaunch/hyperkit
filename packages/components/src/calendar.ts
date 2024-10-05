@@ -12,7 +12,7 @@ class MissingTagError extends Error {
 	}
 }
 
-export class DatePicker extends HTMLElement {
+export class Calendar extends HTMLElement {
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
@@ -59,9 +59,9 @@ export class DatePicker extends HTMLElement {
 	private validateStructure() {
 		const template = this.querySelector("template");
 		if (!template) {
-			console.error("Template tag is missing in hyperkit-date-picker", this);
+			console.error("Template tag is missing in hyperkit-calendar", this);
 			throw new MissingTemplateError(
-				"Template tag is required in hyperkit-date-picker.",
+				"Template tag is required in hyperkit-calendar.",
 			);
 		}
 
@@ -163,7 +163,7 @@ export class DatePicker extends HTMLElement {
 	render() {
 		if (!this.monthElement) return;
 		this.monthElement.textContent =
-			DatePicker.monthNames[this.currentDate.getUTCMonth()];
+			Calendar.monthNames[this.currentDate.getUTCMonth()];
 		this.monthElement.setAttribute(
 			"aria-label",
 			`Current month: ${this.monthElement.textContent}`,
@@ -317,13 +317,13 @@ export class DatePicker extends HTMLElement {
 	}
 }
 
-customElements.define("hyperkit-date-picker", DatePicker);
+customElements.define("hyperkit-calendar", Calendar);
 
 class ChildElement extends HTMLElement {
 	connectedCallback() {
-		if (!this.closest("hyperkit-date-picker"))
+		if (!this.closest("hyperkit-calendar"))
 			console.error(
-				`${this.tagName.toLowerCase()} must be used inside hyperkit-date-picker`,
+				`${this.tagName.toLowerCase()} must be used inside hyperkit-calendar`,
 				this,
 			);
 	}

@@ -10,7 +10,7 @@ type Props = {
 const { for: forElement, minDate, maxDate, futureOnly, pastOnly } = Astro.props;
 ---
 
-<hyperkit-date-picker
+<hyperkit-calendar
   class="max-w-96 bg-white bg-opacity-80 backdrop-blur-sm rounded-lg shadow-lg p-6 block"
   min-date={minDate?.toISOString()}
   max-date={maxDate?.toISOString()}
@@ -46,7 +46,7 @@ const { for: forElement, minDate, maxDate, futureOnly, pastOnly } = Astro.props;
       class="w-10 h-10 flex items-center justify-center rounded-full cursor-pointer text-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-blue-200 transition-colors duration-200 data-[today]:bg-blue-600 data-[today]:text-white data-[selected]:bg-blue-200 data-[other-month]:text-gray-400 disabled:text-gray-400"
     ></hk-day-number>
   </template>
-</hyperkit-date-picker>
+</hyperkit-calendar>
 <script>
-  import "@hyperkit/components/date-picker.ts"
+  import "@hyperkit/components/calendar.ts"
 </script>

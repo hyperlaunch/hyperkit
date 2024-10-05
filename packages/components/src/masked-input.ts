@@ -1,48 +1,41 @@
+class MissingInputError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = "MissingInputError";
+	}
+}
+
 export class HyperkitMaskedInput extends HTMLElement {
 	private inputElement: HTMLInputElement | null = null;
 
 	connectedCallback() {
-		this.createInputElement();
-		this.transferAttributesToInput();
-
-		const mask = this.getAttribute("mask") || "";
-		this.applyMask(mask);
-
-		if (this.inputElement) this.appendChild(this.inputElement);
+		this.validateStructure();
+		this.attachListeners();
 	}
 
-	private createInputElement() {
-		this.inputElement = document.createElement("input");
-	}
+	private validateStructure() {
+		this.inputElement = this.querySelector("input");
 
-	private transferAttributesToInput() {
-		if (!this.inputElement) return;
-
-		for (const attr of Array.from(this.attributes)) {
-			if (attr.name === "mask") continue;
-
-			this.inputElement.setAttribute(attr.name, attr.value);
-			this.removeAttribute(attr.name);
+		if (!this.inputElement) {
+			console.error("Input element is missing in hyperkit-masked-input", this);
+			throw new MissingInputError(
+				"Input element is required in hyperkit-masked-input.",
+			);
 		}
 	}
 
-	private applyMask(mask: string) {
-		if (!this.inputElement) return;
+	private attachListeners() {
+		const mask = this.getAttribute("mask") || "";
 
-		const maskHandler: EventListener = (event: Event) => {
+		const maskHandler = (event: Event) => {
 			const target = event.target as HTMLInputElement;
-
 			const cursorPosition = target.selectionStart || 0;
 			const rawValue = target.value.replace(/[^a-zA-Z\d\-]/g, "");
 			const formattedValue = this.formatByMask({ value: rawValue, mask });
 
 			target.value = formattedValue;
 
-			this.restoreCursorPosition({
-				target,
-				cursorPosition,
-				mask,
-			});
+			this.restoreCursorPosition({ target, cursorPosition, mask });
 		};
 
 		const deleteHandler = (event: KeyboardEvent) => {
@@ -52,23 +45,22 @@ export class HyperkitMaskedInput extends HTMLElement {
 
 				event.preventDefault();
 
-				this.handleBackspace({
-					target,
-					mask,
-					cursorPosition,
-				});
+				this.handleBackspace({ target, mask, cursorPosition });
 			}
 		};
 
-		this.inputElement.addEventListener("input", maskHandler);
-		this.inputElement.addEventListener("blur", maskHandler);
-		this.inputElement.addEventListener("keydown", deleteHandler);
+		this.inputElement?.addEventListener("input", maskHandler);
+		this.inputElement?.addEventListener("blur", maskHandler);
+		this.inputElement?.addEventListener("keydown", deleteHandler);
 	}
 
 	private formatByMask({
 		value,
 		mask,
-	}: { value: string; mask: string }): string {
+	}: {
+		value: string;
+		mask: string;
+	}): string {
 		let formattedValue = "";
 		let valueIndex = 0;
 
@@ -82,13 +74,11 @@ export class HyperkitMaskedInput extends HTMLElement {
 				} else if (valueIndex < value.length) {
 					formattedValue += maskChar;
 				}
-
 				continue;
 			}
 
 			if (valueIndex < value.length) {
 				const currentValue = value[valueIndex];
-
 				if (
 					this.isDigitPattern({ maskChar, currentValue }) ||
 					this.isLetterPattern({ maskChar, currentValue })

@@ -1,5 +1,5 @@
 ---
-import DatePicker from "../components/date-picker.astro";
+import Calendar from "../components/calendar.astro";
 import "../base.css";
 import MaskedInput from "../components/masked-input.astro";
 
@@ -20,19 +20,19 @@ maxDate.setDate(maxDate.getDate() + 3);
   </head>
   <body class="p-6 lg:p-8 xl:p-10 2xl:p-12">
     <div class="prose mx-auto">
-      <h1>Date Picker</h1>
+      <h1>Calendar</h1>
       
       <h2>With `min-date` and `max-date`</h2>
-      <DatePicker
+      <Calendar
         minDate={minDate}
         maxDate={maxDate}
       />
 
       <h2>With `future-only`</h2>
-      <DatePicker futureOnly />
+      <Calendar futureOnly />
 
       <h2>With `past-only`</h2>
-      <DatePicker pastOnly />
+      <Calendar pastOnly />
 
       <h2>With connected input</h2>
       <div class="max-w-96">
@@ -43,7 +43,7 @@ maxDate.setDate(maxDate.getDate() + 3);
           placeholder="YYYY-MM-YY" 
           mask="####-##-##" 
         />
-        <DatePicker for="date_value" />
+        <Calendar for="date_value" />
       </div>
     </div>
   </body>
