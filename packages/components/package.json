@@ -1,6 +1,8 @@
 {
 	"name": "@hyperkit/components",
-	"main": "./src/index.ts",
+	"exports": {
+		"./*": "./src/*"
+	},
 	"type": "module",
 	"devDependencies": {
 		"@types/bun": "latest"

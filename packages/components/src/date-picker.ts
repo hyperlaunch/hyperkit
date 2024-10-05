@@ -4,6 +4,10 @@ export class DatePicker extends HTMLElement {
 	private inputElement: HTMLInputElement | null = null;
 	private monthElement: HTMLElement | null = null;
 	private dayTemplate: HTMLElement | null = null;
+	private futureOnly = false;
+	private pastOnly = false;
+	private minDate: Date | null = null;
+	private maxDate: Date | null = null;
 
 	private static monthNames = [
 		"January",
@@ -23,10 +27,24 @@ export class DatePicker extends HTMLElement {
 	connectedCallback() {
 		if (!this.validateStructure()) return;
 
+		this.hoistValidationProperties();
+
 		this.cloneTemplate();
 		this.initializeElements();
+		this.attachInputListener();
 		this.render();
 		this.setupNavigationButtons();
+	}
+
+	private hoistValidationProperties() {
+		this.futureOnly = this.hasAttribute("future-only");
+		this.pastOnly = this.hasAttribute("past-only");
+
+		const minDateAttr = this.getAttribute("min-date");
+		const maxDateAttr = this.getAttribute("max-date");
+
+		this.minDate = minDateAttr ? new Date(minDateAttr) : null;
+		this.maxDate = maxDateAttr ? new Date(maxDateAttr) : null;
 	}
 
 	private validateStructure() {
@@ -75,6 +93,24 @@ export class DatePicker extends HTMLElement {
 		if (template) this.appendChild(template.content.cloneNode(true));
 	}
 
+	private attachInputListener() {
+		if (!this.inputElement) return;
+
+		this.inputElement.addEventListener("change", () => {
+			const inputValue = this.inputElement?.value;
+
+			if (!inputValue) return;
+
+			const parsedDate = new Date(inputValue);
+
+			if (Number.isNaN(parsedDate.getTime())) return;
+
+			this.selectedDate = parsedDate;
+			this.currentDate = parsedDate;
+			this.render();
+		});
+	}
+
 	private setupNavigationButtons() {
 		this.setupButton("previous-month", () => this.changeMonth(-1));
 		this.setupButton("next-month", () => this.changeMonth(1));
@@ -89,11 +125,13 @@ export class DatePicker extends HTMLElement {
 
 		button.innerHTML = buttonWrapper.innerHTML;
 
-		for (const attr of Array.from(buttonWrapper.attributes))
+		for (const attr of Array.from(buttonWrapper.attributes)) {
 			button.setAttribute(attr.name, attr.value);
+		}
 
-		while (buttonWrapper.attributes.length > 0)
+		while (buttonWrapper.attributes.length > 0) {
 			buttonWrapper.removeAttribute(buttonWrapper.attributes[0].name);
+		}
 
 		buttonWrapper.innerHTML = "";
 		buttonWrapper.appendChild(button);
@@ -181,9 +219,7 @@ export class DatePicker extends HTMLElement {
 	}
 
 	private createDayButton(content: string, date?: Date): HTMLElement {
-		if (!this.dayTemplate) {
-			throw new Error("dayTemplate is not defined");
-		}
+		if (!this.dayTemplate) throw new Error("dayTemplate is not defined");
 
 		const button = document.createElement("button");
 
@@ -192,25 +228,20 @@ export class DatePicker extends HTMLElement {
 
 		button.textContent = content;
 
-		const futureOnly = this.hasAttribute("future-only");
-		const pastOnly = this.hasAttribute("past-only");
-		const minDateAttr = this.getAttribute("min-date");
-		const maxDateAttr = this.getAttribute("max-date");
-
-		const minDate = minDateAttr ? new Date(minDateAttr) : null;
-		const maxDate = maxDateAttr ? new Date(maxDateAttr) : null;
-		const today = new Date();
-
 		if (date) {
 			button.dataset.date = date.toISOString();
 
-			if (futureOnly && date < today) button.setAttribute("disabled", "true");
+			if (this.futureOnly && date < new Date())
+				button.setAttribute("disabled", "true");
 
-			if (pastOnly && date > today) button.setAttribute("disabled", "true");
+			if (this.pastOnly && date > new Date())
+				button.setAttribute("disabled", "true");
 
-			if (minDate && date < minDate) button.setAttribute("disabled", "true");
+			if (this.minDate && date < this.minDate)
+				button.setAttribute("disabled", "true");
 
-			if (maxDate && date > maxDate) button.setAttribute("disabled", "true");
+			if (this.maxDate && date > this.maxDate)
+				button.setAttribute("disabled", "true");
 		}
 
 		return button;
