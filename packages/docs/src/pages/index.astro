@@ -1,6 +1,6 @@
 ---
-import Calendar from "../components/calendar.astro";
 import "../base.css";
+import Calendar from "../components/calendar.astro";
 import MaskedInput from "../components/masked-input.astro";
 
 const minDate = new Date();
@@ -36,7 +36,7 @@ maxDate.setDate(maxDate.getDate() + 3);
 
       <h2>With connected input</h2>
       <div class="max-w-96">
-        <MaskedInput 
+        <MaskedInput
           type="text" 
           name="date_value"
           class="w-full mb-4 p-2 border rounded bg-white bg-opacity-80"

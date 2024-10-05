@@ -12,7 +12,7 @@ class MissingTagError extends Error {
 	}
 }
 
-export class Calendar extends HTMLElement {
+export class HyperkitCalendar extends HTMLElement {
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
@@ -163,7 +163,7 @@ export class Calendar extends HTMLElement {
 	render() {
 		if (!this.monthElement) return;
 		this.monthElement.textContent =
-			Calendar.monthNames[this.currentDate.getUTCMonth()];
+			HyperkitCalendar.monthNames[this.currentDate.getUTCMonth()];
 		this.monthElement.setAttribute(
 			"aria-label",
 			`Current month: ${this.monthElement.textContent}`,
@@ -317,7 +317,8 @@ export class Calendar extends HTMLElement {
 	}
 }
 
-customElements.define("hyperkit-calendar", Calendar);
+if (!customElements.get("hyperkit-calendar"))
+	customElements.define("hyperkit-calendar", HyperkitCalendar);
 
 class ChildElement extends HTMLElement {
 	connectedCallback() {
@@ -336,5 +337,6 @@ for (const tag of [
 	"hk-days-list",
 	"hk-day-number",
 ]) {
-	customElements.define(tag, ChildElement);
+	if (!customElements.get(tag))
+		customElements.define(tag, class extends ChildElement {});
 }

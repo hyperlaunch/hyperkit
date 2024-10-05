@@ -162,4 +162,5 @@ export class HyperkitMaskedInput extends HTMLElement {
 	}
 }
 
-customElements.define("hyperkit-masked-input", HyperkitMaskedInput);
+if (!customElements.get("hyperkit-masked-input"))
+	customElements.define("hyperkit-masked-input", HyperkitMaskedInput);
