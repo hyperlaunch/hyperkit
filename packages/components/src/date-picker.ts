@@ -125,17 +125,22 @@ export class DatePicker extends HTMLElement {
 
 		button.innerHTML = buttonWrapper.innerHTML;
 
-		for (const attr of Array.from(buttonWrapper.attributes)) {
+		for (const attr of Array.from(buttonWrapper.attributes))
 			button.setAttribute(attr.name, attr.value);
-		}
 
-		while (buttonWrapper.attributes.length > 0) {
+		while (buttonWrapper.attributes.length > 0)
 			buttonWrapper.removeAttribute(buttonWrapper.attributes[0].name);
-		}
 
 		buttonWrapper.innerHTML = "";
 		buttonWrapper.appendChild(button);
 		button.addEventListener("click", callback);
+
+		if (selector === "previous-month")
+			button.setAttribute("aria-label", "Go to previous month");
+		if (selector === "next-month")
+			button.setAttribute("aria-label", "Go to next month");
+
+		button.setAttribute("role", "button");
 	}
 
 	private get daysElement(): HTMLElement | null {
@@ -147,6 +152,11 @@ export class DatePicker extends HTMLElement {
 
 		this.monthElement.textContent =
 			DatePicker.monthNames[this.currentDate.getUTCMonth()];
+		this.monthElement.setAttribute("role", "heading");
+		this.monthElement.setAttribute(
+			"aria-label",
+			`Current month: ${DatePicker.monthNames[this.currentDate.getUTCMonth()]}`,
+		);
 
 		this.clearDaysElement();
 
@@ -231,22 +241,26 @@ export class DatePicker extends HTMLElement {
 		if (!date) {
 			button.dataset.otherMonth = "";
 			button.setAttribute("disabled", "true");
+			button.setAttribute("aria-disabled", "true");
+			button.setAttribute("aria-label", `Unavailable day`);
+			button.setAttribute("role", "button");
 			return button;
 		}
 
 		button.dataset.date = date.toISOString();
+		button.setAttribute("role", "button");
+		button.setAttribute("aria-label", `Select date: ${content}`);
 
-		if (this.futureOnly && date < new Date())
-			button.setAttribute("disabled", "true");
+		const disabled =
+			(this.futureOnly && date < new Date()) ||
+			(this.pastOnly && date > new Date()) ||
+			(this.minDate && date < this.minDate) ||
+			(this.maxDate && date > this.maxDate);
 
-		if (this.pastOnly && date > new Date())
+		if (disabled) {
 			button.setAttribute("disabled", "true");
-
-		if (this.minDate && date < this.minDate)
-			button.setAttribute("disabled", "true");
-
-		if (this.maxDate && date > this.maxDate)
-			button.setAttribute("disabled", "true");
+			button.setAttribute("aria-disabled", "true");
+		}
 
 		return button;
 	}
