@@ -20,9 +20,17 @@ const { for: forElement, minDate, maxDate, futureOnly, pastOnly } = Astro.props;
 >
   <template>
     <div class="flex justify-between items-center mb-6">
-      <previous-month class="text-gray-600 hover:text-gray-800">&lt;</previous-month>
+      <previous-month class="text-gray-600 hover:text-gray-800 size-5">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>        
+      </previous-month>
       <current-month class="text-2xl font-bold text-gray-800"></current-month>
-      <next-month class="text-gray-600 hover:text-gray-800">&gt;</next-month>
+      <next-month class="text-gray-600 hover:text-gray-800 size-5">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>        
+      </next-month>
     </div>
     <div class="grid grid-cols-7 gap-2 mb-4">
       <div class="text-center text-sm font-semibold text-gray-600">M</div>
