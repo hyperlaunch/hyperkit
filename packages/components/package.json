@@ -1,6 +1,8 @@
 {
 	"name": "@hyperkit/components",
+	"main": "./src/index.ts",
 	"exports": {
+		".": "./src/index.ts",
 		"./*": "./src/*"
 	},
 	"type": "module",

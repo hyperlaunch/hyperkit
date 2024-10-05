@@ -1,6 +1,7 @@
 ---
 import DatePicker from "../components/date-picker.astro";
 import "../base.css";
+import MaskedInput from "../components/masked-input.astro";
 
 const minDate = new Date();
 minDate.setDate(minDate.getDate() - 3);
@@ -35,17 +36,15 @@ maxDate.setDate(maxDate.getDate() + 3);
 
       <h2>With connected input</h2>
       <div class="max-w-96">
-        <input
-          type="text"
+        <MaskedInput 
+          type="text" 
           name="date_value"
           class="w-full mb-4 p-2 border rounded bg-white bg-opacity-80"
-          placeholder="Pick a date below"
+          placeholder="YYYY-MM-YY" 
+          mask="####-##-##" 
         />
         <DatePicker for="date_value" />
       </div>
     </div>
   </body>
-  <script>
-    import "@hyperkit/components/date-picker";
-  </script>
 </html>
