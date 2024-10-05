@@ -25,7 +25,7 @@ export class DatePicker extends HTMLElement {
 	];
 
 	connectedCallback() {
-		if (!this.validateStructure()) return;
+		this.validateStructure();
 
 		this.hoistValidationProperties();
 
@@ -55,36 +55,39 @@ export class DatePicker extends HTMLElement {
 				"There must be a template tag immediately nested under hyperkit-date-picker",
 				this,
 			);
-			return false;
+			throw new Error("Missing hyperkit-date-picker");
 		}
 
 		const content = template.content;
 
-		if (
-			!content.querySelector("days-list") ||
-			!content.querySelector("day-number")
-		) {
+		if (!content.querySelector("hk-days-list")) {
 			console.error(
-				"The days-list and day-number tags must be present in the template",
+				"The hk-days-list tag must be present in the template",
 				template,
 			);
-			return false;
+			throw new Error("Missing hk-days-list");
 		}
 
-		return true;
+		if (!content.querySelector("hk-day-number")) {
+			console.error(
+				"The hk-day-number tag must be present in the template",
+				template,
+			);
+			throw new Error("Missing hk-day-number");
+		}
 	}
 
 	private initializeElements() {
 		this.inputElement = document.querySelector(
 			`input[name="${this.getAttribute("for")}"]`,
 		);
-		this.monthElement = this.querySelector("current-month");
+		this.monthElement = this.querySelector("hk-current-month");
 
-		this.dayTemplate = this.querySelector("day-number");
+		this.dayTemplate = this.querySelector("hk-day-number");
 
 		if (this.dayTemplate) {
 			this.dayTemplate = this.dayTemplate.cloneNode(true) as HTMLElement;
-			this.querySelector("day-number")?.remove();
+			this.querySelector("hk-day-number")?.remove();
 		}
 	}
 
@@ -112,8 +115,8 @@ export class DatePicker extends HTMLElement {
 	}
 
 	private setupNavigationButtons() {
-		this.setupButton("previous-month", () => this.changeMonth(-1));
-		this.setupButton("next-month", () => this.changeMonth(1));
+		this.setupButton("hk-previous-month", () => this.changeMonth(-1));
+		this.setupButton("hk-next-month", () => this.changeMonth(1));
 	}
 
 	private setupButton(selector: string, callback: () => void) {
@@ -135,16 +138,16 @@ export class DatePicker extends HTMLElement {
 		buttonWrapper.appendChild(button);
 		button.addEventListener("click", callback);
 
-		if (selector === "previous-month")
+		if (selector === "hk-previous-month")
 			button.setAttribute("aria-label", "Go to previous month");
-		if (selector === "next-month")
+		if (selector === "hk-next-month")
 			button.setAttribute("aria-label", "Go to next month");
 
 		button.setAttribute("role", "button");
 	}
 
 	private get daysElement(): HTMLElement | null {
-		return this.querySelector("days-list");
+		return this.querySelector("hk-days-list");
 	}
 
 	render() {
@@ -242,7 +245,7 @@ export class DatePicker extends HTMLElement {
 			button.dataset.otherMonth = "";
 			button.setAttribute("disabled", "true");
 			button.setAttribute("aria-disabled", "true");
-			button.setAttribute("aria-label", `Unavailable day`);
+			button.setAttribute("aria-label", "Unavailable day");
 			button.setAttribute("role", "button");
 			return button;
 		}
@@ -299,8 +302,8 @@ class ChildElement extends HTMLElement {
 	}
 }
 
-customElements.define("previous-month", class extends ChildElement {});
-customElements.define("next-month", class extends ChildElement {});
-customElements.define("current-month", class extends ChildElement {});
-customElements.define("days-list", class extends ChildElement {});
-customElements.define("day-number", class extends ChildElement {});
+customElements.define("hk-previous-month", class extends ChildElement {});
+customElements.define("hk-next-month", class extends ChildElement {});
+customElements.define("hk-current-month", class extends ChildElement {});
+customElements.define("hk-days-list", class extends ChildElement {});
+customElements.define("hk-day-number", class extends ChildElement {});
