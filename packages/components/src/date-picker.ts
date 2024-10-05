@@ -47,6 +47,10 @@ export class DatePicker extends HTMLElement {
 		this.render();
 	}
 
+	get value() {
+		return this.selectedDate && this.formatDate(this.selectedDate);
+	}
+
 	private parseDateAttr(attrName: string): Date | null {
 		const attr = this.getAttribute(attrName);
 		return attr ? new Date(attr) : null;
@@ -284,10 +288,20 @@ export class DatePicker extends HTMLElement {
 	}
 
 	private selectDate({ date }: { date: Date }) {
+		const previousValue =
+			this.selectedDate && this.formatDate(this.selectedDate);
 		this.selectedDate = date;
 		this.updateInputElement();
 		this.render();
-		this.dispatchEvent(new CustomEvent("dateSelected", { detail: { date } }));
+		this.dispatchEvent(
+			new CustomEvent("change", {
+				detail: { previousValue, newValue: this.formatDate(date) },
+			}),
+		);
+	}
+
+	private formatDate(date: Date) {
+		return date.toISOString().split("T")[0];
 	}
 
 	private updateInputElement() {
