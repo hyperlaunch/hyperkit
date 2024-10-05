@@ -228,21 +228,25 @@ export class DatePicker extends HTMLElement {
 
 		button.textContent = content;
 
-		if (date) {
-			button.dataset.date = date.toISOString();
-
-			if (this.futureOnly && date < new Date())
-				button.setAttribute("disabled", "true");
-
-			if (this.pastOnly && date > new Date())
-				button.setAttribute("disabled", "true");
-
-			if (this.minDate && date < this.minDate)
-				button.setAttribute("disabled", "true");
-
-			if (this.maxDate && date > this.maxDate)
-				button.setAttribute("disabled", "true");
+		if (!date) {
+			button.dataset.otherMonth = "";
+			button.setAttribute("disabled", "true");
+			return button;
 		}
+
+		button.dataset.date = date.toISOString();
+
+		if (this.futureOnly && date < new Date())
+			button.setAttribute("disabled", "true");
+
+		if (this.pastOnly && date > new Date())
+			button.setAttribute("disabled", "true");
+
+		if (this.minDate && date < this.minDate)
+			button.setAttribute("disabled", "true");
+
+		if (this.maxDate && date > this.maxDate)
+			button.setAttribute("disabled", "true");
 
 		return button;
 	}
