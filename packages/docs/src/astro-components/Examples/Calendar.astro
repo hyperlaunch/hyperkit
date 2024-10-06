@@ -1,0 +1,50 @@
+---
+import Example from "../Example.astro";
+
+type Props = {
+	for?: string;
+	minDate?: string;
+	maxDate?: string;
+	futureOnly?: boolean;
+	pastOnly?: boolean;
+};
+
+const { for: forElement, minDate, maxDate, futureOnly, pastOnly } = Astro.props;
+---
+<hyperkit-calendar
+  class="max-w-80 bg-white backdrop-blur-sm rounded-lg shadow-lg p-4 block"
+  min-date={minDate}
+  max-date={maxDate}
+  future-only={futureOnly}
+  pastOnly={pastOnly}
+  for={forElement}
+>
+  <template>
+    <div class="flex justify-between items-center mb-4">
+      <hk-previous-month class="text-zinc-600 hover:text-zinc-800 text-xl">
+        &lt;
+      </hk-previous-month>
+      <hk-current-month class="text-xl font-bold text-zinc-800"></hk-current-month>
+      <hk-next-month class="text-zinc-600 hover:text-zinc-800 text-xl">
+        &gt;
+      </hk-next-month>
+    </div>
+    <div class="grid grid-cols-7 gap-1 mb-2">
+      <div class="text-center text-xs font-semibold text-zinc-600">M</div>
+      <div class="text-center text-xs font-semibold text-zinc-600">T</div>
+      <div class="text-center text-xs font-semibold text-zinc-600">W</div>
+      <div class="text-center text-xs font-semibold text-zinc-600">T</div>
+      <div class="text-center text-xs font-semibold text-zinc-600">F</div>
+      <div class="text-center text-xs font-semibold text-zinc-600">S</div>
+      <div class="text-center text-xs font-semibold text-zinc-600">S</div>
+    </div>
+    <hk-days-list class="grid grid-cols-7 gap-1"></hk-days-list>
+    <hk-day-number
+      class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer text-xs hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-blue-200 transition-colors duration-200 data-[today]:bg-blue-600 text-zinc-800 data-[today]:text-white data-[selected]:bg-blue-200 data-[other-month]:text-zinc-400 disabled:text-zinc-400"
+    ></hk-day-number>
+  </template>
+</hyperkit-calendar>
+
+<script>
+  import "@hyperkit/components/calendar.ts";
+</script>
