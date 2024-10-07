@@ -117,6 +117,16 @@ Tags:
 </hyperkit-calendar>
 ```
 
+#### Initial value
+{% example %}
+	{% calendar value="2024-10-13" / %}
+{% /example %}
+```html
+<hyperkit-calendar value="2024-10-13">
+	...
+</hyperkit-calendar>
+```
+
 #### Min and Max Dates
 {% example %}
 	{% calendar minDate="2024-10-03" maxDate="2024-10-25" / %}
@@ -145,7 +155,7 @@ Tags:
 
 #### Connected to an Input
 {% example %}
-	{% masked-input placeholder="yyyy-mm-dd" name="selected_date" mask="####-##-##" / %}
+	{% masked-input placeholder="yyyy-mm-dd" name="selected_date" mask="####-##-##" value="2024-10-13" / %}
 	{% calendar for="selected_date" / %}
 {% /example %}
 ```html

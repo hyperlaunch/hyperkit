@@ -20,6 +20,7 @@ export default defineMarkdocConfig({
 			render: component("./src/astro-components/Examples/Calendar.astro"),
 			attributes: {
 				for: { type: String },
+				value: { type: String },
 				minDate: { type: String },
 				maxDate: { type: String },
 				futureOnly: { type: Boolean },
@@ -32,6 +33,7 @@ export default defineMarkdocConfig({
 				mask: { type: String },
 				name: { type: String },
 				placeholder: { type: String },
+				value: { type: String },
 			},
 		},
 	},

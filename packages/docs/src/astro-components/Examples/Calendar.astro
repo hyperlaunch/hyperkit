@@ -3,13 +3,21 @@ import Example from "../Example.astro";
 
 type Props = {
 	for?: string;
+	value?: string;
 	minDate?: string;
 	maxDate?: string;
 	futureOnly?: boolean;
 	pastOnly?: boolean;
 };
 
-const { for: forElement, minDate, maxDate, futureOnly, pastOnly } = Astro.props;
+const {
+	for: forElement,
+	minDate,
+	maxDate,
+	futureOnly,
+	pastOnly,
+	value,
+} = Astro.props;
 ---
 <hyperkit-calendar
   class="max-w-80 bg-white backdrop-blur-sm rounded-lg shadow-lg p-4 block"
@@ -18,6 +26,7 @@ const { for: forElement, minDate, maxDate, futureOnly, pastOnly } = Astro.props;
   future-only={futureOnly}
   pastOnly={pastOnly}
   for={forElement}
+  value={value}
 >
   <template>
     <div class="flex justify-between items-center mb-4">

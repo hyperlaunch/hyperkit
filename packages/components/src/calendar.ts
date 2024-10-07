@@ -42,9 +42,28 @@ export class HyperkitCalendar extends HTMLElement {
 		this.validateStructure();
 		this.cloneTemplate();
 		this.initializeElements();
+		this.setInitialSelectedDate();
 		this.attachInputListener();
 		this.setupNavigationButtons();
 		this.render();
+	}
+
+	private setInitialSelectedDate() {
+		const calendarValue = this.getAttribute("value");
+		if (calendarValue) {
+			const parsedDate = new Date(calendarValue);
+			if (!Number.isNaN(parsedDate.getTime()))
+				this.selectedDate = this.currentDate = parsedDate;
+
+			return;
+		}
+
+		if (this.inputElement?.value) {
+			const parsedDate = new Date(this.inputElement.value);
+
+			if (!Number.isNaN(parsedDate.getTime()))
+				this.selectedDate = this.currentDate = parsedDate;
+		}
 	}
 
 	get value() {
@@ -162,8 +181,9 @@ export class HyperkitCalendar extends HTMLElement {
 
 	render() {
 		if (!this.monthElement) return;
-		this.monthElement.textContent =
-			HyperkitCalendar.monthNames[this.currentDate.getUTCMonth()];
+		const year = this.currentDate.getUTCFullYear();
+		const month = HyperkitCalendar.monthNames[this.currentDate.getUTCMonth()];
+		this.monthElement.textContent = `${month} ${year}`;
 		this.monthElement.setAttribute(
 			"aria-label",
 			`Current month: ${this.monthElement.textContent}`,
