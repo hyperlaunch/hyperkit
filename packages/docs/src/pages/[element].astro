@@ -6,11 +6,11 @@ import Layout from "../astro-components/Layout.astro";
 export const prerender = true;
 
 export async function getStaticPaths() {
-	const entries = await getCollection("components");
+	const entries = await getCollection("elements");
 
 	return entries.map((entry) => {
 		return {
-			params: { component: entry.slug },
+			params: { element: entry.slug },
 			props: { entry },
 		};
 	});
