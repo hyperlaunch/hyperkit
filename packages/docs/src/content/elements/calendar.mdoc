@@ -3,6 +3,9 @@ name: Calendar
 tagline: A flexible calendar element for navigating and selecting dates, with optional input field integration.
 ---
 
+The `<hyperkit-calendar />` element supports various options, including restricting date selections to the past or future, and enforcing minimum or maximum date ranges. It can be connected to an input field for seamless two-way data binding. With customisable templates for month navigation and day numbers, it offers full control over styling and behaviour, making it versatile for a wide range of date selection use cases in modern web applications.
+
+
 {% example hero=true %}{% calendar / %}{% /example %}
 
 ## Usage
@@ -12,7 +15,7 @@ Import the JS:
 import "@hyperkit/elements/calendar";
 ```
 
-Tags:
+Tag:
 ```html
 <hyperkit-calendar>...</hyperkit-calendar>
 ```
@@ -24,23 +27,28 @@ Tags:
 * Value
 * 
 ---
+* `value`
+* String _(optional)_
+* The initial value for the selected date
+---
 * `for`
-* The name of a corresponding `<input />` which will receive the value selected (and update the calendar if it's edited manually).
+* String _(optional)_
+* The name of a corresponding `<input />` which will receive the value selected (and update the calendar if it's edited manually)
 ---
 * `min-date`
-* ISO Date String (ie. 2024-10-13)
+* ISO Date String (ie. 2024-10-13) _(optional)_
 * Specifies a minimum date - earlier dates will be disabled
 ---
 * `max-date`
-* ISO Date String (ie. 2024-10-13)
-* Specifies a maximum date - earlier dates will be disabled
+* ISO Date String (ie. 2024-10-13) _(optional)_
+* Specifies a maximum date - later dates will be disabled
 ---
 * `future-only`
-* Boolean (omit for false)
+* Boolean _(omit for false)_
 * Only allows selecting future dates
 ---
 * `past-only`
-* Boolean (omit for false)
+* Boolean _(omit for false)_
 * Only allows selecting past dates
 ---
 {% /table %}
@@ -60,7 +68,7 @@ Tags:
 ```
 
 #### Why `<template>...</template>`?
-* The calendar relies on javascript to function - so we don't want to display any artefects when JS isn't available
+* The calendar relies on javascript to function - so we don't want to display any artefacts when JS isn't available
 * Nesting the markup inside a `<template />` achieves this
 
 #### `<hk-previous-month />` and `<hk-next-month />`
@@ -78,13 +86,50 @@ Tags:
 
 #### `<hk-day-number />`
 * Template for the day numbers
-* Is replaced with a `<button />` when rendered into the days list
+* Is injected with a `<button />` when rendered into the days list; all attributes are transferred to the button
 * Should be treated as a `<button />`
 
+## JavaScript API
+
+The `hyperkit-calendar` element provides a simple JavaScript API to interact with its value and listen for changes.
+
+### Accessing the Selected Value
+
+You can access the currently selected value using the `value` property:
+
+```js
+const calendar = document.querySelector("hyperkit-calendar");
+console.log(calendar.value); // Outputs the selected date as an ISO date string, e.g., "2024-10-13"
+```
+
+### Listening for Value Changes
+
+The element emits a `change` event whenever the selected date changes. The event includes both `previousValue` and `newValue` properties, which represent the old and new dates respectively. You can listen for this event to respond to changes:
+
+```js
+const calendar = document.querySelector("hyperkit-calendar");
+
+calendar.addEventListener("change", (event) => {
+  console.log("Previous date:", event.detail.previousValue);
+  console.log("New date:", event.detail.newValue);
+});
+```
 
 ## Examples
 
-### A full, styled calendar
+### Styling
+
+All elements can be styled conventionally with classes. Attributes applied to `<hk-previous-month />`, `<hk-next-month />` and `<hk-day-number />` are transferred to the button that's injected when the element is initialized; this includes `class`.
+
+`<hk-day-number />` receives some special data attributes that can be used to apply contextual styles:
+
+* `data-today` is applied to the current day
+* `data-selected` is applied to the selected day
+* `data-other-month` is applied to days outside of the current month - when a month begins on a day that isn't Monday for instance 
+
+When validation attributes like `min-date` are applied, any days which are unavailable will also receive the `disabled` attribute.
+
+#### Example of a Styled Calendar
 
 {% example %}{% calendar / %}{% /example %}
 
@@ -117,7 +162,10 @@ Tags:
 </hyperkit-calendar>
 ```
 
-#### Initial value
+#### Example Calendar with an Initial Value
+
+The `value` attribute allows you to set a pre-selected date.
+
 {% example %}
 	{% calendar value="2024-10-13" / %}
 {% /example %}
@@ -127,7 +175,34 @@ Tags:
 </hyperkit-calendar>
 ```
 
-#### Min and Max Dates
+#### Example Calendar Connected to an `<input />`
+
+The calendar can be "connected" to an input using the `for` attribute, which should match the `id` attribute on the input. 
+
+When the calendar is connected to an input, selecting a date will update the value of the input. Editing the value of the input will, inversely, update the selected date on the calendar. If the input has an initial `value` attribute, this will also set the initial value of the calendar.
+
+The date value is in ISO date string format.
+
+{% example %}
+	{% masked-input placeholder="yyyy-mm-dd" id="selected_date" mask="####-##-##" value="2024-10-13" / %}
+	{% calendar for="selected_date" / %}
+{% /example %}
+
+This example uses a [Masked Input](/masked-input).
+
+```html
+<hyperkit-masked-input mask="####-##-##">
+	<input type="text" id="selected_date" />
+</hyperkit-masked-input>
+<hyperkit-calendar for="selected_date">
+	...
+</hyperkit-calendar>
+```
+
+#### Example Calendar with Min and Max Dates
+
+Date choices can be constrained with the `min-date` and `max-date` attributes. They can be used together, or independently.
+
 {% example %}
 	{% calendar minDate="2024-10-03" maxDate="2024-10-25" / %}
 {% /example %}
@@ -137,7 +212,10 @@ Tags:
 </hyperkit-calendar>
 ```
 
-#### Future Only
+#### Example Calendar Only Allowing Future Dates
+
+Date choices can be constrained to future only with the `future-only` convenience attribute.
+
 {% example %}{% calendar futureOnly=true / %}{% /example %}
 ```html
 <hyperkit-calendar future-only>
@@ -145,24 +223,13 @@ Tags:
 </hyperkit-calendar>
 ```
 
-#### Past Only
+#### Example Calendar Only Allowing Past Dates
+
+Date choices can be constrained to past only with the `past-only` convenience attribute.
+
 {% example %}{% calendar pastOnly=true / %}{% /example %}
 ```html
 <hyperkit-calendar past-only>
-	...
-</hyperkit-calendar>
-```
-
-#### Connected to an Input
-{% example %}
-	{% masked-input placeholder="yyyy-mm-dd" name="selected_date" mask="####-##-##" value="2024-10-13" / %}
-	{% calendar for="selected_date" / %}
-{% /example %}
-```html
-<hyperkit-masked-input mask="####-##-##">
-	<input type="text" name="selected_date" />
-</hyperkit-masked-input>
-<hyperkit-calendar for="selected_date">
 	...
 </hyperkit-calendar>
 ```

@@ -107,7 +107,7 @@ export class HyperkitCalendar extends HTMLElement {
 
 	private initializeElements() {
 		this.inputElement = document.querySelector(
-			`input[name="${this.getAttribute("for")}"]`,
+			`input[id="${this.getAttribute("for")}"]`,
 		);
 		this.monthElement = this.querySelector("hk-current-month");
 
