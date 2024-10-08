@@ -19,27 +19,31 @@ const { Content } = await entry.render();
 ---
 
 <Layout>
-  <div class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12">
+  <header class="w-full max-w-4xl mb-6">
+    <div class="max-w-2xl">
+      <h1
+        class="text-4xl lg:text-5xl xl:text-6xl font-black text-black dark:text-white"
+      >
+        {name}
+      </h1>
+      <h2 class="mt-4 lg:mt-4 xl:mt-6 text-xl lg:text-2xl xl:text-32xl">
+        {tagline}
+      </h2>
+    </div>
+  </header>
+  <div
+    class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-4xl"
+  >
     <main>
-      <header class="w-full max-w-2xl mb-6">
-        <h1
-          class="text-4xl lg:text-5xl xl:text-6xl font-black text-black dark:text-white"
-        >
-          {name}
-        </h1>
-        <h2 class="mt-4 lg:mt-4 xl:mt-6 text-xl lg:text-2xl xl:text-32xl">
-          {tagline}
-        </h2>
-      </header>
       <div
-        class="prose prose-sm dark:prose-invert w-full max-w-2xl scroll-mt-10"
+        class="prose prose-sm dark:prose-invert scroll-mt-10 flex-grow w-full max-w-3xl"
         id="element-docs"
       >
         <Content />
       </div>
     </main>
     <aside
-      class="hidden lg:block sticky lg:top-8 xl:top-10 2xl:top-12 max-h-[100svh] overflow-auto max-w-64"
+      class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 max-w-48"
     >
       <JumpLinks targetElementId="element-docs" />
     </aside>
