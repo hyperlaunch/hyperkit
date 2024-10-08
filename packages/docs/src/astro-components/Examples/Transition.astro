@@ -17,14 +17,10 @@ const { enterOnConnect, hidden } = Astro.props;
   enter-on-connect={enterOnConnect}
   hidden={hidden}
 >
-  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-    <div class="px-4 py-5 sm:p-6">
-      <div class="text-lg font-semibold text-zinc-800 mb-2">
-        Transitioning Card
-      </div>
-      <div class="text-sm text-zinc-600">
-        This card transitions in slowly on connect.
-      </div>
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden p-4 sm:p-6">
+    <div class="font-bold text-zinc-800 mb-1">Transitioning Card</div>
+    <div class="text-xs text-zinc-600">
+      This card transitions in slowly on connect.
     </div>
   </div>
 </hyperkit-transition>
