@@ -156,13 +156,13 @@ When validation attributes like `min-date` are applied, any days which are unava
 		</div>
 		<hk-days-list class="grid grid-cols-7 gap-1"></hk-days-list>
 		<hk-day-number
-			class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer text-xs hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:bg-blue-200 transition-colors duration-200 data-[today]:bg-blue-600 text-zinc-800 data-[today]:text-white data-[selected]:bg-blue-200 data-[other-month]:text-zinc-400 disabled:text-zinc-400"
+			class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer text-xs hover:bg-zinc-100 focus:outline-none focus:ring-1 focus:ring-lime-500 focus:bg-lime-200 transition-colors duration-200 data-[today]:bg-lime-600 text-zinc-800 data-[today]:text-white data-[selected]:bg-lime-200 data-[other-month]:text-zinc-400 disabled:text-zinc-400"
 		></hk-day-number>
 	</template>
 </hyperkit-calendar>
 ```
 
-#### Example Calendar with an Initial Value
+### Example Calendar with an Initial Value
 
 The `value` attribute allows you to set a pre-selected date.
 
@@ -175,7 +175,7 @@ The `value` attribute allows you to set a pre-selected date.
 </hyperkit-calendar>
 ```
 
-#### Example Calendar Connected to an `<input />`
+### Example Calendar Connected to an `<input />`
 
 The calendar can be "connected" to an input using the `for` attribute, which should match the `id` attribute on the input. 
 
@@ -199,7 +199,7 @@ This example uses a [Masked Input](/masked-input).
 </hyperkit-calendar>
 ```
 
-#### Example Calendar with Min and Max Dates
+### Example Calendar with Min and Max Dates
 
 Date choices can be constrained with the `min-date` and `max-date` attributes. They can be used together, or independently.
 
@@ -212,7 +212,7 @@ Date choices can be constrained with the `min-date` and `max-date` attributes. T
 </hyperkit-calendar>
 ```
 
-#### Example Calendar Only Allowing Future Dates
+### Example Calendar Only Allowing Future Dates
 
 Date choices can be constrained to future only with the `future-only` convenience attribute.
 
@@ -223,7 +223,7 @@ Date choices can be constrained to future only with the `future-only` convenienc
 </hyperkit-calendar>
 ```
 
-#### Example Calendar Only Allowing Past Dates
+### Example Calendar Only Allowing Past Dates
 
 Date choices can be constrained to past only with the `past-only` convenience attribute.
 
@@ -234,7 +234,7 @@ Date choices can be constrained to past only with the `past-only` convenience at
 </hyperkit-calendar>
 ```
 
-#### Example Calendar With a `change` event listener
+### Example Calendar With a `change` event listener
 
 The change event can be listened to with addEventListener. The event’s detail includes previousValue and newValue, representing the old and new selected dates.
 

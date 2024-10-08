@@ -60,12 +60,12 @@ popover.hide(); // Hides the popover content
 
 ### Listening for Visibility Changes
 
-The element emits a `popoverchange` event whenever the visibility changes. The event's `detail` property contains the current visibility state:
+The element emits a `change` event whenever the visibility changes. The event's `detail` property contains the current visibility state:
 
 ```js
 const popover = document.querySelector("hyperkit-popover");
 
-popover.addEventListener("popoverchange", (event) => {
+popover.addEventListener("change", (event) => {
   console.log("Popover is now", event.detail.visible ? "visible" : "hidden");
 });
 ```
@@ -79,7 +79,46 @@ const popover = document.querySelector("hyperkit-popover");
 console.log(popover.hidden); // Returns true if the popover is hidden
 ```
 
+### Escape Key Support
+
+The popover can also be closed by pressing the `Escape` key when it is visible, providing an additional way to dismiss the popover and improving accessibility. This is automatically supported without additional configuration.
+
 ## Examples
+
+### Styling
+
+All elements can be styled conventionally with classes. Attributes applied to `<hk-popover-trigger />` are transferred to the button that's injected when the element is initialized; this includes `class`.
+
+The trigger button also receives a `data-visible` attribute when the popover is visible. This can be used to apply contextual styles, such as highlighting the trigger when the popover is active.
+
+#### Example of a Styled Popover
+
+{% example %}{% popover / %}{% /example %}
+
+```html
+<hyperkit-popover class="relative w-full max-w-80 block">
+  <template>
+    <hk-popover-trigger
+      class="px-2.5 py-2 text-sm border-none shadow-sm rounded-lg bg-white/70 text-zinc-800 flex items-center justify-center focus:outline-none font-medium data-[visible]:bg-white/100"
+    >
+      Open Popover
+    </hk-popover-trigger>
+    <hk-popover-content
+      class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2"
+    >
+      <div class="p-4">
+        <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
+          Popover Title
+        </div>
+        <div class="text-sm text-zinc-600">
+          This is some example content for the popover. You can put any HTML
+          content here.
+        </div>
+      </div>
+    </hk-popover-content>
+  </template>
+</hyperkit-popover>
+```
 
 ### Default Hidden
 
@@ -88,6 +127,16 @@ The popover content is hidden by default, using the `hidden` attribute on the `<
 {% example %}
 {% popover contentHidden=true / %}
 {% /example %}
+
+```html
+<hyperkit-popover>
+  <template>
+    <hk-popover-trigger />
+    <hk-popover-content hidden />
+  </template>
+</hyperkit-popover>
+```
+
 
 ## Why Not HTML5 `<popover />`?
 

@@ -22,6 +22,8 @@ class HyperkitPopover extends HTMLElement {
 		this.initializeElements();
 		this.setupPopover();
 		this.attachOutsideClickListener();
+		this.attachEscapeKeyListener();
+		this.setInitialVisibility();
 	}
 
 	public get hidden(): boolean {
@@ -100,6 +102,14 @@ class HyperkitPopover extends HTMLElement {
 			});
 	}
 
+	private setInitialVisibility() {
+		const button = this.triggerElement?.querySelector("button");
+		if (!this.hidden) {
+			button?.setAttribute("data-visible", "true");
+			button?.setAttribute("aria-expanded", "true");
+		}
+	}
+
 	public show() {
 		if (!this.contentElement || !this.triggerElement) return;
 		const button = this.triggerElement.querySelector("button");
@@ -107,6 +117,7 @@ class HyperkitPopover extends HTMLElement {
 		this.contentElement.removeAttribute("hidden");
 		this.contentElement.setAttribute("aria-hidden", "false");
 		button?.setAttribute("aria-expanded", "true");
+		button?.setAttribute("data-visible", "true");
 
 		this.dispatchEvent(
 			new CustomEvent("change", { detail: { visible: true } }),
@@ -120,6 +131,7 @@ class HyperkitPopover extends HTMLElement {
 		this.contentElement.setAttribute("hidden", "");
 		this.contentElement.setAttribute("aria-hidden", "true");
 		button?.setAttribute("aria-expanded", "false");
+		button?.removeAttribute("data-visible");
 
 		this.dispatchEvent(
 			new CustomEvent("change", { detail: { visible: false } }),
@@ -132,6 +144,14 @@ class HyperkitPopover extends HTMLElement {
 			(event) =>
 				!this.contains(event.target as Node) && !this.hidden && this.hide(),
 		);
+	}
+
+	private attachEscapeKeyListener() {
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && !this.hidden) {
+				this.hide();
+			}
+		});
 	}
 }
 
