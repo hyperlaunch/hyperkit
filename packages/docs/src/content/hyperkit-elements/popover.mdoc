@@ -1,0 +1,90 @@
+---
+name: Popover
+tagline: A versatile popover element for showing contextual information or interactive content in an overlay.
+---
+
+The `<hyperkit-popover />` element is designed to show hidden content (such as tooltips or menus) when a trigger element is clicked. It allows for easy integration into various user interface designs with full control over styling and behaviour, supporting event-driven visibility changes.
+
+{% example hero=true %}{% popover / %}{% /example %}
+
+## Usage
+
+Import the JS:
+```js
+import "@hyperkit/elements/popover";
+```
+
+Tag:
+```html
+<hyperkit-popover>...</hyperkit-popover>
+```
+
+### Children
+
+```html
+<hyperkit-popover>
+  <template>
+    <hk-popover-trigger />
+    <hk-popover-content />
+  </template>
+</hyperkit-popover>
+```
+
+#### Why `<template>...</template>`?
+* The popover relies on JavaScript to function, so content should be hidden initially and rendered dynamically to avoid displaying inactive elements when JavaScript is not available.
+* Nesting the markup inside a `<template />` prevents it from being visible by default.
+
+#### `<hk-popover-trigger />`
+* Acts as the trigger for showing or hiding the popover content.
+* Is replaced with a `<button />` at invocation; attributes from this element are transferred to the button.
+* Should be treated as a `<button />`.
+
+#### `<hk-popover-content />`
+* Holds the content that will be shown when the popover is visible.
+* Can be hidden by default using the `hidden` attribute.
+* Should be treated as a `<div />` or any container element.
+
+## JavaScript API
+
+The `hyperkit-popover` element provides an easy way to control its visibility and listen for changes in visibility.
+
+### Controlling Visibility
+
+You can manually control the visibility of the popover using the `show` and `hide` methods:
+
+```js
+const popover = document.querySelector("hyperkit-popover");
+popover.show(); // Displays the popover content
+popover.hide(); // Hides the popover content
+```
+
+### Listening for Visibility Changes
+
+The element emits a `popoverchange` event whenever the visibility changes. The event's `detail` property contains the current visibility state:
+
+```js
+const popover = document.querySelector("hyperkit-popover");
+
+popover.addEventListener("popoverchange", (event) => {
+  console.log("Popover is now", event.detail.visible ? "visible" : "hidden");
+});
+```
+
+### Accessing Visibility State
+
+You can access the current visibility state using the `hidden` property:
+
+```js
+const popover = document.querySelector("hyperkit-popover");
+console.log(popover.hidden); // Returns true if the popover is hidden
+```
+
+## Examples
+
+### Default Hidden
+
+The popover content is hidden by default, using the `hidden` attribute on the `<hk-popover-content />`. This is the typical configuration, where the content is revealed only after the trigger is clicked.
+
+{% example %}
+{% popover contentHidden=true / %}
+{% /example %}

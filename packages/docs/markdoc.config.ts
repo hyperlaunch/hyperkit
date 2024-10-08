@@ -37,6 +37,12 @@ export default defineMarkdocConfig({
 				value: { type: String },
 			},
 		},
+		popover: {
+			render: component("./src/astro-components/Examples/Popover.astro"),
+			attributes: {
+				contentHidden: { type: Boolean },
+			},
+		},
 	},
 	extends: [
 		shiki({
