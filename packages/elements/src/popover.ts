@@ -99,9 +99,9 @@ class HyperkitPopover extends HTMLElement {
 		const button = this.triggerElement?.querySelector("button");
 
 		if (button && this.contentElement)
-			button.addEventListener("click", () => {
-				this.hidden ? this.show() : this.hide();
-			});
+			button.addEventListener("click", () =>
+				this.hidden ? this.show() : this.hide(),
+			);
 	}
 
 	private setInitialVisibility() {
@@ -153,14 +153,16 @@ class HyperkitPopover extends HTMLElement {
 			transitionElement.addEventListener(
 				"change",
 				(event) => {
-					// Ensure this is the "exited" state change
-					if (event.detail.state === "exited") {
-						this.contentElement.setAttribute("hidden", "");
-						this.contentElement.setAttribute("aria-hidden", "true");
+					const customEvent = event as CustomEvent<{
+						state: "entered" | "exited";
+					}>;
+					if (customEvent.detail.state === "exited") {
+						this.contentElement?.setAttribute("hidden", "");
+						this.contentElement?.setAttribute("aria-hidden", "true");
 					}
 				},
 				{ once: true },
-			); // Ensure the listener is removed after it's used once
+			);
 		} else {
 			this.contentElement.setAttribute("hidden", "");
 			this.contentElement.setAttribute("aria-hidden", "true");
@@ -183,11 +185,10 @@ class HyperkitPopover extends HTMLElement {
 	}
 
 	private attachEscapeKeyListener() {
-		document.addEventListener("keydown", (event) => {
-			if (event.key === "Escape" && !this.hidden) {
-				this.hide();
-			}
-		});
+		document.addEventListener(
+			"keydown",
+			(event) => event.key === "Escape" && !this.hidden && this.hide(),
+		);
 	}
 }
 
