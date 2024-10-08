@@ -37,6 +37,13 @@ export default defineMarkdocConfig({
 				value: { type: String },
 			},
 		},
+		transition: {
+			render: component("./src/astro-components/Examples/Transition.astro"),
+			attributes: {
+				enterOnConnect: { type: Boolean },
+				hidden: { type: Boolean },
+			},
+		},
 		popover: {
 			render: component("./src/astro-components/Examples/Popover.astro"),
 			attributes: {

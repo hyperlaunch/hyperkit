@@ -7,7 +7,7 @@ const { hero = false } = Astro.props;
 
 <div
   class:list={[
-    "p-6 xl:p-8 2xl:p-10 aspect-square lg:aspect-video rounded flex items-center justify-center",
+    "isolate p-6 xl:p-8 2xl:p-10 aspect-square lg:aspect-video rounded flex items-center justify-center",
     {
       "bg-gradient-to-tr from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700":
         !hero,
@@ -16,5 +16,5 @@ const { hero = false } = Astro.props;
     },
   ]}
 >
-  <div><slot /></div>
+  <div class="flex flex-col gap-y-2"><slot /></div>
 </div>
