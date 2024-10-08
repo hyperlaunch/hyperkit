@@ -48,6 +48,7 @@ export default defineMarkdocConfig({
 			render: component("./src/astro-components/Examples/Popover.astro"),
 			attributes: {
 				contentHidden: { type: Boolean },
+				useTransition: { type: Boolean },
 			},
 		},
 	},

@@ -1,36 +1,60 @@
 ---
 type Props = {
+  useTransition?: boolean;
   contentHidden?: boolean;
 };
 
-const { contentHidden = false } = Astro.props;
+const { contentHidden = false, useTransition = false } = Astro.props;
 ---
 
 <hyperkit-popover class="relative w-full max-w-80 block">
   <template>
     <hk-popover-trigger
-      class="px-2.5 py-2 text-sm border-none shadow-sm rounded-lg bg-white/70 text-zinc-800 flex items-center justify-center focus:outline-none font-medium data-[visible]:bg-white/100"
+      class="px-2.5 py-2 text-sm border-none shadow-sm rounded bg-white/70 text-zinc-800 flex items-center justify-center focus:outline-none font-medium data-[visible]:bg-white/100"
     >
       Open Popover
     </hk-popover-trigger>
-    <hk-popover-content
-      class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2"
-      hidden={contentHidden}
-    >
-      <div class="p-4">
-        <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
-          Popover Title
-        </div>
-        <div class="text-sm text-zinc-600">
-          This is some example content for the popover. You can put any HTML
-          content here.
-        </div>
-      </div>
-    </hk-popover-content>
+    {
+      useTransition ? (
+        <hk-popover-content hidden={contentHidden}>
+          <hyperkit-transition
+            enter-class="transition-all duration-500 ease-in"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            exit-class="transition-all duration-300 ease-out"
+            exit-from-class="opacity-100"
+            exit-to-class="opacity-0"
+          >
+            <div class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2 p-4">
+              <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
+                Popover Title
+              </div>
+              <div class="text-sm text-zinc-600">
+                This is some example content for the popover. You can put any
+                HTML content here.
+              </div>
+            </div>
+          </hyperkit-transition>
+        </hk-popover-content>
+      ) : (
+        <hk-popover-content hidden={contentHidden}>
+          <div class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2 p-4">
+            <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
+              Popover Title
+            </div>
+            <div class="text-sm text-zinc-600">
+              This is some example content for the popover. You can put any HTML
+              content here.
+            </div>
+          </div>
+        </hk-popover-content>
+      )
+    }
   </template>
 </hyperkit-popover>
 <div class="w-80 h-32"></div>
 
 <script>
   import "@hyperkit/elements/popover.ts";
+  import "@hyperkit/elements/transition.ts";
 </script>

@@ -1,3 +1,5 @@
+import type { HyperkitTransition } from "./transition";
+
 class MissingTemplateError extends Error {
 	constructor(message: string) {
 		super(message);
@@ -114,8 +116,21 @@ class HyperkitPopover extends HTMLElement {
 		if (!this.contentElement || !this.triggerElement) return;
 		const button = this.triggerElement.querySelector("button");
 
-		this.contentElement.removeAttribute("hidden");
-		this.contentElement.setAttribute("aria-hidden", "false");
+		const transitionElement =
+			this.contentElement.querySelector<HyperkitTransition>(
+				"hyperkit-transition",
+			);
+
+		if (transitionElement) {
+			this.contentElement.removeAttribute("hidden");
+			this.contentElement.setAttribute("aria-hidden", "false");
+
+			transitionElement.enter();
+		} else {
+			this.contentElement.removeAttribute("hidden");
+			this.contentElement.setAttribute("aria-hidden", "false");
+		}
+
 		button?.setAttribute("aria-expanded", "true");
 		button?.setAttribute("data-visible", "true");
 
@@ -128,8 +143,29 @@ class HyperkitPopover extends HTMLElement {
 		if (!this.contentElement || !this.triggerElement) return;
 		const button = this.triggerElement.querySelector("button");
 
-		this.contentElement.setAttribute("hidden", "");
-		this.contentElement.setAttribute("aria-hidden", "true");
+		const transitionElement =
+			this.contentElement.querySelector<HyperkitTransition>(
+				"hyperkit-transition",
+			);
+
+		if (transitionElement) {
+			transitionElement.exit();
+			transitionElement.addEventListener(
+				"change",
+				(event) => {
+					// Ensure this is the "exited" state change
+					if (event.detail.state === "exited") {
+						this.contentElement.setAttribute("hidden", "");
+						this.contentElement.setAttribute("aria-hidden", "true");
+					}
+				},
+				{ once: true },
+			); // Ensure the listener is removed after it's used once
+		} else {
+			this.contentElement.setAttribute("hidden", "");
+			this.contentElement.setAttribute("aria-hidden", "true");
+		}
+
 		button?.setAttribute("aria-expanded", "false");
 		button?.removeAttribute("data-visible");
 
