@@ -13,7 +13,7 @@
 @tailwind utilities;
 
 .astro-code {
-	background: #e4e4e7 !important;
+	background: #f4f4f5 !important;
 }
 
 @media (prefers-color-scheme: dark) {
