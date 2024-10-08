@@ -233,3 +233,22 @@ Date choices can be constrained to past only with the `past-only` convenience at
 	...
 </hyperkit-calendar>
 ```
+
+#### Example Calendar With a `change` event listener
+
+The change event can be listened to with addEventListener. The event’s detail includes previousValue and newValue, representing the old and new selected dates.
+
+{% example %}{% calendar includeEventListenerExample=true / %}{% /example %}
+```html
+<hyperkit-calendar id="my-calendar">
+	...
+</hyperkit-calendar>
+```
+
+```js
+document
+	.querySelector("#my-calendar")
+	.addEventListener("change", (event) =>
+		alert(`New value: ${(event.detail).newValue}`),
+	);
+```

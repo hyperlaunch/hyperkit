@@ -25,6 +25,7 @@ export default defineMarkdocConfig({
 				maxDate: { type: String },
 				futureOnly: { type: Boolean },
 				pastOnly: { type: Boolean },
+				includeEventListenerExample: { type: Boolean },
 			},
 		},
 		"masked-input": {

@@ -8,6 +8,7 @@ type Props = {
 	maxDate?: string;
 	futureOnly?: boolean;
 	pastOnly?: boolean;
+	includeEventListenerExample?: boolean;
 };
 
 const {
@@ -17,6 +18,7 @@ const {
 	futureOnly,
 	pastOnly,
 	value,
+	includeEventListenerExample,
 } = Astro.props;
 ---
 <hyperkit-calendar
@@ -27,6 +29,7 @@ const {
   pastOnly={pastOnly}
   for={forElement}
   value={value}
+  id={includeEventListenerExample && "my-calendar"}
 >
   <template>
     <div class="flex justify-between items-center mb-4">
@@ -57,3 +60,16 @@ const {
 <script>
   import "@hyperkit/elements/calendar.ts";
 </script>
+
+{
+  includeEventListenerExample && <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document
+        .querySelector("#my-calendar")
+        ?.addEventListener("change", (event) =>
+          // @ts-ignore
+          alert(`New value: ${(event.detail).newValue}`),
+        );
+    });
+  </script>
+}
