@@ -5,6 +5,8 @@ tagline: A versatile popover element for showing contextual information or inter
 
 The `<hyperkit-popover />` element is designed to show hidden content (such as alerts or menus) when a trigger element is clicked. It allows for easy integration into various user interface designs with full control over styling and behaviour, supporting event-driven visibility changes.
 
+The popover can also be closed by pressing the `Escape` key when it is visible, 
+
 {% example hero=true %}{% popover / %}{% /example %}
 
 ## Usage
@@ -95,10 +97,6 @@ You can access the current visibility state using the `hidden` property:
 const popover = document.querySelector("hyperkit-popover");
 console.log(popover.hidden); // Returns true if the popover is hidden
 ```
-
-#### Escape Key Support
-
-The popover can also be closed by pressing the `Escape` key when it is visible, providing an additional way to dismiss the popover and improving accessibility. This is automatically supported without additional configuration.
 
 ## Examples
 

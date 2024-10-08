@@ -1,0 +1,68 @@
+---
+type Props = {
+  targetElementId: string;
+};
+
+const { targetElementId } = Astro.props;
+---
+
+<jump-links data-target-id={targetElementId}></jump-links>
+
+<script>
+  class JumpLinks extends HTMLElement {
+    connectedCallback() {
+      const targetElementId = this.dataset.targetId;
+
+      if (!targetElementId) throw new Error("Missing data-target-id");
+
+      const targetElement = document.getElementById(targetElementId);
+
+      if (!targetElement)
+        return console.error(`Element with ID ${targetElementId} not found.`);
+
+      const headers = targetElement.querySelectorAll("h2, h3, h4, h5");
+
+      const nav = document.createElement("nav");
+      const ul = document.createElement("ul");
+      ul.className = "text-sm";
+
+      headers.forEach((header) => {
+        const id = header.textContent?.toLowerCase().replace(/\s+/g, "-");
+        header.id = id || "";
+
+        const listItem = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `#${id}`;
+        link.textContent = header.textContent;
+
+        switch (header.tagName) {
+          case "H2":
+            link.className =
+              "text-zinc-900 dark:text-zinc-50 hover:text-line-500 dark:hover:text-lime-400 transition-colors duration-150";
+            break;
+          case "H3":
+            link.className =
+              "text-zinc-700 dark:text-zinc-300 hover:text-line-500 dark:hover:text-lime-400 transition-colors duration-150 ml-3";
+            break;
+          case "H4":
+            link.className =
+              "text-zinc-500 dark:text-zinc-400 hover:text-line-500 dark:hover:text-lime-400 transition-colors duration-150 ml-6";
+            break;
+          case "H5":
+            link.className =
+              "text-zinc-400 dark:text-zinc-500 hover:text-line-500 dark:hover:text-lime-400 transition-colors duration-150 ml-9";
+            break;
+        }
+
+        listItem.className = "truncate mb-1";
+        listItem.appendChild(link);
+        ul.appendChild(listItem);
+      });
+
+      nav.appendChild(ul);
+      this.appendChild(nav);
+    }
+  }
+
+  customElements.define("jump-links", JumpLinks);
+</script>
