@@ -9,5 +9,5 @@ const elementsCollection = defineCollection({
 });
 
 export const collections = {
-	elements: elementsCollection,
+	"hyperkit-elements": elementsCollection,
 };

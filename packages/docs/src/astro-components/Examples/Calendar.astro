@@ -1,26 +1,25 @@
 ---
-import Example from "../Example.astro";
-
 type Props = {
-	for?: string;
-	value?: string;
-	minDate?: string;
-	maxDate?: string;
-	futureOnly?: boolean;
-	pastOnly?: boolean;
-	includeEventListenerExample?: boolean;
+  for?: string;
+  value?: string;
+  minDate?: string;
+  maxDate?: string;
+  futureOnly?: boolean;
+  pastOnly?: boolean;
+  includeEventListenerExample?: boolean;
 };
 
 const {
-	for: forElement,
-	minDate,
-	maxDate,
-	futureOnly,
-	pastOnly,
-	value,
-	includeEventListenerExample,
+  for: forElement,
+  minDate,
+  maxDate,
+  futureOnly,
+  pastOnly,
+  value,
+  includeEventListenerExample,
 } = Astro.props;
 ---
+
 <hyperkit-calendar
   class="max-w-80 bg-white backdrop-blur-sm rounded-lg shadow-lg p-4 block"
   min-date={minDate}
@@ -36,7 +35,8 @@ const {
       <hk-previous-month class="text-zinc-600 hover:text-zinc-800 text-xl">
         &lt;
       </hk-previous-month>
-      <hk-current-month class="text-xl font-bold text-zinc-800"></hk-current-month>
+      <hk-current-month class="text-xl font-bold text-zinc-800"
+      ></hk-current-month>
       <hk-next-month class="text-zinc-600 hover:text-zinc-800 text-xl">
         &gt;
       </hk-next-month>
@@ -61,8 +61,7 @@ const {
   import "@hyperkit/elements/calendar.ts";
 </script>
 
-{
-  includeEventListenerExample && <script>
+{includeEventListenerExample && <script>
     document.addEventListener("DOMContentLoaded", () => {
       document
         .querySelector("#my-calendar")
@@ -71,5 +70,4 @@ const {
           alert(`New value: ${(event.detail).newValue}`),
         );
     });
-  </script>
-}
+  </script>}

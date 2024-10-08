@@ -1,4 +1,3 @@
-
 ---
 import { getCollection } from "astro:content";
 import Layout from "../astro-components/Layout.astro";
@@ -6,14 +5,14 @@ import Layout from "../astro-components/Layout.astro";
 export const prerender = true;
 
 export async function getStaticPaths() {
-	const entries = await getCollection("elements");
+  const entries = await getCollection("hyperkit-elements");
 
-	return entries.map((entry) => {
-		return {
-			params: { element: entry.slug },
-			props: { entry },
-		};
-	});
+  return entries.map((entry) => {
+    return {
+      params: { element: entry.slug },
+      props: { entry },
+    };
+  });
 }
 
 const { entry } = Astro.props;
@@ -23,9 +22,15 @@ const { Content } = await entry.render();
 ---
 
 <Layout>
-	<header class="w-full max-w-2xl mb-6">
-		<h1 class="text-2xl lg:text-3xl xl:text-4xl font-black text-black dark:text-white">{name}</h1>
-		<h2 class="mt-4 lg:text-lg xl:text-xl">{tagline}</h2>
-	</header>
-	<div class="prose prose-sm dark:prose-invert w-full max-w-2xl"><Content /></div>
+  <header class="w-full max-w-2xl mb-6">
+    <h1
+      class="text-2xl lg:text-3xl xl:text-4xl font-black text-black dark:text-white"
+    >
+      {name}
+    </h1>
+    <h2 class="mt-4 lg:text-lg xl:text-xl">{tagline}</h2>
+  </header>
+  <div class="prose prose-sm dark:prose-invert w-full max-w-2xl">
+    <Content />
+  </div>
 </Layout>

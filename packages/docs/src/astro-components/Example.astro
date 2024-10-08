@@ -1,9 +1,20 @@
 ---
 type Props = {
-	hero?: boolean;
+  hero?: boolean;
 };
 const { hero = false } = Astro.props;
 ---
-<div class:list={["p-6 xl:p-8 2xl:p-10 rounded flex items-center justify-center", {"bg-gradient-to-tr from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700": !hero, "bg-gradient-to-tr from-lime-500 to-cyan-500 dark:from-lime-400 dark:to-cyan-400": hero}]}>
-    <div><slot /></div>
+
+<div
+  class:list={[
+    "p-6 xl:p-8 2xl:p-10 rounded flex items-center justify-center",
+    {
+      "bg-gradient-to-tr from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700":
+        !hero,
+      "bg-gradient-to-tr from-lime-500 to-cyan-500 dark:from-lime-400 dark:to-cyan-400":
+        hero,
+    },
+  ]}
+>
+  <div><slot /></div>
 </div>
