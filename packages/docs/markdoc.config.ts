@@ -55,7 +55,6 @@ export default defineMarkdocConfig({
 			render: component("./src/astro-components/Examples/Modal.astro"),
 			attributes: {
 				name: { type: String },
-				includeBackdrop: { type: Boolean },
 				contentHidden: { type: Boolean },
 				useTransition: { type: Boolean },
 			},

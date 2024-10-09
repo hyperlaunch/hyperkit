@@ -8,7 +8,7 @@ The `<hyperkit-modal />` element allows you to create modals that display conten
 The modal can be dismissed by pressing the `Escape` key when it is visible.
 
 {% example hero=true %}
-{% modal name="heroModal" includeBackdrop=true / %}
+{% modal name="heroModal" / %}
 {% /example %}
 
 ## Usage
@@ -116,7 +116,7 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
 #### Example of a Styled Modal
 
 {% example %}
-{% modal name="styledModal" includeBackdrop=true / %}
+{% modal name="styledModal" / %}
 {% /example %}
 
 ```html
@@ -162,7 +162,7 @@ To ensure the modal is hidden by default, add the `hidden` attribute. The modal 
 To dismiss the modal by clicking on the backdrop, use the `<hk-modal-backdrop />` element. When clicked, it will hide the modal.
 
 {% example %}
-{% modal name="backdropModal" includeBackdrop=true / %}
+{% modal name="backdropModal" / %}
 {% /example %}
 
 ```html
@@ -177,7 +177,7 @@ To dismiss the modal by clicking on the backdrop, use the `<hk-modal-backdrop />
 You can animate the modal visibility using the `<hyperkit-transition />` element for smooth show/hide effects.
 
 {% example %}
-{% modal name="transitionModal" useTransition=true includeBackdrop=true / %}
+{% modal name="transitionModal" useTransition=true / %}
 {% /example %}
 
 ```html

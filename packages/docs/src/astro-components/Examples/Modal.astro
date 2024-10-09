@@ -1,17 +1,11 @@
 ---
 type Props = {
   name: string;
-  includeBackdrop?: boolean;
   useTransition?: boolean;
   contentHidden?: boolean;
 };
 
-const {
-  name,
-  includeBackdrop = false,
-  contentHidden = false,
-  useTransition = false,
-} = Astro.props;
+const { name, contentHidden = false, useTransition = false } = Astro.props;
 ---
 
 <hyperkit-modal-trigger for={name}>
@@ -33,9 +27,7 @@ const {
         exit-to-class="opacity-0"
       >
         <div class="absolute inset-0 z-50 flex items-center justify-center">
-          {includeBackdrop && (
-            <hk-modal-backdrop class="absolute inset-0 z-10" />
-          )}
+          <hk-modal-backdrop class="absolute inset-0 z-10" />
           <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
             <div class="flex justify-between items-center mb-2 text-zinc-800">
               <div class="font-bold">Transitioning Modal Title</div>
@@ -51,7 +43,7 @@ const {
       </hyperkit-transition>
     ) : (
       <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
-        {includeBackdrop && <hk-modal-backdrop class="absolute inset-0 z-10" />}
+        <hk-modal-backdrop class="absolute inset-0 z-10" />
         <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
           <div class="flex justify-between items-center mb-2 text-zinc-800">
             <div class="font-bold">Modal Title</div>
