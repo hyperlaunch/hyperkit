@@ -26,7 +26,7 @@ Tags:
 <hyperkit-modal>…</hyperkit-modal>
 ```
 
-### Options
+### `<hyperkit-modal />` Options
 
 {% table %}
 * Attribute
@@ -39,10 +39,18 @@ Tags:
 ---
 {% /table %}
 
-### `<hyperkit-modal-trigger />`
+### `<hyperkit-modal-trigger />` Options
 
-* Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `name` attribute.
-* Must contain a `<button />` for accessibility.
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `for`
+* String _(required)_
+* Connects the trigger with a `<hyperkit-modal />` by matching it's `name` attribute.
+---
+{% /table %}
 
 ### Children
 
@@ -53,6 +61,11 @@ Tags:
   <hk-modal-dismisser><button /></hk-modal-dismisser>
 </hyperkit-modal>
 ```
+
+#### `<hyperkit-modal-trigger />`
+
+* Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `name` attribute.
+* Must contain a `<button />` for accessibility.
 
 #### `<hk-modal-dismisser />`
 
@@ -107,14 +120,14 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
 {% /example %}
 
 ```html
-<hyperkit-modal-trigger for={name}>
+<hyperkit-modal-trigger>
   <button
     class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center focus:outline-none font-medium w-min whitespace-nowrap"
   >
     Open Modal
   </button>
 </hyperkit-modal-trigger>
-<hyperkit-modal name={name}>
+<hyperkit-modal>
     <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
     <hk-modal-backdrop class="absolute inset-0 z-10" />
     <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
