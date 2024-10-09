@@ -1,10 +1,3 @@
-class MissingTemplateError extends Error {
-	constructor(message: string) {
-		super(message);
-		this.name = "MissingTemplateError";
-	}
-}
-
 class MissingTagError extends Error {
 	constructor(tagName: string) {
 		super(`Missing required tag: <${tagName}>`);
@@ -17,7 +10,7 @@ export class HyperkitCalendar extends HTMLElement {
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
 	private monthElement: HTMLElement | null = null;
-	private dayTemplate: HTMLElement | null = null;
+	private dayButtonTemplate: HTMLButtonElement | null = null;
 	private futureOnly = this.hasAttribute("future-only");
 	private pastOnly = this.hasAttribute("past-only");
 	private minDate = this.parseDateAttr("min-date");
@@ -40,7 +33,6 @@ export class HyperkitCalendar extends HTMLElement {
 
 	connectedCallback() {
 		this.validateStructure();
-		this.cloneTemplate();
 		this.initializeElements();
 		this.setInitialSelectedDate();
 		this.attachInputListener();
@@ -52,15 +44,14 @@ export class HyperkitCalendar extends HTMLElement {
 		const calendarValue = this.getAttribute("value");
 		if (calendarValue) {
 			const parsedDate = new Date(calendarValue);
-			if (!Number.isNaN(parsedDate.getTime()))
+			if (!Number.isNaN(parsedDate.getTime())) {
 				this.selectedDate = this.currentDate = parsedDate;
-
-			return;
+				return;
+			}
 		}
 
 		if (this.inputElement?.value) {
 			const parsedDate = new Date(this.inputElement.value);
-
 			if (!Number.isNaN(parsedDate.getTime()))
 				this.selectedDate = this.currentDate = parsedDate;
 		}
@@ -76,32 +67,17 @@ export class HyperkitCalendar extends HTMLElement {
 	}
 
 	private validateStructure() {
-		const template = this.querySelector("template");
-		if (!template) {
-			console.error("Template tag is missing in hyperkit-calendar", this);
-			throw new MissingTemplateError(
-				"Template tag is required in hyperkit-calendar.",
-			);
-		}
-
-		const content = template.content;
-		const daysList = content.querySelector("hk-days-list");
-		const dayNumber = content.querySelector("hk-day-number");
+		const daysList = this.querySelector("hk-days-list");
+		const dayButton = this.querySelector('button[slot="day-number"]');
 
 		if (!daysList) {
-			console.error(
-				"The hk-days-list tag is missing in the template",
-				template,
-			);
+			console.error("hk-days-list is missing in the markup");
 			throw new MissingTagError("hk-days-list");
 		}
 
-		if (!dayNumber) {
-			console.error(
-				"The hk-day-number tag is missing in the template",
-				template,
-			);
-			throw new MissingTagError("hk-day-number");
+		if (!dayButton) {
+			console.error("button[slot='day-number'] is missing in the markup");
+			throw new MissingTagError("button[slot='day-number']");
 		}
 	}
 
@@ -111,18 +87,14 @@ export class HyperkitCalendar extends HTMLElement {
 		);
 		this.monthElement = this.querySelector("hk-current-month");
 
-		const dayNumberElement = this.querySelector("hk-day-number");
-		if (dayNumberElement) {
-			this.dayTemplate = dayNumberElement.cloneNode(true) as HTMLElement;
-			dayNumberElement.remove();
+		this.dayButtonTemplate = this.querySelector<HTMLButtonElement>(
+			'button[slot="day-number"]',
+		);
+		if (this.dayButtonTemplate) {
+			this.dayButtonTemplate.remove();
 		} else {
-			console.error("Day template (hk-day-number) is missing");
+			console.error("Day button (slot='day-number') is missing");
 		}
-	}
-
-	private cloneTemplate() {
-		const template = this.querySelector<HTMLTemplateElement>("template");
-		if (template) this.appendChild(template.content.cloneNode(true));
 	}
 
 	private attachInputListener() {
@@ -137,12 +109,12 @@ export class HyperkitCalendar extends HTMLElement {
 
 	private setupNavigationButtons() {
 		this.setupButton({
-			selector: "hk-previous-month",
+			selector: "hk-previous-month button",
 			callback: () => this.changeMonth(-1),
 		});
 
 		this.setupButton({
-			selector: "hk-next-month",
+			selector: "hk-next-month button",
 			callback: () => this.changeMonth(1),
 		});
 	}
@@ -154,22 +126,13 @@ export class HyperkitCalendar extends HTMLElement {
 		selector: string;
 		callback: () => void;
 	}) {
-		const wrapper = this.querySelector(selector);
-		if (!wrapper) return;
-
-		const button = document.createElement("button");
-		button.innerHTML = wrapper.innerHTML;
-
-		for (const attr of Array.from(wrapper.attributes)) {
-			button.setAttribute(attr.name, attr.value);
-		}
-
-		wrapper.replaceChildren(button);
+		const button = this.querySelector<HTMLButtonElement>(selector);
+		if (!button) return;
 		button.addEventListener("click", callback);
 
 		button.setAttribute(
 			"aria-label",
-			selector === "hk-previous-month"
+			selector.includes("previous")
 				? "Go to previous month"
 				: "Go to next month",
 		);
@@ -209,6 +172,8 @@ export class HyperkitCalendar extends HTMLElement {
 	}
 
 	private renderPreviousMonthDays(startingDay: number) {
+		const adjustedStartingDay = (startingDay + 6) % 7;
+
 		const prevMonthLastDay = new Date(
 			Date.UTC(
 				this.currentDate.getUTCFullYear(),
@@ -216,14 +181,14 @@ export class HyperkitCalendar extends HTMLElement {
 				0,
 			),
 		).getUTCDate();
-		for (let i = 0; i < (startingDay + 6) % 7; i++) {
+
+		for (let i = 0; i < adjustedStartingDay; i++)
 			this.daysElement?.appendChild(
 				this.createDayButton({
-					content: String(prevMonthLastDay - (startingDay - i)),
+					content: String(prevMonthLastDay - (adjustedStartingDay - i - 1)),
 					isOtherMonth: true,
 				}),
 			);
-		}
 	}
 
 	private renderCurrentMonthDays(daysInMonth: number) {
@@ -271,13 +236,10 @@ export class HyperkitCalendar extends HTMLElement {
 		date?: Date;
 		isOtherMonth?: boolean;
 	}): HTMLElement {
-		if (!this.dayTemplate) throw new Error("dayTemplate is not defined");
-		const button = document.createElement("button");
+		if (!this.dayButtonTemplate)
+			throw new Error("Day button template is not defined");
 
-		for (const attr of Array.from(this.dayTemplate.attributes)) {
-			button.setAttribute(attr.name, attr.value);
-		}
-
+		const button = this.dayButtonTemplate.cloneNode(true) as HTMLButtonElement;
 		button.textContent = content;
 
 		if (isOtherMonth || this.isDateDisabled(date)) {
@@ -355,7 +317,6 @@ for (const tag of [
 	"hk-next-month",
 	"hk-current-month",
 	"hk-days-list",
-	"hk-day-number",
 ]) {
 	if (!customElements.get(tag))
 		customElements.define(tag, class extends ChildElement {});

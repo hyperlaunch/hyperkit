@@ -1,12 +1,5 @@
 import type { HyperkitTransition } from "./transition";
 
-class MissingTemplateError extends Error {
-	constructor(message: string) {
-		super(message);
-		this.name = "MissingTemplateError";
-	}
-}
-
 class MissingTagError extends Error {
 	constructor(tagName: string) {
 		super(`Missing required tag: <${tagName}>`);
@@ -20,7 +13,6 @@ class HyperkitPopover extends HTMLElement {
 
 	public connectedCallback() {
 		this.validateStructure();
-		this.cloneTemplate();
 		this.initializeElements();
 		this.setupPopover();
 		this.attachOutsideClickListener();
@@ -33,64 +25,42 @@ class HyperkitPopover extends HTMLElement {
 	}
 
 	private validateStructure() {
-		const template = this.querySelector("template");
-
-		if (!template) {
-			console.error("Template tag is missing in hyperkit-popover", this);
-			throw new MissingTemplateError(
-				"Template tag is required in hyperkit-popover.",
-			);
-		}
-
-		const content = template.content;
-		this.triggerElement = content.querySelector("hk-popover-trigger");
-		this.contentElement = content.querySelector("hk-popover-content");
+		this.triggerElement = this.querySelector("hk-popover-trigger");
+		this.contentElement = this.querySelector("hk-popover-content");
 
 		if (!this.triggerElement) {
-			console.error(
-				"hk-popover-trigger tag is missing in the template",
-				template,
-			);
+			console.error("hk-popover-trigger tag is missing in the markup");
 			throw new MissingTagError("hk-popover-trigger");
 		}
 
 		if (!this.contentElement) {
-			console.error(
-				"hk-popover-content tag is missing in the template",
-				template,
-			);
+			console.error("hk-popover-content tag is missing in the markup");
 			throw new MissingTagError("hk-popover-content");
 		}
-	}
 
-	private cloneTemplate() {
-		const template = this.querySelector<HTMLTemplateElement>("template");
-		if (template) this.appendChild(template.content.cloneNode(true));
+		const button = this.triggerElement.querySelector("button");
+		if (!button) {
+			console.error("Button element is missing inside hk-popover-trigger");
+			throw new MissingTagError("button inside hk-popover-trigger");
+		}
 	}
 
 	private initializeElements() {
-		this.triggerElement = this.querySelector("hk-popover-trigger");
-		this.contentElement = this.querySelector("hk-popover-content");
+		const button = this.triggerElement?.querySelector("button");
 
-		if (!this.triggerElement || !this.contentElement)
-			throw new Error(
-				"Trigger or content element is missing after initialization.",
+		if (!button || !this.contentElement) {
+			console.error(
+				"Initialization failed: Missing button or content element.",
 			);
-
-		const button = document.createElement("button");
-		for (const attr of Array.from(this.triggerElement.attributes)) {
-			button.setAttribute(attr.name, attr.value);
-			this.triggerElement.removeAttribute(attr.name);
+			return;
 		}
-
-		button.innerHTML = this.triggerElement.innerHTML;
-		this.triggerElement.replaceChildren(button);
 
 		button.setAttribute("aria-expanded", "false");
 		button.setAttribute(
 			"aria-controls",
 			this.contentElement.id || "popoverContent",
 		);
+
 		this.contentElement.setAttribute("aria-hidden", "true");
 		this.contentElement.id = this.contentElement.id || "popoverContent";
 	}
@@ -98,10 +68,11 @@ class HyperkitPopover extends HTMLElement {
 	private setupPopover() {
 		const button = this.triggerElement?.querySelector("button");
 
-		if (button && this.contentElement)
+		if (button && this.contentElement) {
 			button.addEventListener("click", () =>
 				this.hidden ? this.show() : this.hide(),
 			);
+		}
 	}
 
 	private setInitialVisibility() {
@@ -114,8 +85,8 @@ class HyperkitPopover extends HTMLElement {
 
 	public show() {
 		if (!this.contentElement || !this.triggerElement) return;
-		const button = this.triggerElement.querySelector("button");
 
+		const button = this.triggerElement.querySelector("button");
 		const transitionElement =
 			this.contentElement.querySelector<HyperkitTransition>(
 				"hyperkit-transition",
@@ -141,8 +112,8 @@ class HyperkitPopover extends HTMLElement {
 
 	public hide() {
 		if (!this.contentElement || !this.triggerElement) return;
-		const button = this.triggerElement.querySelector("button");
 
+		const button = this.triggerElement.querySelector("button");
 		const transitionElement =
 			this.contentElement.querySelector<HyperkitTransition>(
 				"hyperkit-transition",
@@ -194,3 +165,19 @@ class HyperkitPopover extends HTMLElement {
 
 if (!customElements.get("hyperkit-popover"))
 	customElements.define("hyperkit-popover", HyperkitPopover);
+
+class ChildElement extends HTMLElement {
+	connectedCallback() {
+		if (!this.closest("hyperkit-popover")) {
+			console.error(
+				`${this.tagName.toLowerCase()} must be used inside hyperkit-popover`,
+				this,
+			);
+		}
+	}
+}
+
+for (const tag of ["hk-popover-trigger", "hk-popover-content"]) {
+	if (!customElements.get(tag))
+		customElements.define(tag, class extends ChildElement {});
+}

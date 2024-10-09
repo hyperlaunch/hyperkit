@@ -5,7 +5,7 @@ tagline: A versatile popover element for showing contextual information or inter
 
 The `<hyperkit-popover />` element is designed to show hidden content (such as alerts or menus) when a trigger element is clicked. It allows for easy integration into various user interface designs with full control over styling and behaviour, supporting event-driven visibility changes.
 
-The popover can also be closed by pressing the `Escape` key when it is visible, 
+The popover can also be closed by pressing the `Escape` key when it is visible.
 
 {% example hero=true %}{% popover / %}{% /example %}
 
@@ -25,21 +25,14 @@ Tag:
 
 ```html
 <hyperkit-popover>
-  <template>
-    <hk-popover-trigger />
-    <hk-popover-content />
-  </template>
+  <hk-popover-trigger><button /></hk-popover-trigger>
+  <hk-popover-content />
 </hyperkit-popover>
 ```
 
-#### Why `<template>...</template>`?
-* The popover relies on JavaScript to function, so content should be hidden initially and rendered dynamically to avoid displaying inactive elements when JavaScript is not available.
-* Nesting the markup inside a `<template />` prevents it from being visible by default.
-
 #### `<hk-popover-trigger />`
 * Acts as the trigger for showing or hiding the popover content.
-* Is replaced with a `<button />` at invocation; attributes from this element are transferred to the button.
-* Should be treated as a `<button />`.
+* Must contain a `<button />` for accessibility and interaction.
 
 #### `<hk-popover-content />`
 * Holds the content that will be shown when the popover is visible.
@@ -48,18 +41,16 @@ Tag:
 
 ### Transition Support
 
-`<hk-popover-content />` can optionally take a transition element (`<hyperkit-transition />`) as its immediate child. When that's the case, the popover controls the transition lifecycle and the content becomes hidden when the transition exit finishes.
+`<hk-popover-content />` can optionally take a transition element (`<hyperkit-transition />`) as its immediate child. When that's the case, the popover controls the transition lifecycle, and the content becomes hidden when the transition exit finishes.
 
 Example:
 
 ```html
 <hyperkit-popover>
-  <template>
-    <hk-popover-trigger />
-    <hk-popover-content>
-      <hyperkit-transition />
-    </hk-popover-content>
-  </template>
+  <hk-popover-trigger><button>Open Popover</button></hk-popover-trigger>
+  <hk-popover-content>
+    <hyperkit-transition />
+  </hk-popover-content>
 </hyperkit-popover>
 ```
 
@@ -102,7 +93,7 @@ console.log(popover.hidden); // Returns true if the popover is hidden
 
 ### Styling
 
-All elements can be styled conventionally with classes. Attributes applied to `<hk-popover-trigger />` are transferred to the button that's injected when the element is initialized; this includes `class`.
+All elements can be styled conventionally with classes.
 
 The trigger button also receives a `data-visible` attribute when the popover is visible. This can be used to apply contextual styles, such as highlighting the trigger when the popover is active.
 
@@ -111,27 +102,23 @@ The trigger button also receives a `data-visible` attribute when the popover is 
 {% example %}{% popover / %}{% /example %}
 
 ```html
-<hyperkit-popover class="relative w-full max-w-80 block">
-  <template>
-    <hk-popover-trigger
-      class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center focus:outline-none font-medium"
-    >
+<hyperkit-popover class="relative w-64 block">
+  <hk-popover-trigger>
+    <button class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center focus:outline-none font-medium">
       Open Popover
-    </hk-popover-trigger>
-    <hk-popover-content
-      class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2"
-    >
-      <div class="p-4">
-        <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
-          Popover Title
-        </div>
-        <div class="text-sm text-zinc-600">
-          This is some example content for the popover. You can put any HTML
-          content here.
-        </div>
+    </button>
+  </hk-popover-trigger>
+  <hk-popover-content class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2">
+    <div class="p-4">
+      <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
+        Popover Title
       </div>
-    </hk-popover-content>
-  </template>
+      <div class="text-sm text-zinc-600">
+        This is some example content for the popover. You can put any HTML
+        content here.
+      </div>
+    </div>
+  </hk-popover-content>
 </hyperkit-popover>
 ```
 
@@ -145,50 +132,46 @@ The popover content is hidden by default, using the `hidden` attribute on the `<
 
 ```html
 <hyperkit-popover>
-  <template>
-    <hk-popover-trigger />
-    <hk-popover-content hidden />
-  </template>
+  <hk-popover-trigger><button>Open Popover</button></hk-popover-trigger>
+  <hk-popover-content hidden />
 </hyperkit-popover>
 ```
 
-### Adding a transition
+### Adding a Transition
 
-You can enhance your popover by adding a <hyperkit-transition /> as a child of <hk-popover-content />. This allows for smooth transitions when showing or hiding the content, while the popover still controls the visibility lifecycle. The transition will handle animations, and the popover will become fully hidden once the exit transition completes.
+You can enhance your popover by adding a `<hyperkit-transition />` as a child of `<hk-popover-content />`. This allows for smooth transitions when showing or hiding the content, while the popover still controls the visibility lifecycle. The transition will handle animations, and the popover will become fully hidden once the exit transition completes.
 
 {% example %}
 {% popover contentHidden=true useTransition=true / %}
 {% /example %}
 
 ```html
-<hyperkit-popover class="relative w-full max-w-80 block">
-  <template>
-    <hk-popover-trigger
-      class="px-2.5 py-2 text-sm border-none shadow-sm rounded-lg bg-white/70 text-zinc-800 flex items-center justify-center focus:outline-none font-medium data-[visible]:bg-white/100"
-    >
+<hyperkit-popover class="relative w-64 block">
+  <hk-popover-trigger>
+    <button class="px-2.5 py-2 text-sm border-none shadow-sm rounded-lg bg-white/70 text-zinc-800 flex items-center justify-center focus:outline-none font-medium data-[visible]:bg-white/100">
       Open Popover
-    </hk-popover-trigger>
-    <hk-popover-content hidden>
-      <hyperkit-transition
-        enter-class="transition-all duration-500 ease-in"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        exit-class="transition-all duration-300 ease-out"
-        exit-from-class="opacity-100"
-        exit-to-class="opacity-0"
-      >
-        <div class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2 p-4">
-          <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
-            Popover Title
-          </div>
-          <div class="text-sm text-zinc-600">
-            This is some example content for the popover. You can put any
-            HTML content here.
-          </div>
+    </button>
+  </hk-popover-trigger>
+  <hk-popover-content hidden>
+    <hyperkit-transition
+      enter-class="transition-all duration-500 ease-in"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      exit-class="transition-all duration-300 ease-out"
+      exit-from-class="opacity-100"
+      exit-to-class="opacity-0"
+    >
+      <div class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2 p-4">
+        <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
+          Popover Title
         </div>
-      </hyperkit-transition>
-    </hk-popover-content>
-  </template>
+        <div class="text-sm text-zinc-600">
+          This is some example content for the popover. You can put any
+          HTML content here.
+        </div>
+      </div>
+    </hyperkit-transition>
+  </hk-popover-content>
 </hyperkit-popover>
 ```
 
