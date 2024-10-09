@@ -18,7 +18,7 @@ import "@hyperkit/elements/popover";
 
 Tag:
 ```html
-<hyperkit-popover>...</hyperkit-popover>
+<hyperkit-popover>…</hyperkit-popover>
 ```
 
 ### Children
@@ -47,9 +47,18 @@ Example:
 
 ```html
 <hyperkit-popover>
-  <hk-popover-trigger><button>Open Popover</button></hk-popover-trigger>
+  …
   <hk-popover-content>
-    <hyperkit-transition />
+    <hyperkit-transition
+      enter-class="transition-all duration-500 ease-in"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      exit-class="transition-all duration-300 ease-out"
+      exit-from-class="opacity-100"
+      exit-to-class="opacity-0"
+    >
+      …
+    </hyperkit-transition>
   </hk-popover-content>
 </hyperkit-popover>
 ```
@@ -132,12 +141,12 @@ The popover content is hidden by default, using the `hidden` attribute on the `<
 
 ```html
 <hyperkit-popover>
-  <hk-popover-trigger><button>Open Popover</button></hk-popover-trigger>
+  …
   <hk-popover-content hidden />
 </hyperkit-popover>
 ```
 
-### Adding a Transition
+### Using a Transition
 
 You can enhance your popover by adding a `<hyperkit-transition />` as a child of `<hk-popover-content />`. This allows for smooth transitions when showing or hiding the content, while the popover still controls the visibility lifecycle. The transition will handle animations, and the popover will become fully hidden once the exit transition completes.
 
@@ -147,12 +156,8 @@ You can enhance your popover by adding a `<hyperkit-transition />` as a child of
 
 ```html
 <hyperkit-popover>
-  <hk-popover-trigger>
-    <button>
-      Open Popover
-    </button>
-  </hk-popover-trigger>
-  <hk-popover-content hidden>
+  …
+  <hk-popover-content>
     <hyperkit-transition
       enter-class="transition-all duration-500 ease-in"
       enter-from-class="opacity-0"
@@ -161,15 +166,7 @@ You can enhance your popover by adding a `<hyperkit-transition />` as a child of
       exit-from-class="opacity-100"
       exit-to-class="opacity-0"
     >
-      <div>
-        <div>
-          Popover Title
-        </div>
-        <div>
-          This is some example content for the popover. You can put any
-          HTML content here.
-        </div>
-      </div>
+      …
     </hyperkit-transition>
   </hk-popover-content>
 </hyperkit-popover>

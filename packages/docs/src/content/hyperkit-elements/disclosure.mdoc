@@ -16,7 +16,7 @@ import "@hyperkit/elements/disclosure";
 
 Tag:
 ```html
-<hyperkit-disclosure>...</hyperkit-disclosure>
+<hyperkit-disclosure>…</hyperkit-disclosure>
 ```
 
 ### Options
@@ -122,9 +122,7 @@ You can use a `<hyperkit-transition />` element to animate the visibility state 
 ```html
 <hyperkit-disclosure accordion>
   <hk-disclosure-item>
-    <hk-disclosure-trigger>
-      <button>Title of item here</button>
-    </hk-disclosure-trigger>
+    …
     <hk-disclosure-content>
       <hyperkit-transition
         class="block"
@@ -135,7 +133,7 @@ You can use a `<hyperkit-transition />` element to animate the visibility state 
         exit-from-class="opacity-100 max-h-[1000px]"
         exit-to-class="opacity-0 max-h-0"
       >
-        This is some example content for the disclosure item. You can put any HTML content here.
+        …
       </hyperkit-transition>
     </hk-disclosure-content>
   </hk-disclosure-item>
@@ -150,21 +148,6 @@ The `accordion` attribute ensures that only one disclosure item is visible at a 
 
 ```html
 <hyperkit-disclosure accordion>
-  <hk-disclosure-item>
-    <hk-disclosure-trigger>
-      <button>Title of item here</button>
-    </hk-disclosure-trigger>
-    <hk-disclosure-content>
-      Item 1 content here.
-    </hk-disclosure-content>
-  </hk-disclosure-item>
-  <hk-disclosure-item hidden>
-    <hk-disclosure-trigger>
-      <button>Title of item 2 here</button>
-    </hk-disclosure-trigger>
-    <hk-disclosure-content>
-      Item 2 content here.
-    </hk-disclosure-content>
-  </hk-disclosure-item>
+  …
 </hyperkit-disclosure>
 ```
