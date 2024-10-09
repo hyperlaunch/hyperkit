@@ -63,7 +63,7 @@ export class HyperkitDisclosure extends HTMLElement {
 
 		for (const item of this.items) {
 			this.setupTrigger(item);
-			this.updateVisibility(item); // Check visibility for each item
+			this.updateVisibility(item);
 		}
 	}
 

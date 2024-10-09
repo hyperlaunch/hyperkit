@@ -44,7 +44,7 @@ class HyperkitModal extends HTMLElement {
 
 	private validateStructure() {
 		this.dismisserButton = this.getButtonForDismisser();
-		this.backdropElement = this.querySelector("hk-modal-backdrop"); // Find the backdrop
+		this.backdropElement = this.querySelector("hk-modal-backdrop");
 		this.modalElement = this;
 
 		if (!this.dismisserButton && !this.backdropElement) {
@@ -74,7 +74,6 @@ class HyperkitModal extends HTMLElement {
 
 		this.dismisserButton?.addEventListener("click", () => this.hide());
 
-		// Add click listener to the backdrop
 		this.backdropElement?.addEventListener("click", () => this.hide());
 	}
 
@@ -142,14 +141,12 @@ class HyperkitModal extends HTMLElement {
 		document.addEventListener("click", (event) => {
 			const isInsideModal = this.contains(event.target as Node);
 
-			// Check if the click was on any of the trigger buttons associated with this modal
 			const modalName = this.getAttribute("name");
 			const trigger = document.querySelector<HTMLElement>(
 				`hyperkit-modal-trigger[for="${modalName}"]`,
 			);
 			const isTriggerButton = trigger?.contains(event.target as Node);
 
-			// If the click is neither inside the modal nor on the trigger button, hide the modal
 			if (!isInsideModal && !isTriggerButton && !this.hidden) {
 				this.hide();
 			}
@@ -222,7 +219,6 @@ if (!customElements.get("hyperkit-modal-trigger"))
 if (!customElements.get("hk-modal-dismisser"))
 	customElements.define("hk-modal-dismisser", ModalDismisser);
 
-// Modal Backdrop Class
 class ModalBackdrop extends HTMLElement {
 	connectedCallback() {
 		if (!this.closest("hyperkit-modal")) {
