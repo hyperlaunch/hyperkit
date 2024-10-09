@@ -51,6 +51,13 @@ export default defineMarkdocConfig({
 				useTransition: { type: Boolean },
 			},
 		},
+		disclosure: {
+			render: component("./src/astro-components/Examples/Disclosure.astro"),
+			attributes: {
+				accordion: { type: Boolean },
+				useTransition: { type: Boolean },
+			},
+		},
 	},
 	extends: [
 		shiki({
