@@ -34,16 +34,14 @@ const { Content } = await entry.render();
   <div
     class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-4xl"
   >
-    <main>
-      <div
-        class="prose prose-sm dark:prose-invert scroll-mt-10 flex-grow w-full max-w-3xl"
-        id="element-docs"
-      >
-        <Content />
-      </div>
+    <main
+      class="prose prose-sm dark:prose-invert scroll-mt-10 flex-grow w-full max-w-3xl"
+      id="element-docs"
+    >
+      <Content />
     </main>
     <aside
-      class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 max-w-48"
+      class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 w-64"
     >
       <JumpLinks targetElementId="element-docs" />
     </aside>

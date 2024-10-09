@@ -1,0 +1,182 @@
+---
+name: Modal
+tagline: A versatile modal element for displaying content in an overlay with optional transitions, backdrops, and dismissible actions.
+---
+
+The `<hyperkit-modal />` element allows you to create modals that display content in an overlay. It supports dismissing through buttons, backdrops, and custom transitions. You can control visibility via JavaScript, and the modal is easily styled for various use cases.
+
+{% example hero=true %}
+{% modal name="heroModal" / %}
+{% /example %}
+
+## Usage
+
+Import the JS:
+
+```js
+import "@hyperkit/elements/modal";
+```
+
+Tags:
+
+```html
+<hyperkit-modal-trigger>…</hyperkit-modal-trigger>
+<hyperkit-modal>…</hyperkit-modal>
+```
+
+### Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `name`
+* String _(required)_
+* A unique name that links the `<hyperkit-modal-trigger>` to the corresponding modal.
+---
+{% /table %}
+
+### `<hyperkit-modal-trigger />`
+
+* Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `name` attribute.
+* Must contain a `<button />` for accessibility.
+
+### Children
+
+```html
+<hyperkit-modal-trigger><button/></hyperkit-modal-trigger>
+<hyperkit-modal />
+  …
+  <hk-modal-dismisser><button /></hk-modal-dismisser>
+</hyperkit-modal>
+```
+
+#### `<hk-modal-dismisser />`
+
+* A button used to dismiss the modal.
+* Must contain a `<button />` for accessibility.
+
+#### `<hk-modal-backdrop />`
+
+* A backdrop that dismisses the modal when clicked.
+* Can be nested inside the modal and will trigger dismissal when clicked.
+
+## JavaScript API
+
+The `hyperkit-modal` element provides a simple JavaScript API to interact with the modal and programmatically control its visibility.
+
+### Showing or Hiding the Modal
+
+You can use the `show()` and `hide()` methods on the `hyperkit-modal` to control its visibility.
+
+#### Example Usage
+
+```js
+const modal = document.querySelector("hyperkit-modal");
+
+// Show the modal
+modal.show();
+
+// Hide the modal
+modal.hide();
+```
+
+### Listening for Visibility Changes
+
+The `hyperkit-modal` element emits a `change` event whenever its visibility changes. The event detail contains information about whether the modal is currently visible.
+
+```js
+modal.addEventListener("change", (event) => {
+  console.log("Modal is now", event.detail.visible ? "visible" : "hidden");
+});
+```
+
+## Examples
+
+### Styling the Modal
+
+You can apply custom styles to the modal, backdrop, and buttons. The modal is hidden by default with the `hidden` attribute and can be made visible using JavaScript or CSS.
+
+#### Example of a Styled Modal
+
+{% example %}
+{% modal name="styledModal" includeBackdrop=true / %}
+{% /example %}
+
+```html
+<hyperkit-modal-trigger for={name}>
+  <button
+    class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center focus:outline-none font-medium w-min whitespace-nowrap"
+  >
+    Open Modal
+  </button>
+</hyperkit-modal-trigger>
+<hyperkit-modal name={name}>
+    <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
+    <hk-modal-backdrop class="absolute inset-0 z-10" />
+    <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
+        <div class="flex justify-between items-center mb-2 text-zinc-800">
+        <div class="font-bold">Transitioning Modal Title</div>
+        <hk-modal-dismisser>
+            <button class="text-xs">Close</button>
+        </hk-modal-dismisser>
+        </div>
+        <div class="text-xs text-zinc-600">
+        This is some example content for the modal.
+        </div>
+    </div>
+    </div>
+</hyperkit-modal>
+```
+
+### Default Hidden with the `hidden` Attribute
+
+To ensure the modal is hidden by default, add the `hidden` attribute. The modal will remain hidden until programmatically shown.
+
+{% example %}
+{% modal name="hiddenModal" contentHidden=true / %}
+{% /example %}
+
+```html
+<hyperkit-modal hidden />
+```
+
+### Using a Backdrop to Dismiss the Modal
+
+To dismiss the modal by clicking on the backdrop, use the `<hk-modal-backdrop />` element. When clicked, it will hide the modal.
+
+{% example %}
+{% modal name="backdropModal" includeBackdrop=true / %}
+{% /example %}
+
+```html
+<hyperkit-modal>
+  <hk-modal-backdrop />
+  …
+</hyperkit-modal>
+```
+
+### Adding a Transition
+
+You can animate the modal visibility using the `<hyperkit-transition />` element for smooth show/hide effects.
+
+{% example %}
+{% modal name="transitionModal" useTransition=true / %}
+{% /example %}
+
+```html
+<hyperkit-modal>
+    <hyperkit-transition
+      class="block"
+      enter-class="transition-opacity duration-500 ease-in"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      exit-class="transition-opacity duration-300 ease-out"
+      exit-from-class="opacity-100"
+      exit-to-class="opacity-0"
+    >
+      …
+    </hyperkit-transition>
+</hyperkit-modal>
+```

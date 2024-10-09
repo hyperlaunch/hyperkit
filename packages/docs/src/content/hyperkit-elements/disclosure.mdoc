@@ -3,7 +3,7 @@ name: Disclosure
 tagline: A flexible disclosure element for showing or hiding content, with optional accordion mode and smooth transition animations.
 ---
 
-The `<hyperkit-disclosure />` element provides a versatile way to show or hide content items, similar to an accordion or an expandable list. It allows for flexible configuration, including animations for smooth transitions. The `accordion` attribute ensures that only one item is open at a time, making it ideal for use cases where content sections need to be displayed sequentially.
+The `<hyperkit-disclosure />` element provides a convenient way to show or hide content items, similar to an accordion or an expandable list. It allows for flexible configuration, including animations for smooth transitions. The `accordion` attribute ensures that only one item is open at a time, making it ideal for use cases where content sections need to be displayed sequentially.
 
 {% example hero=true %}{% disclosure / %}{% /example %}
 
@@ -61,7 +61,7 @@ The `hyperkit-disclosure` element provides a simple JavaScript API to interact w
 
 ### Showing or Hiding Disclosure Items
 
-Each `<hk-disclosure-item>` provides `show()` and `hide()` methods to programmatically control its visibility.
+The `hyperkit-disclosure` element exposes `show()` and `hide()` methods that take the `<hk-disclosure-item>` as an argument to programmatically control its visibility.
 
 #### Example Usage
 
@@ -70,10 +70,10 @@ const disclosure = document.querySelector("hyperkit-disclosure");
 const item = disclosure.querySelector("hk-disclosure-item");
 
 // Show the item
-item.show();
+disclosure.show(item);
 
 // Hide the item
-item.hide();
+disclosure.hide(item);
 ```
 
 ### Listening for Visibility Changes
@@ -85,6 +85,7 @@ item.addEventListener("change", (event) => {
   console.log("Disclosure item is now", event.detail.visible ? "visible" : "hidden");
 });
 ```
+
 
 ## Examples
 
