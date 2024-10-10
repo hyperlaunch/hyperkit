@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import ComponentNav from "../astro-components/ComponentNav.astro";
 import JumpLinks from "../astro-components/JumpLinks.astro";
 import Layout from "../astro-components/Layout.astro";
 
@@ -19,31 +20,38 @@ const { Content } = await entry.render();
 ---
 
 <Layout>
-  <header class="w-full max-w-4xl mb-6">
-    <div class="max-w-2xl">
-      <h1
-        class="text-4xl lg:text-5xl xl:text-6xl font-black text-black dark:text-white"
-      >
-        {name}
-      </h1>
-      <h2 class="mt-4 lg:mt-4 xl:mt-6 text-xl lg:text-2xl xl:text-32xl">
-        {tagline}
-      </h2>
-    </div>
-  </header>
   <div
-    class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-4xl"
+    class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 w-64"
   >
-    <main
-      class="prose prose-sm dark:prose-invert scroll-mt-10 flex-grow w-full max-w-3xl"
-      id="element-docs"
+    <ComponentNav />
+  </div>
+  <div class="w-full flex-grow max-w-5xl">
+    <div
+      class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-4xl"
     >
-      <Content />
-    </main>
-    <aside
-      class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 w-64"
-    >
-      <JumpLinks targetElementId="element-docs" />
-    </aside>
+      <div class="flex-grow w-full max-w-3xl">
+        <header class="mb-6">
+          <h1
+            class="text-4xl lg:text-5xl xl:text-6xl font-black text-black dark:text-white"
+          >
+            {name}
+          </h1>
+          <h2 class="mt-4 lg:mt-4 xl:mt-6 text-xl lg:text-2xl xl:text-3xl">
+            {tagline}
+          </h2>
+        </header>
+        <main
+          class="prose prose-sm dark:prose-invert scroll-mt-10"
+          id="element-docs"
+        >
+          <Content />
+        </main>
+      </div>
+      <aside
+        class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 w-64"
+      >
+        <JumpLinks targetElementId="element-docs" />
+      </aside>
+    </div>
   </div>
 </Layout>

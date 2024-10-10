@@ -1,0 +1,22 @@
+---
+import ComponentNavHeading from "./ComponentNavHeading.astro";
+import ComponentNavItem from "./ComponentNavItem.astro";
+---
+
+<nav class="flex flex-col gap-y-2">
+  <ComponentNavHeading>UI</ComponentNavHeading>
+  <ul>
+    <ComponentNavItem href="/modal">Modal</ComponentNavItem>
+    <ComponentNavItem href="/popover">Popover</ComponentNavItem>
+    <ComponentNavItem href="/detail">Detail/Accordion</ComponentNavItem>
+  </ul>
+  <ComponentNavHeading>Form</ComponentNavHeading>
+  <ul>
+    <ComponentNavItem href="/calendar">Calendar</ComponentNavItem>
+    <ComponentNavItem href="/masked-input">Masked Input</ComponentNavItem>
+  </ul>
+  <ComponentNavHeading>Primitives</ComponentNavHeading>
+  <ul>
+    <ComponentNavItem href="/transition">Transition</ComponentNavItem>
+  </ul>
+</nav>
