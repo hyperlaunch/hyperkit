@@ -71,6 +71,9 @@ export default defineMarkdocConfig({
 				useTransition: { type: Boolean },
 			},
 		},
+		"arrow-nav": {
+			render: component("./src/astro-components/Examples/ArrowNav.astro"),
+		},
 	},
 	extends: [
 		shiki({

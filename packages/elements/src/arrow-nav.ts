@@ -1,4 +1,4 @@
-class HyperlaunchArrowNav extends HTMLElement {
+class HyperkitArrowNav extends HTMLElement {
 	private focusableElements: HTMLElement[] = [];
 
 	connectedCallback() {
@@ -16,9 +16,7 @@ class HyperlaunchArrowNav extends HTMLElement {
 		);
 
 		if (this.focusableElements.length === 0) {
-			console.error(
-				"No focusable elements found inside <hyperlaunch-arrow-nav>",
-			);
+			console.error("No focusable elements found inside <hyperkit-arrow-nav>");
 			throw new Error("Missing focusable elements");
 		}
 	}
@@ -27,7 +25,7 @@ class HyperlaunchArrowNav extends HTMLElement {
 		this.addEventListener("keydown", (event: KeyboardEvent) => {
 			const activeElement = document.activeElement as HTMLElement;
 
-			// Only proceed if the focused element is inside <hyperlaunch-arrow-nav>
+			// Only proceed if the focused element is inside <hyperkit-arrow-nav>
 			if (!this.focusableElements.includes(activeElement)) return;
 
 			if (event.key === "ArrowUp" || event.key === "ArrowDown") {
@@ -56,5 +54,5 @@ class HyperlaunchArrowNav extends HTMLElement {
 	}
 }
 
-if (!customElements.get("hyperlaunch-arrow-nav"))
-	customElements.define("hyperlaunch-arrow-nav", HyperlaunchArrowNav);
+if (!customElements.get("hyperkit-arrow-nav"))
+	customElements.define("hyperkit-arrow-nav", HyperkitArrowNav);
