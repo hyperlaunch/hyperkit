@@ -32,11 +32,10 @@ class HyperkitDetail extends HTMLElement {
 			throw new MissingTagError("hk-detail-content");
 		}
 
-		if (!this.contentElement.hasAttribute("hidden")) {
-			this.contentElement.setAttribute("hidden", "");
-		}
-
-		this.contentElement.setAttribute("aria-hidden", "true");
+		this.contentElement.setAttribute(
+			"aria-hidden",
+			this.contentElement.hasAttribute("hidden") ? "true" : "false",
+		);
 
 		this.button =
 			this.triggerElement?.querySelector<HTMLButtonElement>("button");
@@ -54,11 +53,11 @@ class HyperkitDetail extends HTMLElement {
 	}
 
 	private setInitialVisibility() {
-		!this.hidden ? this.setVisible(true) : this.setVisible(false);
+		this.setVisible(!this.hidden);
 	}
 
 	public get hidden(): boolean {
-		return this.contentElement?.hasAttribute("hidden") ?? true;
+		return this.contentElement?.hasAttribute("hidden") ?? false;
 	}
 
 	private toggleContent() {
