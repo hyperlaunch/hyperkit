@@ -1,86 +1,73 @@
 export class HyperkitTransition extends HTMLElement {
-	private enterClass = this.getAttribute("enter-class") ?? "";
-	private enterFromClass = this.getAttribute("enter-from-class") ?? "";
-	private enterToClass = this.getAttribute("enter-to-class") ?? "";
-	private exitClass = this.getAttribute("exit-class") ?? "";
-	private exitFromClass = this.getAttribute("exit-from-class") ?? "";
-	private exitToClass = this.getAttribute("exit-to-class") ?? "";
+	private isExiting = false;
 
 	connectedCallback() {
-		if (this.hasAttribute("enter-on-connect")) this.enter();
+		// Automatically start the enter transition if the 'enter-on-connect' attribute is present
+		if (this.hasAttribute("enter-on-connect")) {
+			this.enter();
+		}
 	}
 
 	enter() {
-		this.removeClasses(this.exitClass);
-		this.removeClasses(this.exitFromClass);
-		this.removeClasses(this.exitToClass);
+		// Set the initial state to 'entering'
+		this.setDataState("entering");
 
-		this.removeAttribute("hidden");
-
-		this.applyClasses(this.enterClass, this.enterFromClass);
-
+		// Ensure the transition starts in the next animation frame
 		requestAnimationFrame(() => {
-			this.removeClass(this.enterFromClass);
-			this.applyClass(this.enterToClass);
+			requestAnimationFrame(() => {
+				this.setDataState("entered");
+			});
 		});
 
-		setTimeout(
-			() =>
-				this.dispatchEvent(
-					new CustomEvent("change", { detail: { state: "entered" } }),
-				),
-			this.getTransitionDuration(),
+		// Listen for the transition to complete before dispatching the 'entered' event
+		this.addEventListener(
+			"transitionend",
+			(event) => {
+				if (event.target === this && !this.isExiting) {
+					this.dispatchEvent(
+						new CustomEvent("change", { detail: { state: "entered" } }),
+					);
+				}
+			},
+			{ once: true },
 		);
 	}
 
 	exit() {
-		this.removeClasses(this.enterClass);
-		this.removeClasses(this.enterFromClass);
-		this.removeClasses(this.enterToClass);
+		// Set the flag to mark that we are exiting
+		this.isExiting = true;
 
-		this.applyClasses(this.exitClass, this.exitFromClass);
+		// Set the initial state to 'exiting'
+		this.setDataState("exiting");
 
+		// Ensure the transition starts in the next animation frame
 		requestAnimationFrame(() => {
-			this.removeClass(this.exitFromClass);
-			this.applyClass(this.exitToClass);
+			requestAnimationFrame(() => {
+				this.setDataState("exited");
+			});
+		});
 
-			setTimeout(
-				() =>
+		// Listen for the transition to complete before dispatching the 'exited' event and hiding the element
+		this.addEventListener(
+			"transitionend",
+			(event) => {
+				if (event.target === this) {
+					this.setAttribute("hidden", "");
 					this.dispatchEvent(
 						new CustomEvent("change", { detail: { state: "exited" } }),
-					),
-				this.getTransitionDuration(),
-			);
-		});
+					);
+					this.isExiting = false;
+				}
+			},
+			{ once: true },
+		);
 	}
 
-	private addClasses(classNames: string) {
-		this.classList.add(...classNames.split(" ").filter(Boolean));
-	}
-
-	private removeClasses(classNames: string) {
-		this.classList.remove(...classNames.split(" ").filter(Boolean));
-	}
-
-	private applyClasses(...classList: string[]) {
-		for (const cls of classList) this.addClasses(cls);
-	}
-
-	private applyClass(className: string) {
-		this.addClasses(className);
-	}
-
-	private removeClass(className: string) {
-		this.removeClasses(className);
-	}
-
-	private getTransitionDuration() {
-		const duration = window
-			.getComputedStyle(this)
-			.getPropertyValue("transition-duration");
-		return Number.parseFloat(duration) * 1000;
+	private setDataState(state: "entering" | "entered" | "exiting" | "exited") {
+		this.setAttribute("data-state", state);
 	}
 }
 
-if (!customElements.get("hyperkit-transition"))
+if (!customElements.get("hyperkit-transition")) {
 	customElements.define("hyperkit-transition", HyperkitTransition);
+}

@@ -8,12 +8,7 @@ const { enterOnConnect, hidden } = Astro.props;
 ---
 
 <hyperkit-transition
-  enter-class="transition-all duration-1000 ease-out"
-  enter-from-class="opacity-0 translate-y-4"
-  enter-to-class="opacity-100 translate-y-0"
-  exit-class="transition-all duration-1000 ease-in"
-  exit-from-class="opacity-100 translate-y-0"
-  exit-to-class="opacity-0 translate-y-4"
+  class="block transition-all duration-1000 ease-out data-[state=entering]:opacity-0 data-[state=entering]:translate-y-4 data-[state=entered]:opacity-100 data-[state=entered]:translate-y-0"
   enter-on-connect={enterOnConnect}
   hidden={hidden}
 >
