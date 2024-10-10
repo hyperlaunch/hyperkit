@@ -88,10 +88,25 @@ class HyperkitDetail extends HTMLElement {
 				"hyperkit-transition",
 			);
 
-		this.contentElement.setAttribute("hidden", "");
-		this.contentElement.setAttribute("aria-hidden", "true");
-
-		if (transitionElement) transitionElement.exit();
+		if (transitionElement) {
+			transitionElement.exit();
+			transitionElement.addEventListener(
+				"change",
+				(event) => {
+					const customEvent = event as CustomEvent<{
+						state: "entered" | "exited";
+					}>;
+					if (customEvent.detail.state === "exited") {
+						this.contentElement?.setAttribute("hidden", "");
+						this.contentElement?.setAttribute("aria-hidden", "true");
+					}
+				},
+				{ once: true },
+			);
+		} else {
+			this.contentElement.setAttribute("hidden", "");
+			this.contentElement.setAttribute("aria-hidden", "true");
+		}
 
 		this.setVisible(false);
 	}
