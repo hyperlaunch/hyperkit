@@ -3,7 +3,8 @@
 	"version": "0.0.1",
 	"dependencies": {
 		"@fontsource/poppins": "^5.1.0",
-		"@hyperkit/elements": "workspace:*"
+		"@hyperkit/elements": "workspace:*",
+		"posthog-js": "^1.167.0"
 	},
 	"devDependencies": {
 		"astro": "^4.15.12",

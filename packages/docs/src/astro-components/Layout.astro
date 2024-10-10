@@ -1,5 +1,19 @@
 ---
+import { ViewTransitions } from "astro:transitions";
+import favicon from "../assets/favicon.svg";
+import og from "../assets/og.png";
 import "../base.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const { title, description } = Astro.props;
+
+const name = "Hyperkit";
+const url = "https://www.hyperkit.xyz";
+const pageTitle = [title, name].filter(Boolean).join(" — ");
 ---
 
 <html
@@ -7,12 +21,41 @@ import "../base.css";
   class="bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 font-poppins"
 >
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Hyperkit</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{pageTitle}</title>
+    <meta name="description" content="Your website description here" />
+    <meta name="robots" content="index, follow" />
+
+    <meta
+      name="keywords"
+      content="Product development, Prototyping, Innovation, Full stack development"
+    />
+
+    <link rel="icon" href={favicon.src} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={og.src} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@hyprlnch" />
+
+    <script>
+      import posthog from "posthog-js";
+
+      posthog.init(import.meta.env.PUBLIC_POSTHOG_API_KEY, {
+        api_host: import.meta.env.PUBLIC_POSTHOG_API_HOST,
+      });
+    </script>
+    <ViewTransitions />
   </head>
+
   <body
     class="p-6 lg:p-8 xl:p-10 2xl:p-12 lg:flex lg:flex-col items-center gap-6 lg:gap-8 xl:gap-10 2xl:gap-12"
   >
