@@ -1,0 +1,162 @@
+---
+name: Detail & Accordion
+tagline: Detail and Accordion elements that can be used together for expandable content, with optional accordion functionality and smooth transitions.
+---
+
+The `<hyperkit-accordion />` element allows you to create an accordion where only one section can be open at a time, while the `<hyperkit-detail />` element can be used independently or within an accordion for expandable sections. Both elements support smooth transitions and custom styling.
+
+{% example hero=true %}{% detail / %}{% /example %}
+
+## Usage
+
+Import the JS:
+
+```js
+import "@hyperkit/elements/detail";
+```
+
+Tags:
+
+```html
+<hyperkit-accordion>…</hyperkit-accordion>
+<hyperkit-detail>…</hyperkit-detail>
+```
+
+### `<hyperkit-accordion />` Options
+
+There are no specific options for `<hyperkit-accordion />`. It automatically manages the visibility of nested `<hyperkit-detail />` elements, ensuring only one is open at a time.
+
+### `<hyperkit-detail />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `hidden`
+* Boolean _(optional)_
+* If set, the detail content is hidden by default. Can be toggled programmatically.
+---
+{% /table %}
+
+## Children
+
+```html
+<!-- Standalone Detail -->
+<hyperkit-detail>
+  <hk-detail-trigger><button /></hk-detail-trigger>
+  <hk-detail-content />
+</hyperkit-detail>
+
+<!-- Accordion with Multiple Details -->
+<hyperkit-accordion>
+  <hyperkit-detail>
+    <hk-detail-trigger><button /></hk-detail-trigger>
+    <hk-detail-content />
+  </hyperkit-detail>
+  <hyperkit-detail>
+    <hk-detail-trigger><button /></hk-detail-trigger>
+    <hk-detail-content />
+  </hyperkit-detail>
+</hyperkit-accordion>
+```
+
+#### `<hk-detail-trigger />`
+
+* Acts as the trigger for expanding or collapsing the detail content.
+* Must contain a `<button />` for accessibility.
+
+#### `<hk-detail-content />`
+
+* Holds the content that will be shown or hidden.
+* Hidden by default unless explicitly set to visible or controlled programmatically.
+
+## JavaScript API
+
+The `hyperkit-accordion` and `hyperkit-detail` elements provide a simple JavaScript API to interact with their visibility.
+
+### Showing or Hiding Details
+
+Both `hyperkit-accordion` and `hyperkit-detail` expose `show()` and `hide()` methods to control visibility.
+
+#### Example Usage
+
+```js
+const detail = document.querySelector("hyperkit-detail");
+
+// Show the detail
+detail.show();
+
+// Hide the detail
+detail.hide();
+```
+
+### Listening for Visibility Changes
+
+The `hyperkit-detail` emits a `change` event whenever its visibility changes. The event detail contains information about whether the item is currently visible.
+
+```js
+detail.addEventListener("change", (event) => {
+  console.log("Detail is now", event.detail.visible ? "visible" : "hidden");
+});
+```
+
+## Examples
+
+### Styling the Details
+
+You can apply custom styles to both the details and their triggers. The button inside `<hk-detail-trigger>` can be styled to indicate its open state. The trigger button also receives a `data-visible` attribute when the corresponding detail is visible.
+
+#### Example of a Styled Detail
+
+{% example %}{% detail / %}{% /example %}
+
+```html
+<hyperkit-detail class="w-96 bg-white rounded-lg shadow-lg p-4">
+  <hk-detail-trigger>
+    <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-700 data-[visible]:text-zinc-900 hover:text-zinc-600 focus:outline-none transition-colors duration-200">
+      Section Title
+    </button>
+  </hk-detail-trigger>
+  <hk-detail-content class="mt-2 text-xs text-zinc-600">
+    This is some example content for the detail.
+  </hk-detail-content>
+</hyperkit-detail>
+```
+
+### Using Transitions
+
+{% example %}{% detail useTransition=true / %}{% /example %}
+
+To animate the visibility of the detail, use the `<hyperkit-transition />` element for smooth show/hide effects.
+
+```html
+<hyperkit-detail>
+  <hk-detail-trigger><button /></hk-detail-trigger>
+  <hk-detail-content>
+    <hyperkit-transition
+      class="block"
+      enter-class="transition-all duration-500 ease-in"
+      enter-from-class="opacity-0 max-h-0"
+      enter-to-class="opacity-100 max-h-[1000px]"
+      exit-class="transition-all duration-300 ease-out"
+      exit-from-class="opacity-100 max-h-[1000px]"
+      exit-to-class="opacity-0 max-h-0"
+    >
+      …
+    </hyperkit-transition>
+  </hk-detail-content>
+</hyperkit-detail>
+```
+
+### Accordion Mode
+
+{% example %}{% accordion / %}{% /example %}
+
+When used inside `<hyperkit-accordion>`, only one detail can be open at a time. The accordion automatically manages the visibility of the details.
+
+```html
+<hyperkit-accordion>
+  <hyperkit-detail>…</hyperkit-detail>
+</hyperkit-accordion>
+```

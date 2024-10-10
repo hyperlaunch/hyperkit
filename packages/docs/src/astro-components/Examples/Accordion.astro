@@ -1,0 +1,15 @@
+---
+import Detail from "./Detail.astro";
+
+type Props = { useTransition?: boolean };
+
+const { useTransition = false } = Astro.props;
+---
+
+<hyperkit-accordion>
+  <Detail useTransition={useTransition} />
+</hyperkit-accordion>
+<script>
+  import "@hyperkit/elements/detail.ts";
+  import "@hyperkit/elements/transition.ts";
+</script>

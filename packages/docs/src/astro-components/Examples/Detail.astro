@@ -1,27 +1,21 @@
 ---
-type Props = { accordion?: boolean; useTransition?: boolean };
+type Props = { useTransition?: boolean };
 
-const { accordion = false, useTransition = false } = Astro.props;
+const { useTransition = false } = Astro.props;
 
 const items = ["First", "Second", "Third"];
 ---
 
-<hyperkit-disclosure
-  accordion={accordion}
-  class="w-96 bg-white rounded-lg shadow-lg p-4"
->
+<div class="block w-96 bg-white rounded-lg shadow-lg p-4">
   {
     items.map((item, i) => (
-      <hk-disclosure-item class="mb-4 pb-4 border-b border-b-zinc-200 last:mb-0 last:pb-0 last:border-0 block">
-        <hk-disclosure-trigger>
+      <hyperkit-detail class="mb-4 pb-4 border-b border-b-zinc-200 last:mb-0 last:pb-0 last:border-0 block">
+        <hk-detail-trigger>
           <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-600 data-[visible]:text-lime-500 hover:text-zinc-900 focus:outline-none">
             {item} Item
           </button>
-        </hk-disclosure-trigger>
-        <hk-disclosure-content
-          hidden={i > 0}
-          class="mt-2 text-xs text-zinc-600"
-        >
+        </hk-detail-trigger>
+        <hk-detail-content hidden={i > 0} class="mt-2 text-xs text-zinc-600">
           {useTransition ? (
             <hyperkit-transition
               class="block"
@@ -32,18 +26,17 @@ const items = ["First", "Second", "Third"];
               exit-from-class="opacity-100 max-h-[1000px]"
               exit-to-class="opacity-0 max-h-0"
             >
-              This is some example content for the disclosure item.
+              This is some example content for the detail item.
             </hyperkit-transition>
           ) : (
-            <>This is some example content for the disclosure item.</>
+            <>This is some example content for the detail item.</>
           )}
-        </hk-disclosure-content>
-      </hk-disclosure-item>
+        </hk-detail-content>
+      </hyperkit-detail>
     ))
   }
-</hyperkit-disclosure>
-
+</div>
 <script>
-  import "@hyperkit/elements/disclosure.ts";
+  import "@hyperkit/elements/detail.ts";
   import "@hyperkit/elements/transition.ts";
 </script>
