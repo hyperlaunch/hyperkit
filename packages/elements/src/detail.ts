@@ -98,11 +98,11 @@ class HyperkitDetail extends HTMLElement {
 	}
 
 	private setVisible(visible: boolean) {
-		if (this.triggerElement) {
+		if (this.button) {
 			if (visible) {
-				this.triggerElement.setAttribute("data-visible", "true");
+				this.button.setAttribute("data-visible", "true");
 			} else {
-				this.triggerElement.removeAttribute("data-visible");
+				this.button.removeAttribute("data-visible");
 			}
 		}
 		this.dispatchEvent(new CustomEvent("change", { detail: { visible } }));
@@ -125,13 +125,12 @@ class HyperkitAccordion extends HTMLElement {
 			this.querySelectorAll<HyperkitDetail>("hyperkit-detail"),
 		);
 
-		for (const detail of this.details)
+		for (const detail of this.details) {
 			detail.addEventListener("change", (event) => {
-				const customEvent = event as CustomEvent<{
-					visible: boolean;
-				}>;
+				const customEvent = event as CustomEvent<{ visible: boolean }>;
 				if (customEvent.detail.visible) this.closeOtherDetails(detail);
 			});
+		}
 
 		for (const [index, detail] of this.details.entries()) {
 			index !== 0 ? detail.hide() : detail.show();
