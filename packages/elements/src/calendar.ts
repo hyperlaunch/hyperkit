@@ -1,9 +1,4 @@
-class MissingTagError extends Error {
-	constructor(tagName: string) {
-		super(`Missing required tag: <${tagName}>`);
-		this.name = "MissingTagError";
-	}
-}
+import MissingTagError from "./missing-tag-error";
 
 export class HyperkitCalendar extends HTMLElement {
 	private currentDate = new Date();
@@ -71,12 +66,12 @@ export class HyperkitCalendar extends HTMLElement {
 		const dayButton = this.querySelector('button[slot="day-number"]');
 
 		if (!daysList) {
-			console.error("hk-days-list is missing in the markup");
+			console.error("hk-days-list is missing in the markup", this);
 			throw new MissingTagError("hk-days-list");
 		}
 
 		if (!dayButton) {
-			console.error("button[slot='day-number'] is missing in the markup");
+			console.error("button[slot='day-number'] is missing in the markup", this);
 			throw new MissingTagError("button[slot='day-number']");
 		}
 	}
@@ -90,11 +85,8 @@ export class HyperkitCalendar extends HTMLElement {
 		this.dayButtonTemplate = this.querySelector<HTMLButtonElement>(
 			'button[slot="day-number"]',
 		);
-		if (this.dayButtonTemplate) {
-			this.dayButtonTemplate.remove();
-		} else {
-			console.error("Day button (slot='day-number') is missing");
-		}
+
+		this.dayButtonTemplate?.remove();
 	}
 
 	private attachInputListener() {

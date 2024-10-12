@@ -1,11 +1,5 @@
+import MissingTagError from "./missing-tag-error";
 import type { HyperkitTransition } from "./transition";
-
-class MissingTagError extends Error {
-	constructor(tagName: string) {
-		super(`Missing required tag: <${tagName}>`);
-		this.name = "MissingTagError";
-	}
-}
 
 class HyperkitPopover extends HTMLElement {
 	private triggerButton: HTMLButtonElement | null = null;
@@ -27,14 +21,17 @@ class HyperkitPopover extends HTMLElement {
 	private getButtonForTrigger() {
 		const triggerElement = this.querySelector("hk-popover-trigger");
 		if (!triggerElement) {
-			console.error("hk-popover-trigger tag is missing in the markup");
+			console.error("hk-popover-trigger tag is missing in the markup", this);
 			throw new MissingTagError("hk-popover-trigger");
 		}
 
 		const button = triggerElement.querySelector<HTMLButtonElement>("button");
 		if (!button) {
-			console.error("Button element is missing inside hk-popover-trigger");
-			throw new MissingTagError("button inside hk-popover-trigger");
+			console.error(
+				"Button element is missing inside hk-popover-trigger",
+				this,
+			);
+			throw new MissingTagError("button");
 		}
 
 		return button;
@@ -44,7 +41,7 @@ class HyperkitPopover extends HTMLElement {
 		const contentElement =
 			this.querySelector<HTMLElement>("hk-popover-content");
 		if (!contentElement) {
-			console.error("hk-popover-content tag is missing in the markup");
+			console.error("hk-popover-content tag is missing in the markup", this);
 			throw new MissingTagError("hk-popover-content");
 		}
 
@@ -57,29 +54,21 @@ class HyperkitPopover extends HTMLElement {
 	}
 
 	private initializeElements() {
-		if (!this.triggerButton || !this.contentElement) {
-			console.error(
-				"Initialization failed: Missing button or content element.",
-			);
-			return;
-		}
-
-		this.triggerButton.setAttribute("aria-expanded", "false");
-		this.triggerButton.setAttribute(
+		this.triggerButton?.setAttribute("aria-expanded", "false");
+		this.triggerButton?.setAttribute(
 			"aria-controls",
-			this.contentElement.id || "popoverContent",
+			this.contentElement?.id || "popoverContent",
 		);
 
-		this.contentElement.setAttribute("aria-hidden", "true");
-		this.contentElement.id = this.contentElement.id || "popoverContent";
+		this.contentElement?.setAttribute("aria-hidden", "true");
+
+		if (this.contentElement) this.contentElement.id ||= "popoverContent";
 	}
 
 	private setupPopover() {
-		if (this.triggerButton && this.contentElement) {
-			this.triggerButton.addEventListener("click", () =>
-				this.hidden ? this.show() : this.hide(),
-			);
-		}
+		this.triggerButton?.addEventListener("click", () => {
+			this.hidden ? this.show() : this.hide();
+		});
 	}
 
 	private setInitialVisibility() {
@@ -97,13 +86,11 @@ class HyperkitPopover extends HTMLElement {
 				"hyperkit-transition",
 			);
 
+		this.contentElement.removeAttribute("hidden");
+		this.contentElement.setAttribute("aria-hidden", "false");
+
 		if (transitionElement) {
-			this.contentElement.removeAttribute("hidden");
-			this.contentElement.setAttribute("aria-hidden", "false");
 			transitionElement.enter();
-		} else {
-			this.contentElement.removeAttribute("hidden");
-			this.contentElement.setAttribute("aria-hidden", "false");
 		}
 
 		this.triggerButton.setAttribute("aria-expanded", "true");

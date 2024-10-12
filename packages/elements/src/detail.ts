@@ -1,11 +1,5 @@
+import MissingTagError from "./missing-tag-error";
 import type { HyperkitTransition } from "./transition";
-
-class MissingTagError extends Error {
-	constructor(tagName: string) {
-		super(`Missing required tag: <${tagName}>`);
-		this.name = "MissingTagError";
-	}
-}
 
 class HyperkitDetail extends HTMLElement {
 	private triggerElement: HTMLElement | null = null;
@@ -24,22 +18,18 @@ class HyperkitDetail extends HTMLElement {
 		this.contentElement = this.querySelector("hk-detail-content");
 
 		if (!this.triggerElement) {
-			console.error("Missing <hk-detail-trigger> in <hyperkit-detail>");
+			console.error("Missing <hk-detail-trigger> in <hyperkit-detail>", this);
 			throw new MissingTagError("hk-detail-trigger");
 		}
 
 		if (!this.contentElement) {
-			console.error("Missing <hk-detail-content> in <hyperkit-detail>");
+			console.error("Missing <hk-detail-content> in <hyperkit-detail>", this);
 			throw new MissingTagError("hk-detail-content");
 		}
 	}
 
 	private initializeElements() {
-		if (!this.contentElement) {
-			throw new MissingTagError("hk-detail-content");
-		}
-
-		this.contentElement.setAttribute(
+		this.contentElement?.setAttribute(
 			"aria-hidden",
 			this.contentElement.hasAttribute("hidden") ? "true" : "false",
 		);
@@ -47,13 +37,8 @@ class HyperkitDetail extends HTMLElement {
 		this.button =
 			this.triggerElement?.querySelector<HTMLButtonElement>("button");
 
-		if (!this.button) {
-			console.error("Missing <button> inside <hk-detail-trigger>");
-			throw new MissingTagError("button inside hk-detail-trigger");
-		}
-
 		if (!this.clickListenerAdded) {
-			this.button.addEventListener("click", (event) => {
+			this.button?.addEventListener("click", (event) => {
 				event.stopPropagation();
 				this.toggleContent();
 			});
@@ -152,6 +137,7 @@ class HyperkitAccordion extends HTMLElement {
 		if (this.details.length === 0) {
 			console.error(
 				"No <hyperkit-detail> elements found in <hyperkit-accordion>",
+				this,
 			);
 			throw new MissingTagError("hyperkit-detail");
 		}

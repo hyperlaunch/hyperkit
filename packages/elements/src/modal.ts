@@ -1,33 +1,14 @@
+import MissingTagError from "./missing-tag-error";
 import type { HyperkitTransition } from "./transition";
 
-class MissingTagError extends Error {
-	constructor(tagName: string) {
-		super(`Missing required tag: <${tagName}>`);
-		this.name = "MissingTagError";
-	}
-}
-
 class MismatchedTriggerError extends Error {
-	constructor(triggerName: string, modalName: string) {
-		super(
-			`The trigger "for" attribute (${triggerName}) does not match the modal "name" attribute (${modalName}).`,
-		);
-		this.name = "MismatchedTriggerError";
-	}
-}
-
-class MissingButtonError extends Error {
 	constructor() {
-		super(
-			"Missing required <button> inside <hyperkit-modal-trigger> or <hk-modal-dismisser>.",
-		);
-		this.name = "MissingButtonError";
+		super("Mismatched trigger and modal attributes");
 	}
 }
 
 class HyperkitModal extends HTMLElement {
 	private dismisserButton: HTMLButtonElement | null = null;
-	private modalElement: HTMLElement | null = null;
 	private backdropElement: HTMLElement | null = null;
 
 	public connectedCallback() {
@@ -39,45 +20,47 @@ class HyperkitModal extends HTMLElement {
 	}
 
 	public get hidden(): boolean {
-		return this.modalElement?.hasAttribute("hidden") ?? true;
+		return this.hasAttribute("hidden");
 	}
 
 	private validateStructure() {
-		this.dismisserButton = this.getButtonForDismisser();
-		this.backdropElement = this.querySelector("hk-modal-backdrop");
-		this.modalElement = this;
+		const modalName = this.getAttribute("name");
 
-		if (!this.dismisserButton && !this.backdropElement) {
+		const trigger = document.querySelector<HTMLElement>(
+			`hyperkit-modal-trigger[for="${modalName}"]`,
+		);
+
+		if (!trigger) {
 			console.error(
-				"Missing dismiss button or backdrop in <hyperkit-modal>",
+				`No matching modal for trigger's "for" attribute: ${modalName}`,
 				this,
 			);
-			throw new MissingButtonError();
+			throw new MismatchedTriggerError();
 		}
+
+		this.dismisserButton = this.getButtonForDismisser();
+		if (!this.dismisserButton) {
+			console.warn(
+				"Optional dismiss button is missing in <hk-modal-dismisser>",
+				this,
+			);
+		}
+
+		this.backdropElement = this.querySelector("hk-modal-backdrop");
 	}
 
 	private getButtonForDismisser(): HTMLButtonElement | null {
 		const dismisser = this.querySelector<HTMLButtonElement>(
 			"hk-modal-dismisser button",
 		);
-		if (!dismisser) {
-			console.error("Button element is missing inside <hk-modal-dismisser>");
-			return null;
-		}
 		return dismisser;
 	}
 
 	private initializeElements() {
-		if (!this.modalElement) {
-			console.error("Initialization failed: Missing modal element.");
-			return;
-		}
-
-		this.modalElement.setAttribute("aria-hidden", "true");
-		this.modalElement.id = this.modalElement.id || "modalContent";
+		this.setAttribute("aria-hidden", "true");
+		this.id = this.id || "modalContent";
 
 		this.dismisserButton?.addEventListener("click", () => this.hide());
-
 		this.backdropElement?.addEventListener("click", () => this.hide());
 	}
 
@@ -86,33 +69,24 @@ class HyperkitModal extends HTMLElement {
 	}
 
 	public show() {
-		if (!this.modalElement) return;
+		const transitionElement = this.querySelector<HyperkitTransition>(
+			"hyperkit-transition",
+		);
 
-		const transitionElement =
-			this.modalElement.querySelector<HyperkitTransition>(
-				"hyperkit-transition",
-			);
+		this.removeAttribute("hidden");
+		this.setAttribute("aria-hidden", "false");
 
 		if (transitionElement) {
-			this.modalElement.removeAttribute("hidden");
-			this.modalElement.setAttribute("aria-hidden", "false");
-
 			transitionElement.enter();
-		} else {
-			this.modalElement.removeAttribute("hidden");
-			this.modalElement.setAttribute("aria-hidden", "false");
 		}
 
 		this.setVisible(true);
 	}
 
 	public hide() {
-		if (!this.modalElement) return;
-
-		const transitionElement =
-			this.modalElement.querySelector<HyperkitTransition>(
-				"hyperkit-transition",
-			);
+		const transitionElement = this.querySelector<HyperkitTransition>(
+			"hyperkit-transition",
+		);
 
 		if (transitionElement) {
 			transitionElement.exit();
@@ -123,15 +97,15 @@ class HyperkitModal extends HTMLElement {
 						state: "entered" | "exited";
 					}>;
 					if (customEvent.detail.state === "exited") {
-						this.modalElement?.setAttribute("hidden", "");
-						this.modalElement?.setAttribute("aria-hidden", "true");
+						this.setAttribute("hidden", "");
+						this.setAttribute("aria-hidden", "true");
 					}
 				},
 				{ once: true },
 			);
 		} else {
-			this.modalElement.setAttribute("hidden", "");
-			this.modalElement.setAttribute("aria-hidden", "true");
+			this.setAttribute("hidden", "");
+			this.setAttribute("aria-hidden", "true");
 		}
 
 		this.setVisible(false);
@@ -179,8 +153,8 @@ class ModalTrigger extends HTMLElement {
 	private validateStructure() {
 		this.triggerButton = this.querySelector<HTMLButtonElement>("button");
 		if (!this.triggerButton) {
-			console.error("<hyperkit-modal-trigger> must contain a <button>");
-			throw new MissingButtonError();
+			console.error("<hyperkit-modal-trigger> must contain a <button>", this);
+			throw new MissingTagError("button");
 		}
 
 		const modalName = this.getAttribute("for");
@@ -191,8 +165,9 @@ class ModalTrigger extends HTMLElement {
 		if (!modal) {
 			console.error(
 				`No matching modal for trigger's "for" attribute: ${modalName}`,
+				this,
 			);
-			throw new MismatchedTriggerError(modalName || "", modalName || "");
+			throw new MismatchedTriggerError();
 		}
 	}
 
@@ -201,10 +176,12 @@ class ModalTrigger extends HTMLElement {
 		const modal = document.querySelector<HyperkitModal>(
 			`hyperkit-modal[name="${modalName}"]`,
 		);
-
 		this.triggerButton?.addEventListener("click", () => modal?.show());
 	}
 }
+
+if (!customElements.get("hyperkit-modal-trigger"))
+	customElements.define("hyperkit-modal-trigger", ModalTrigger);
 
 class ModalDismisser extends HTMLElement {
 	private dismisserButton: HTMLButtonElement | null = null;
@@ -225,8 +202,11 @@ class ModalDismisser extends HTMLElement {
 
 		this.dismisserButton = this.querySelector<HTMLButtonElement>("button");
 		if (!this.dismisserButton) {
-			console.error("Button element is missing inside <hk-modal-dismisser>");
-			throw new MissingButtonError();
+			console.error(
+				"Button element is missing inside <hk-modal-dismisser>",
+				this,
+			);
+			throw new MissingTagError("button");
 		}
 	}
 
@@ -235,9 +215,6 @@ class ModalDismisser extends HTMLElement {
 		this.dismisserButton?.addEventListener("click", () => modal?.hide());
 	}
 }
-
-if (!customElements.get("hyperkit-modal-trigger"))
-	customElements.define("hyperkit-modal-trigger", ModalTrigger);
 
 if (!customElements.get("hk-modal-dismisser"))
 	customElements.define("hk-modal-dismisser", ModalDismisser);

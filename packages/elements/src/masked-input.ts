@@ -1,9 +1,4 @@
-class MissingInputError extends Error {
-	constructor(message: string) {
-		super(message);
-		this.name = "MissingInputError";
-	}
-}
+import MissingTagError from "./missing-tag-error";
 
 export class HyperkitMaskedInput extends HTMLElement {
 	private inputElement: HTMLInputElement | null = null;
@@ -21,9 +16,7 @@ export class HyperkitMaskedInput extends HTMLElement {
 				"Input element is missing in <hyperkit-masked-input>",
 				this,
 			);
-			throw new MissingInputError(
-				"Input element is required in <hyperkit-masked-input>.",
-			);
+			throw new MissingTagError("input");
 		}
 	}
 

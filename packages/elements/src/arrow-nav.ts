@@ -1,16 +1,11 @@
-class MissingTagError extends Error {
-	constructor(tagName: string) {
-		super(`Missing required tag: <${tagName}>`);
-		this.name = "MissingTagError";
-	}
-}
+import MissingTagError from "./missing-tag-error";
 
-class HyperkitArrowNav extends HTMLElement {
+export class HyperkitArrowNav extends HTMLElement {
 	private focusableElements: HTMLElement[] = [];
 
 	connectedCallback() {
 		this.validateStructure();
-		this.initializeFocusableElements();
+		this.initializeElements();
 		this.attachArrowKeyListener();
 	}
 
@@ -19,12 +14,15 @@ class HyperkitArrowNav extends HTMLElement {
 			"a, button, [tabindex]",
 		);
 		if (!focusableElements || focusableElements.length === 0) {
-			console.error("No focusable elements found inside <hyperkit-arrow-nav>");
+			console.error(
+				"No focusable elements found inside <hyperkit-arrow-nav>",
+				this,
+			);
 			throw new MissingTagError("a, button, [tabindex]");
 		}
 	}
 
-	private initializeFocusableElements() {
+	private initializeElements() {
 		this.focusableElements = Array.from(
 			this.querySelectorAll<HTMLElement>("a, button, [tabindex]"),
 		).filter(
@@ -32,13 +30,6 @@ class HyperkitArrowNav extends HTMLElement {
 				!el.hasAttribute("disabled") &&
 				!el.getAttribute("tabindex")?.startsWith("-"),
 		);
-
-		if (this.focusableElements.length === 0) {
-			console.error(
-				"No valid focusable elements found inside <hyperkit-arrow-nav>",
-			);
-			throw new Error("No valid focusable elements");
-		}
 	}
 
 	private attachArrowKeyListener() {

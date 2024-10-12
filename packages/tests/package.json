@@ -1,0 +1,12 @@
+{
+  "name": "@hyperkit/tests",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^15.7.4",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
