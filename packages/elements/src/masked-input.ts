@@ -17,9 +17,12 @@ export class HyperkitMaskedInput extends HTMLElement {
 		this.inputElement = this.querySelector("input");
 
 		if (!this.inputElement) {
-			console.error("Input element is missing in hyperkit-masked-input", this);
+			console.error(
+				"Input element is missing in <hyperkit-masked-input>",
+				this,
+			);
 			throw new MissingInputError(
-				"Input element is required in hyperkit-masked-input.",
+				"Input element is required in <hyperkit-masked-input>.",
 			);
 		}
 	}
@@ -34,7 +37,6 @@ export class HyperkitMaskedInput extends HTMLElement {
 			const formattedValue = this.formatByMask({ value: rawValue, mask });
 
 			target.value = formattedValue;
-
 			this.restoreCursorPosition({ target, cursorPosition, mask });
 		};
 
@@ -44,7 +46,6 @@ export class HyperkitMaskedInput extends HTMLElement {
 				const cursorPosition = target.selectionStart || 0;
 
 				event.preventDefault();
-
 				this.handleBackspace({ target, mask, cursorPosition });
 			}
 		};

@@ -151,18 +151,16 @@ class HyperkitPopover extends HTMLElement {
 	}
 
 	private attachOutsideClickListener() {
-		document.addEventListener(
-			"click",
-			(event) =>
-				!this.contains(event.target as Node) && !this.hidden && this.hide(),
-		);
+		document.addEventListener("click", (event) => {
+			const isInsidePopover = this.contains(event.target as Node);
+			if (!isInsidePopover && !this.hidden) this.hide();
+		});
 	}
 
 	private attachEscapeKeyListener() {
-		document.addEventListener(
-			"keydown",
-			(event) => event.key === "Escape" && !this.hidden && this.hide(),
-		);
+		document.addEventListener("keydown", (event) => {
+			if (event.key === "Escape" && !this.hidden) this.hide();
+		});
 	}
 }
 
@@ -173,9 +171,10 @@ class ChildElement extends HTMLElement {
 	connectedCallback() {
 		if (!this.closest("hyperkit-popover")) {
 			console.error(
-				`${this.tagName.toLowerCase()} must be used inside hyperkit-popover`,
+				`${this.tagName.toLowerCase()} must be used inside <hyperkit-popover>`,
 				this,
 			);
+			throw new MissingTagError("hyperkit-popover");
 		}
 	}
 }

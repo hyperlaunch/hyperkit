@@ -48,6 +48,10 @@ class HyperkitModal extends HTMLElement {
 		this.modalElement = this;
 
 		if (!this.dismisserButton && !this.backdropElement) {
+			console.error(
+				"Missing dismiss button or backdrop in <hyperkit-modal>",
+				this,
+			);
 			throw new MissingButtonError();
 		}
 	}
@@ -168,6 +172,11 @@ class ModalTrigger extends HTMLElement {
 	private triggerButton: HTMLButtonElement | null = null;
 
 	connectedCallback() {
+		this.validateStructure();
+		this.attachClickListener();
+	}
+
+	private validateStructure() {
 		this.triggerButton = this.querySelector<HTMLButtonElement>("button");
 		if (!this.triggerButton) {
 			console.error("<hyperkit-modal-trigger> must contain a <button>");
@@ -185,8 +194,15 @@ class ModalTrigger extends HTMLElement {
 			);
 			throw new MismatchedTriggerError(modalName || "", modalName || "");
 		}
+	}
 
-		this.triggerButton.addEventListener("click", () => modal?.show());
+	private attachClickListener() {
+		const modalName = this.getAttribute("for");
+		const modal = document.querySelector<HyperkitModal>(
+			`hyperkit-modal[name="${modalName}"]`,
+		);
+
+		this.triggerButton?.addEventListener("click", () => modal?.show());
 	}
 }
 
@@ -194,6 +210,11 @@ class ModalDismisser extends HTMLElement {
 	private dismisserButton: HTMLButtonElement | null = null;
 
 	connectedCallback() {
+		this.validateStructure();
+		this.attachClickListener();
+	}
+
+	private validateStructure() {
 		if (!this.closest("hyperkit-modal")) {
 			console.error(
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
@@ -207,9 +228,11 @@ class ModalDismisser extends HTMLElement {
 			console.error("Button element is missing inside <hk-modal-dismisser>");
 			throw new MissingButtonError();
 		}
+	}
 
+	private attachClickListener() {
 		const modal = this.closest<HyperkitModal>("hyperkit-modal");
-		this.dismisserButton.addEventListener("click", () => modal?.hide());
+		this.dismisserButton?.addEventListener("click", () => modal?.hide());
 	}
 }
 
@@ -221,6 +244,11 @@ if (!customElements.get("hk-modal-dismisser"))
 
 class ModalBackdrop extends HTMLElement {
 	connectedCallback() {
+		this.validateStructure();
+		this.attachClickListener();
+	}
+
+	private validateStructure() {
 		if (!this.closest("hyperkit-modal")) {
 			console.error(
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
@@ -228,7 +256,9 @@ class ModalBackdrop extends HTMLElement {
 			);
 			throw new MissingTagError("hyperkit-modal");
 		}
+	}
 
+	private attachClickListener() {
 		const modal = this.closest<HyperkitModal>("hyperkit-modal");
 		this.addEventListener("click", () => modal?.hide());
 	}

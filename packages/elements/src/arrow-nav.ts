@@ -1,9 +1,27 @@
+class MissingTagError extends Error {
+	constructor(tagName: string) {
+		super(`Missing required tag: <${tagName}>`);
+		this.name = "MissingTagError";
+	}
+}
+
 class HyperkitArrowNav extends HTMLElement {
 	private focusableElements: HTMLElement[] = [];
 
 	connectedCallback() {
+		this.validateStructure();
 		this.initializeFocusableElements();
 		this.attachArrowKeyListener();
+	}
+
+	private validateStructure() {
+		const focusableElements = this.querySelectorAll<HTMLElement>(
+			"a, button, [tabindex]",
+		);
+		if (!focusableElements || focusableElements.length === 0) {
+			console.error("No focusable elements found inside <hyperkit-arrow-nav>");
+			throw new MissingTagError("a, button, [tabindex]");
+		}
 	}
 
 	private initializeFocusableElements() {
@@ -16,8 +34,10 @@ class HyperkitArrowNav extends HTMLElement {
 		);
 
 		if (this.focusableElements.length === 0) {
-			console.error("No focusable elements found inside <hyperkit-arrow-nav>");
-			throw new Error("Missing focusable elements");
+			console.error(
+				"No valid focusable elements found inside <hyperkit-arrow-nav>",
+			);
+			throw new Error("No valid focusable elements");
 		}
 	}
 
@@ -25,7 +45,6 @@ class HyperkitArrowNav extends HTMLElement {
 		this.addEventListener("keydown", (event: KeyboardEvent) => {
 			const activeElement = document.activeElement as HTMLElement;
 
-			// Only proceed if the focused element is inside <hyperkit-arrow-nav>
 			if (!this.focusableElements.includes(activeElement)) return;
 
 			if (event.key === "ArrowUp" || event.key === "ArrowDown") {
@@ -39,13 +58,10 @@ class HyperkitArrowNav extends HTMLElement {
 		const activeElement = document.activeElement as HTMLElement;
 		const currentIndex = this.focusableElements.indexOf(activeElement);
 
-		// If nothing is focused or the index is out of bounds, do nothing
 		if (currentIndex === -1) return;
 
-		// Prevent moving up when the first element is focused
 		if (currentIndex === 0 && direction === -1) return;
 
-		// Prevent moving down when the last element is focused
 		if (currentIndex === this.focusableElements.length - 1 && direction === 1)
 			return;
 

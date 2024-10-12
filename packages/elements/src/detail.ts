@@ -23,8 +23,15 @@ class HyperkitDetail extends HTMLElement {
 		this.triggerElement = this.querySelector("hk-detail-trigger");
 		this.contentElement = this.querySelector("hk-detail-content");
 
-		if (!this.triggerElement || !this.contentElement)
-			throw new MissingTagError("hk-detail-trigger or hk-detail-content");
+		if (!this.triggerElement) {
+			console.error("Missing <hk-detail-trigger> in <hyperkit-detail>");
+			throw new MissingTagError("hk-detail-trigger");
+		}
+
+		if (!this.contentElement) {
+			console.error("Missing <hk-detail-content> in <hyperkit-detail>");
+			throw new MissingTagError("hk-detail-content");
+		}
 	}
 
 	private initializeElements() {
@@ -40,8 +47,10 @@ class HyperkitDetail extends HTMLElement {
 		this.button =
 			this.triggerElement?.querySelector<HTMLButtonElement>("button");
 
-		if (!this.button)
+		if (!this.button) {
+			console.error("Missing <button> inside <hk-detail-trigger>");
 			throw new MissingTagError("button inside hk-detail-trigger");
+		}
 
 		if (!this.clickListenerAdded) {
 			this.button.addEventListener("click", (event) => {
@@ -131,14 +140,24 @@ class HyperkitAccordion extends HTMLElement {
 	private details: HyperkitDetail[] = [];
 
 	connectedCallback() {
+		this.validateStructure();
 		this.initializeDetails();
 	}
 
-	private initializeDetails() {
+	private validateStructure() {
 		this.details = Array.from(
 			this.querySelectorAll<HyperkitDetail>("hyperkit-detail"),
 		);
 
+		if (this.details.length === 0) {
+			console.error(
+				"No <hyperkit-detail> elements found in <hyperkit-accordion>",
+			);
+			throw new MissingTagError("hyperkit-detail");
+		}
+	}
+
+	private initializeDetails() {
 		for (const detail of this.details) {
 			detail.addEventListener("change", (event) => {
 				const customEvent = event as CustomEvent<{ visible: boolean }>;
