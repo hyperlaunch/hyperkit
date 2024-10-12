@@ -1,6 +1,9 @@
+import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
-class HyperkitDetail extends HTMLElement {
+class HyperkitDetail extends HyperkitElement<
+	{ type: "open" } | { type: "close" }
+> {
 	private triggerElement: HTMLElement | null = null;
 	private contentElement: HTMLElement | null = null;
 	private button?: HTMLButtonElement | null = null;
@@ -81,16 +84,11 @@ class HyperkitDetail extends HTMLElement {
 
 		if (transitionElement) {
 			transitionElement.exit();
-			transitionElement.addEventListener(
-				"change",
-				(event) => {
-					const customEvent = event as CustomEvent<{
-						state: "entered" | "exited";
-					}>;
-					if (customEvent.detail.state === "exited") {
-						this.contentElement?.setAttribute("hidden", "");
-						this.contentElement?.setAttribute("aria-hidden", "true");
-					}
+			transitionElement.on(
+				"exit",
+				() => {
+					this.contentElement?.setAttribute("hidden", "");
+					this.contentElement?.setAttribute("aria-hidden", "true");
 				},
 				{ once: true },
 			);
@@ -105,12 +103,13 @@ class HyperkitDetail extends HTMLElement {
 	private setVisible(visible: boolean) {
 		if (this.button) {
 			if (visible) {
+				this.trigger("open");
 				this.button.setAttribute("data-visible", "true");
 			} else {
+				this.trigger("close");
 				this.button.removeAttribute("data-visible");
 			}
 		}
-		this.dispatchEvent(new CustomEvent("change", { detail: { visible } }));
 	}
 }
 
@@ -118,7 +117,7 @@ if (!customElements.get("hyperkit-detail")) {
 	customElements.define("hyperkit-detail", HyperkitDetail);
 }
 
-class HyperkitAccordion extends HTMLElement {
+class HyperkitAccordion extends HyperkitElement {
 	private details: HyperkitDetail[] = [];
 
 	connectedCallback() {
@@ -140,16 +139,11 @@ class HyperkitAccordion extends HTMLElement {
 	}
 
 	private initializeDetails() {
-		for (const detail of this.details) {
-			detail.addEventListener("change", (event) => {
-				const customEvent = event as CustomEvent<{ visible: boolean }>;
-				if (customEvent.detail.visible) this.closeOtherDetails(detail);
-			});
-		}
+		for (const detail of this.details)
+			detail.on("open", () => this.closeOtherDetails(detail));
 
-		for (const [index, detail] of this.details.entries()) {
+		for (const [index, detail] of this.details.entries())
 			index !== 0 ? detail.hide() : detail.show();
-		}
 	}
 
 	private closeOtherDetails(openDetail: HyperkitDetail) {

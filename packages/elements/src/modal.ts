@@ -1,6 +1,9 @@
+import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
-class HyperkitModal extends HTMLElement {
+export class HyperkitModal extends HyperkitElement<
+	{ type: "open" } | { type: "close" }
+> {
 	private dismisserButton: HTMLButtonElement | null = null;
 	private backdropElement: HTMLElement | null = null;
 
@@ -104,7 +107,7 @@ class HyperkitModal extends HTMLElement {
 	}
 
 	private setVisible(visible: boolean) {
-		this.dispatchEvent(new CustomEvent("change", { detail: { visible } }));
+		this.trigger(visible ? "open" : "close");
 	}
 
 	private attachOutsideClickListener() {

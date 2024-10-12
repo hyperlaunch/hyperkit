@@ -22,9 +22,6 @@ Tags:
 <hyperkit-detail>…</hyperkit-detail>
 ```
 
-### `<hyperkit-accordion />` Options
-
-There are no specific options for `<hyperkit-accordion />`. It automatically manages the visibility of nested `<hyperkit-detail />` elements, ensuring only one is open at a time.
 
 ### `<hyperkit-detail />` Options
 
@@ -38,6 +35,10 @@ There are no specific options for `<hyperkit-accordion />`. It automatically man
 * If set, the detail content is hidden by default. Can be toggled programmatically.
 ---
 {% /table %}
+
+### `<hyperkit-accordion />` Options
+
+There are no specific options for `<hyperkit-accordion />`. It automatically manages the visibility of nested `<hyperkit-detail />` elements, ensuring only one is open at a time.
 
 ## Children
 
@@ -73,11 +74,11 @@ There are no specific options for `<hyperkit-accordion />`. It automatically man
 
 ## JavaScript API
 
-The `hyperkit-accordion` and `hyperkit-detail` elements provide a simple JavaScript API to interact with their visibility.
+The `hyperkit-detail` element provides a simple JavaScript API to interact with its visibility. There is no JavaScript API for `hyperkit-accordion`.
 
 ### Showing or Hiding Details
 
-Both `hyperkit-accordion` and `hyperkit-detail` expose `show()` and `hide()` methods to control visibility.
+The `hyperkit-detail` exposes `show()` and `hide()` methods to control visibility.
 
 #### Example Usage
 
@@ -93,11 +94,15 @@ detail.hide();
 
 ### Listening for Visibility Changes
 
-The `hyperkit-detail` emits a `change` event whenever its visibility changes. The event detail contains information about whether the item is currently visible.
+The `hyperkit-detail` emits `open` and `close` events that you can listen for using the `on` method. This is triggered when the visibility of the detail changes.
 
 ```js
-detail.addEventListener("change", (event) => {
-  console.log("Detail is now", event.detail.visible ? "visible" : "hidden");
+detail.on("open", () => {
+  console.log("Detail is now open");
+});
+
+detail.on("close", () => {
+  console.log("Detail is now closed");
 });
 ```
 

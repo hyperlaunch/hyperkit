@@ -1,4 +1,8 @@
-export class HyperkitTransition extends HTMLElement {
+import { HyperkitElement } from "./hyperkit-element";
+
+export class HyperkitTransition extends HyperkitElement<
+	{ type: "enter" } | { type: "exit" }
+> {
 	private enterClass = this.getAttribute("enter-class") ?? "";
 	private enterFromClass = this.getAttribute("enter-from-class") ?? "";
 	private enterToClass = this.getAttribute("enter-to-class") ?? "";
@@ -24,13 +28,7 @@ export class HyperkitTransition extends HTMLElement {
 			this.applyClass(this.enterToClass);
 		});
 
-		setTimeout(
-			() =>
-				this.dispatchEvent(
-					new CustomEvent("change", { detail: { state: "entered" } }),
-				),
-			this.getTransitionDuration(),
-		);
+		setTimeout(() => this.trigger("enter"), this.getTransitionDuration());
 	}
 
 	exit() {
@@ -44,13 +42,7 @@ export class HyperkitTransition extends HTMLElement {
 			this.removeClass(this.exitFromClass);
 			this.applyClass(this.exitToClass);
 
-			setTimeout(
-				() =>
-					this.dispatchEvent(
-						new CustomEvent("change", { detail: { state: "exited" } }),
-					),
-				this.getTransitionDuration(),
-			);
+			setTimeout(() => this.trigger("exit"), this.getTransitionDuration());
 		});
 	}
 
