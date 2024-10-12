@@ -31,13 +31,13 @@ const {
   id={includeEventListenerExample && "my-calendar"}
 >
   <div class="flex justify-between items-center mb-4">
-    <hk-previous-month>
+    <h7-previous-month>
       <button class="text-zinc-600 hover:text-zinc-800 text-xl">&lt;</button>
-    </hk-previous-month>
-    <hk-current-month class="text-xl font-bold text-zinc-800"></hk-current-month>
-    <hk-next-month>
+    </h7-previous-month>
+    <h7-current-month class="text-xl font-bold text-zinc-800"></h7-current-month>
+    <h7-next-month>
       <button class="text-zinc-600 hover:text-zinc-800 text-xl">&gt;</button>
-    </hk-next-month>
+    </h7-next-month>
   </div>
 
   <div class="grid grid-cols-7 gap-1 mb-2">
@@ -50,7 +50,7 @@ const {
     <div class="text-center text-xs font-semibold text-zinc-600">S</div>
   </div>
 
-  <hk-days-list class="grid grid-cols-7 gap-1"></hk-days-list>
+  <h7-days-list class="grid grid-cols-7 gap-1"></h7-days-list>
   <button
     slot="day-number"
     class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer text-xs hover:bg-zinc-100 focus:ring-1 focus:ring-lime-500 focus:bg-lime-200 transition-colors duration-200 data-[today]:bg-lime-600 text-zinc-800 data-[today]:text-white data-[selected]:bg-lime-200 data-[other-month]:text-zinc-400 disabled:text-zinc-400"

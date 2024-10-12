@@ -10,12 +10,12 @@ const items = ["First", "Second", "Third"];
   {
     items.map((item, i) => (
       <hyperkit-detail class="mb-4 pb-4 border-b border-b-zinc-200 last:mb-0 last:pb-0 last:border-0 block">
-        <hk-detail-trigger>
+        <h7-detail-trigger>
           <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-600 data-[visible]:text-lime-500 hover:text-zinc-900">
             {item} Item
           </button>
-        </hk-detail-trigger>
-        <hk-detail-content hidden={i > 0} class="mt-2 text-xs text-zinc-600">
+        </h7-detail-trigger>
+        <h7-detail-content hidden={i > 0} class="mt-2 text-xs text-zinc-600">
           {useTransition ? (
             <hyperkit-transition
               class="block"
@@ -31,7 +31,7 @@ const items = ["First", "Second", "Third"];
           ) : (
             <>This is some example content for the detail item.</>
           )}
-        </hk-detail-content>
+        </h7-detail-content>
       </hyperkit-detail>
     ))
   }

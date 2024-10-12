@@ -44,29 +44,29 @@ There are no specific options for `<hyperkit-accordion />`. It automatically man
 ```html
 <!-- Standalone Detail -->
 <hyperkit-detail>
-  <hk-detail-trigger><button /></hk-detail-trigger>
-  <hk-detail-content />
+  <h7-detail-trigger><button /></h7-detail-trigger>
+  <h7-detail-content />
 </hyperkit-detail>
 
 <!-- Accordion with Multiple Details -->
 <hyperkit-accordion>
   <hyperkit-detail>
-    <hk-detail-trigger><button /></hk-detail-trigger>
-    <hk-detail-content />
+    <h7-detail-trigger><button /></h7-detail-trigger>
+    <h7-detail-content />
   </hyperkit-detail>
   <hyperkit-detail>
-    <hk-detail-trigger><button /></hk-detail-trigger>
-    <hk-detail-content />
+    <h7-detail-trigger><button /></h7-detail-trigger>
+    <h7-detail-content />
   </hyperkit-detail>
 </hyperkit-accordion>
 ```
 
-#### `<hk-detail-trigger />`
+#### `<h7-detail-trigger />`
 
 * Acts as the trigger for expanding or collapsing the detail content.
 * Must contain a `<button />` for accessibility.
 
-#### `<hk-detail-content />`
+#### `<h7-detail-content />`
 
 * Holds the content that will be shown or hidden.
 * Hidden by default unless explicitly set to visible or controlled programmatically.
@@ -105,7 +105,7 @@ detail.addEventListener("change", (event) => {
 
 ### Styling the Details
 
-You can apply custom styles to both the details and their triggers. The button inside `<hk-detail-trigger>` can be styled to indicate its open state. The trigger button also receives a `data-visible` attribute when the corresponding detail is visible.
+You can apply custom styles to both the details and their triggers. The button inside `<h7-detail-trigger>` can be styled to indicate its open state. The trigger button also receives a `data-visible` attribute when the corresponding detail is visible.
 
 #### Example of a Styled Detail
 
@@ -113,14 +113,14 @@ You can apply custom styles to both the details and their triggers. The button i
 
 ```html
 <hyperkit-detail class="w-96 bg-white rounded-lg shadow-lg p-4">
-  <hk-detail-trigger>
+  <h7-detail-trigger>
     <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-700 data-[visible]:text-zinc-900 hover:text-zinc-600 transition-colors duration-200">
       Section Title
     </button>
-  </hk-detail-trigger>
-  <hk-detail-content class="mt-2 text-xs text-zinc-600">
+  </h7-detail-trigger>
+  <h7-detail-content class="mt-2 text-xs text-zinc-600">
     This is some example content for the detail.
-  </hk-detail-content>
+  </h7-detail-content>
 </hyperkit-detail>
 ```
 
@@ -132,8 +132,8 @@ To animate the visibility of the detail, use the `<hyperkit-transition />` eleme
 
 ```html
 <hyperkit-detail>
-  <hk-detail-trigger><button /></hk-detail-trigger>
-  <hk-detail-content>
+  <h7-detail-trigger><button /></h7-detail-trigger>
+  <h7-detail-content>
     <hyperkit-transition
       class="block"
       enter-class="transition-all duration-500 ease-in"
@@ -145,7 +145,7 @@ To animate the visibility of the detail, use the `<hyperkit-transition />` eleme
     >
       …
     </hyperkit-transition>
-  </hk-detail-content>
+  </h7-detail-content>
 </hyperkit-detail>
 ```
 

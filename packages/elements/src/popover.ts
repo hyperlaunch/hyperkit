@@ -18,15 +18,15 @@ export class HyperkitPopover extends HTMLElement {
 	}
 
 	private getButtonForTrigger() {
-		const triggerElement = this.querySelector("hk-popover-trigger");
+		const triggerElement = this.querySelector("h7-popover-trigger");
 		if (!triggerElement) {
-			console.error("hk-popover-trigger tag is missing in the markup", this);
+			console.error("h7-popover-trigger tag is missing in the markup", this);
 		}
 
 		const button = triggerElement?.querySelector<HTMLButtonElement>("button");
 		if (!button) {
 			console.error(
-				"Button element is missing inside hk-popover-trigger",
+				"Button element is missing inside h7-popover-trigger",
 				this,
 			);
 		}
@@ -36,9 +36,9 @@ export class HyperkitPopover extends HTMLElement {
 
 	private getContentElement() {
 		const contentElement =
-			this.querySelector<HTMLElement>("hk-popover-content");
+			this.querySelector<HTMLElement>("h7-popover-content");
 		if (!contentElement) {
-			console.error("hk-popover-content tag is missing in the markup", this);
+			console.error("h7-popover-content tag is missing in the markup", this);
 		}
 
 		return contentElement;
@@ -161,7 +161,7 @@ class ChildElement extends HTMLElement {
 	}
 }
 
-for (const tag of ["hk-popover-trigger", "hk-popover-content"]) {
+for (const tag of ["h7-popover-trigger", "h7-popover-content"]) {
 	if (!customElements.get(tag))
 		customElements.define(tag, class extends ChildElement {});
 }

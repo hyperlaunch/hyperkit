@@ -56,7 +56,7 @@ Tags:
 <hyperkit-modal-trigger><button/></hyperkit-modal-trigger>
 <hyperkit-modal />
   …
-  <hk-modal-dismisser><button /></hk-modal-dismisser>
+  <h7-modal-dismisser><button /></h7-modal-dismisser>
 </hyperkit-modal>
 ```
 
@@ -65,12 +65,12 @@ Tags:
 * Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `name` attribute.
 * Must contain a `<button />` for accessibility.
 
-#### `<hk-modal-dismisser />`
+#### `<h7-modal-dismisser />`
 
 * A button used to dismiss the modal.
 * Must contain a `<button />` for accessibility.
 
-#### `<hk-modal-backdrop />`
+#### `<h7-modal-backdrop />`
 
 * A backdrop that dismisses the modal when clicked.
 * Can be nested inside the modal and will trigger dismissal when clicked.
@@ -127,13 +127,13 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
 </hyperkit-modal-trigger>
 <hyperkit-modal>
     <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
-    <hk-modal-backdrop class="absolute inset-0 z-10" />
+    <h7-modal-backdrop class="absolute inset-0 z-10" />
     <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
         <div class="flex justify-between items-center mb-2 text-zinc-800">
         <div class="font-bold">Transitioning Modal Title</div>
-        <hk-modal-dismisser>
+        <h7-modal-dismisser>
             <button class="text-xs">Close</button>
-        </hk-modal-dismisser>
+        </h7-modal-dismisser>
         </div>
         <div class="text-xs text-zinc-600">
         This is some example content for the modal.
@@ -157,7 +157,7 @@ To ensure the modal is hidden by default, add the `hidden` attribute. The modal 
 
 ### Using a Backdrop to Dismiss the Modal
 
-To dismiss the modal by clicking on the backdrop, use the `<hk-modal-backdrop />` element. When clicked, it will hide the modal.
+To dismiss the modal by clicking on the backdrop, use the `<h7-modal-backdrop />` element. When clicked, it will hide the modal.
 
 {% example %}
 {% modal name="backdropModal" / %}
@@ -165,7 +165,7 @@ To dismiss the modal by clicking on the backdrop, use the `<hk-modal-backdrop />
 
 ```html
 <hyperkit-modal>
-  <hk-modal-backdrop />
+  <h7-modal-backdrop />
   …
 </hyperkit-modal>
 ```

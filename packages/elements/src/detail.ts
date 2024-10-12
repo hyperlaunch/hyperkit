@@ -13,15 +13,15 @@ class HyperkitDetail extends HTMLElement {
 	}
 
 	private validateStructure() {
-		this.triggerElement = this.querySelector("hk-detail-trigger");
-		this.contentElement = this.querySelector("hk-detail-content");
+		this.triggerElement = this.querySelector("h7-detail-trigger");
+		this.contentElement = this.querySelector("h7-detail-content");
 
 		if (!this.triggerElement) {
-			console.error("Missing <hk-detail-trigger> in <hyperkit-detail>", this);
+			console.error("Missing <h7-detail-trigger> in <hyperkit-detail>", this);
 		}
 
 		if (!this.contentElement) {
-			console.error("Missing <hk-detail-content> in <hyperkit-detail>", this);
+			console.error("Missing <h7-detail-content> in <hyperkit-detail>", this);
 		}
 	}
 

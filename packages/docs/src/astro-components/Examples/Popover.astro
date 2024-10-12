@@ -8,16 +8,16 @@ const { contentHidden = false, useTransition = false } = Astro.props;
 ---
 
 <hyperkit-popover class="relative w-64 block">
-  <hk-popover-trigger>
+  <h7-popover-trigger>
     <button
       class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center font-medium w-min whitespace-nowrap"
     >
       Open Popover
     </button>
-  </hk-popover-trigger>
+  </h7-popover-trigger>
   {
     useTransition ? (
-      <hk-popover-content hidden={contentHidden}>
+      <h7-popover-content hidden={contentHidden}>
         <hyperkit-transition
           enter-class="transition-all duration-500 ease-in"
           enter-from-class="opacity-0"
@@ -36,9 +36,9 @@ const { contentHidden = false, useTransition = false } = Astro.props;
             </div>
           </div>
         </hyperkit-transition>
-      </hk-popover-content>
+      </h7-popover-content>
     ) : (
-      <hk-popover-content hidden={contentHidden}>
+      <h7-popover-content hidden={contentHidden}>
         <div class="w-80 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2 p-4">
           <div class="font-bold text-zinc-800 mb-1">Popover Title</div>
           <div class="text-xs text-zinc-600">
@@ -46,7 +46,7 @@ const { contentHidden = false, useTransition = false } = Astro.props;
             content here.
           </div>
         </div>
-      </hk-popover-content>
+      </h7-popover-content>
     )
   }
 </hyperkit-popover>

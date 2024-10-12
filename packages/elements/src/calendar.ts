@@ -60,11 +60,11 @@ export class HyperkitCalendar extends HTMLElement {
 	}
 
 	private validateStructure() {
-		const daysList = this.querySelector("hk-days-list");
+		const daysList = this.querySelector("h7-days-list");
 		const dayButton = this.querySelector('button[slot="day-number"]');
 
 		if (!daysList) {
-			console.error("hk-days-list is missing in the markup", this);
+			console.error("h7-days-list is missing in the markup", this);
 		}
 
 		if (!dayButton) {
@@ -76,7 +76,7 @@ export class HyperkitCalendar extends HTMLElement {
 		this.inputElement = document.querySelector(
 			`input[id="${this.getAttribute("for")}"]`,
 		);
-		this.monthElement = this.querySelector("hk-current-month");
+		this.monthElement = this.querySelector("h7-current-month");
 
 		this.dayButtonTemplate = this.querySelector<HTMLButtonElement>(
 			'button[slot="day-number"]',
@@ -97,12 +97,12 @@ export class HyperkitCalendar extends HTMLElement {
 
 	private setupNavigationButtons() {
 		this.setupButton({
-			selector: "hk-previous-month button",
+			selector: "h7-previous-month button",
 			callback: () => this.changeMonth(-1),
 		});
 
 		this.setupButton({
-			selector: "hk-next-month button",
+			selector: "h7-next-month button",
 			callback: () => this.changeMonth(1),
 		});
 	}
@@ -127,7 +127,7 @@ export class HyperkitCalendar extends HTMLElement {
 	}
 
 	private get daysElement(): HTMLElement | null {
-		return this.querySelector("hk-days-list");
+		return this.querySelector("h7-days-list");
 	}
 
 	render() {
@@ -301,10 +301,10 @@ class ChildElement extends HTMLElement {
 }
 
 for (const tag of [
-	"hk-previous-month",
-	"hk-next-month",
-	"hk-current-month",
-	"hk-days-list",
+	"h7-previous-month",
+	"h7-next-month",
+	"h7-current-month",
+	"h7-days-list",
 ]) {
 	if (!customElements.get(tag))
 		customElements.define(tag, class extends ChildElement {});

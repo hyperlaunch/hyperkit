@@ -33,17 +33,17 @@ class HyperkitModal extends HTMLElement {
 		this.dismisserButton = this.getButtonForDismisser();
 		if (!this.dismisserButton) {
 			console.warn(
-				"Optional dismiss button is missing in <hk-modal-dismisser>",
+				"Optional dismiss button is missing in <h7-modal-dismisser>",
 				this,
 			);
 		}
 
-		this.backdropElement = this.querySelector("hk-modal-backdrop");
+		this.backdropElement = this.querySelector("h7-modal-backdrop");
 	}
 
 	private getButtonForDismisser(): HTMLButtonElement | null {
 		const dismisser = this.querySelector<HTMLButtonElement>(
-			"hk-modal-dismisser button",
+			"h7-modal-dismisser button",
 		);
 		return dismisser;
 	}
@@ -192,7 +192,7 @@ class ModalDismisser extends HTMLElement {
 		this.dismisserButton = this.querySelector<HTMLButtonElement>("button");
 		if (!this.dismisserButton) {
 			console.error(
-				"Button element is missing inside <hk-modal-dismisser>",
+				"Button element is missing inside <h7-modal-dismisser>",
 				this,
 			);
 		}
@@ -204,8 +204,8 @@ class ModalDismisser extends HTMLElement {
 	}
 }
 
-if (!customElements.get("hk-modal-dismisser"))
-	customElements.define("hk-modal-dismisser", ModalDismisser);
+if (!customElements.get("h7-modal-dismisser"))
+	customElements.define("h7-modal-dismisser", ModalDismisser);
 
 class ModalBackdrop extends HTMLElement {
 	connectedCallback() {
@@ -228,5 +228,5 @@ class ModalBackdrop extends HTMLElement {
 	}
 }
 
-if (!customElements.get("hk-modal-backdrop"))
-	customElements.define("hk-modal-backdrop", ModalBackdrop);
+if (!customElements.get("h7-modal-backdrop"))
+	customElements.define("h7-modal-backdrop", ModalBackdrop);
