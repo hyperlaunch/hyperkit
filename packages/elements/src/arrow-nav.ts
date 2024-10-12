@@ -1,5 +1,3 @@
-import MissingTagError from "./missing-tag-error";
-
 export class HyperkitArrowNav extends HTMLElement {
 	private focusableElements: HTMLElement[] = [];
 
@@ -18,7 +16,6 @@ export class HyperkitArrowNav extends HTMLElement {
 				"No focusable elements found inside <hyperkit-arrow-nav>",
 				this,
 			);
-			throw new MissingTagError("a, button, [tabindex]");
 		}
 	}
 

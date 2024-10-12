@@ -13,7 +13,7 @@ const { targetElementId } = Astro.props;
     connectedCallback() {
       const targetElementId = this.dataset.targetId;
 
-      if (!targetElementId) throw new Error("Missing data-target-id");
+      if (!targetElementId) return console.error("Missing data-target-id");
 
       const targetElement = document.getElementById(targetElementId);
 

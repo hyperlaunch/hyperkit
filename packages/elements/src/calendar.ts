@@ -1,5 +1,3 @@
-import MissingTagError from "./missing-tag-error";
-
 export class HyperkitCalendar extends HTMLElement {
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
@@ -67,12 +65,10 @@ export class HyperkitCalendar extends HTMLElement {
 
 		if (!daysList) {
 			console.error("hk-days-list is missing in the markup", this);
-			throw new MissingTagError("hk-days-list");
 		}
 
 		if (!dayButton) {
 			console.error("button[slot='day-number'] is missing in the markup", this);
-			throw new MissingTagError("button[slot='day-number']");
 		}
 	}
 

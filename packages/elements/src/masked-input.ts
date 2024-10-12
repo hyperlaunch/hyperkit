@@ -1,5 +1,3 @@
-import MissingTagError from "./missing-tag-error";
-
 export class HyperkitMaskedInput extends HTMLElement {
 	private inputElement: HTMLInputElement | null = null;
 
@@ -16,7 +14,6 @@ export class HyperkitMaskedInput extends HTMLElement {
 				"Input element is missing in <hyperkit-masked-input>",
 				this,
 			);
-			throw new MissingTagError("input");
 		}
 	}
 

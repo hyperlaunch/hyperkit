@@ -1,11 +1,4 @@
-import MissingTagError from "./missing-tag-error";
 import type { HyperkitTransition } from "./transition";
-
-class MismatchedTriggerError extends Error {
-	constructor() {
-		super("Mismatched trigger and modal attributes");
-	}
-}
 
 class HyperkitModal extends HTMLElement {
 	private dismisserButton: HTMLButtonElement | null = null;
@@ -35,7 +28,6 @@ class HyperkitModal extends HTMLElement {
 				`No matching modal for trigger's "for" attribute: ${modalName}`,
 				this,
 			);
-			throw new MismatchedTriggerError();
 		}
 
 		this.dismisserButton = this.getButtonForDismisser();
@@ -154,7 +146,6 @@ class ModalTrigger extends HTMLElement {
 		this.triggerButton = this.querySelector<HTMLButtonElement>("button");
 		if (!this.triggerButton) {
 			console.error("<hyperkit-modal-trigger> must contain a <button>", this);
-			throw new MissingTagError("button");
 		}
 
 		const modalName = this.getAttribute("for");
@@ -167,7 +158,6 @@ class ModalTrigger extends HTMLElement {
 				`No matching modal for trigger's "for" attribute: ${modalName}`,
 				this,
 			);
-			throw new MismatchedTriggerError();
 		}
 	}
 
@@ -197,7 +187,6 @@ class ModalDismisser extends HTMLElement {
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
 				this,
 			);
-			throw new MissingTagError("hyperkit-modal");
 		}
 
 		this.dismisserButton = this.querySelector<HTMLButtonElement>("button");
@@ -206,7 +195,6 @@ class ModalDismisser extends HTMLElement {
 				"Button element is missing inside <hk-modal-dismisser>",
 				this,
 			);
-			throw new MissingTagError("button");
 		}
 	}
 
@@ -231,7 +219,6 @@ class ModalBackdrop extends HTMLElement {
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
 				this,
 			);
-			throw new MissingTagError("hyperkit-modal");
 		}
 	}
 

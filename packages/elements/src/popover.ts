@@ -1,8 +1,7 @@
-import MissingTagError from "./missing-tag-error";
 import type { HyperkitTransition } from "./transition";
 
-class HyperkitPopover extends HTMLElement {
-	private triggerButton: HTMLButtonElement | null = null;
+export class HyperkitPopover extends HTMLElement {
+	private triggerButton?: HTMLButtonElement | null = null;
 	private contentElement: HTMLElement | null = null;
 
 	public connectedCallback() {
@@ -22,16 +21,14 @@ class HyperkitPopover extends HTMLElement {
 		const triggerElement = this.querySelector("hk-popover-trigger");
 		if (!triggerElement) {
 			console.error("hk-popover-trigger tag is missing in the markup", this);
-			throw new MissingTagError("hk-popover-trigger");
 		}
 
-		const button = triggerElement.querySelector<HTMLButtonElement>("button");
+		const button = triggerElement?.querySelector<HTMLButtonElement>("button");
 		if (!button) {
 			console.error(
 				"Button element is missing inside hk-popover-trigger",
 				this,
 			);
-			throw new MissingTagError("button");
 		}
 
 		return button;
@@ -42,7 +39,6 @@ class HyperkitPopover extends HTMLElement {
 			this.querySelector<HTMLElement>("hk-popover-content");
 		if (!contentElement) {
 			console.error("hk-popover-content tag is missing in the markup", this);
-			throw new MissingTagError("hk-popover-content");
 		}
 
 		return contentElement;
@@ -161,7 +157,6 @@ class ChildElement extends HTMLElement {
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-popover>`,
 				this,
 			);
-			throw new MissingTagError("hyperkit-popover");
 		}
 	}
 }

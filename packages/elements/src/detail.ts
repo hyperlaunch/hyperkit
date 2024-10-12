@@ -1,4 +1,3 @@
-import MissingTagError from "./missing-tag-error";
 import type { HyperkitTransition } from "./transition";
 
 class HyperkitDetail extends HTMLElement {
@@ -19,12 +18,10 @@ class HyperkitDetail extends HTMLElement {
 
 		if (!this.triggerElement) {
 			console.error("Missing <hk-detail-trigger> in <hyperkit-detail>", this);
-			throw new MissingTagError("hk-detail-trigger");
 		}
 
 		if (!this.contentElement) {
 			console.error("Missing <hk-detail-content> in <hyperkit-detail>", this);
-			throw new MissingTagError("hk-detail-content");
 		}
 	}
 
@@ -139,7 +136,6 @@ class HyperkitAccordion extends HTMLElement {
 				"No <hyperkit-detail> elements found in <hyperkit-accordion>",
 				this,
 			);
-			throw new MissingTagError("hyperkit-detail");
 		}
 	}
 
