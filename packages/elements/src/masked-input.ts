@@ -1,4 +1,6 @@
-export class HyperkitMaskedInput extends HTMLElement {
+import { HyperkitElement } from "./hyperkit-element";
+
+export class HyperkitMaskedInput extends HyperkitElement {
 	private inputElement: HTMLInputElement | null = null;
 
 	connectedCallback() {
@@ -118,10 +120,10 @@ export class HyperkitMaskedInput extends HTMLElement {
 	}) {
 		const rawValue = target.value.replace(/[^a-zA-Z\d\-]/g, "");
 
-		const newValue =
+		const current =
 			rawValue.slice(0, cursorPosition - 1) + rawValue.slice(cursorPosition);
 
-		const formattedValue = this.formatByMask({ value: newValue, mask });
+		const formattedValue = this.formatByMask({ value: current, mask });
 		target.value = formattedValue;
 
 		const newCursorPosition = Math.max(cursorPosition - 1, 0);

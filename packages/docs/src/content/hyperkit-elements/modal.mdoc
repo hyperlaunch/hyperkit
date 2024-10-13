@@ -97,11 +97,15 @@ modal.hide();
 
 ### Listening for Visibility Changes
 
-The `hyperkit-modal` element emits a `change` event whenever its visibility changes. The event detail contains information about whether the modal is currently visible.
+The `hyperkit-modal` emits `open` and `close` events that you can listen for using the `on` method. This is triggered when the visibility of the modal changes.
 
 ```js
-modal.addEventListener("change", (event) => {
-  console.log("Modal is now", event.detail.visible ? "visible" : "hidden");
+detail.on("show", () => {
+  console.log("Modal is now open");
+});
+
+detail.on("hide", () => {
+  console.log("Modal is now closed");
 });
 ```
 

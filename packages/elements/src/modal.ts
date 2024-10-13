@@ -2,7 +2,7 @@ import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
 export class HyperkitModal extends HyperkitElement<
-	{ type: "open" } | { type: "close" }
+	{ type: "show" } | { type: "hide" }
 > {
 	private dismisserButton: HTMLButtonElement | null = null;
 	private backdropElement: HTMLElement | null = null;
@@ -107,7 +107,7 @@ export class HyperkitModal extends HyperkitElement<
 	}
 
 	private setVisible(visible: boolean) {
-		this.trigger(visible ? "open" : "close");
+		this.fire(visible ? "show" : "hide");
 	}
 
 	private attachOutsideClickListener() {
@@ -185,7 +185,7 @@ class ModalDismisser extends HTMLElement {
 	}
 
 	private validateStructure() {
-		if (!this.closest("hyperkit-modal")) {
+		if (!this.hidest("hyperkit-modal")) {
 			console.error(
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
 				this,
@@ -202,7 +202,7 @@ class ModalDismisser extends HTMLElement {
 	}
 
 	private attachClickListener() {
-		const modal = this.closest<HyperkitModal>("hyperkit-modal");
+		const modal = this.hidest<HyperkitModal>("hyperkit-modal");
 		this.dismisserButton?.addEventListener("click", () => modal?.hide());
 	}
 }
@@ -217,7 +217,7 @@ class ModalBackdrop extends HTMLElement {
 	}
 
 	private validateStructure() {
-		if (!this.closest("hyperkit-modal")) {
+		if (!this.hidest("hyperkit-modal")) {
 			console.error(
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
 				this,
@@ -226,7 +226,7 @@ class ModalBackdrop extends HTMLElement {
 	}
 
 	private attachClickListener() {
-		const modal = this.closest<HyperkitModal>("hyperkit-modal");
+		const modal = this.hidest<HyperkitModal>("hyperkit-modal");
 		this.addEventListener("click", () => modal?.hide());
 	}
 }

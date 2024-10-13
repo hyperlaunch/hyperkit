@@ -1,4 +1,9 @@
-export class HyperkitCalendar extends HTMLElement {
+import { HyperkitElement } from "./hyperkit-element";
+
+export class HyperkitCalendar extends HyperkitElement<{
+	type: "change";
+	detail: { previous?: string; current: string };
+}> {
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
@@ -258,16 +263,15 @@ export class HyperkitCalendar extends HTMLElement {
 	}
 
 	private selectDate({ date }: { date: Date }) {
-		const previousValue =
-			this.selectedDate && this.formatDate(this.selectedDate);
+		const previous = this.selectedDate
+			? this.formatDate(this.selectedDate)
+			: undefined;
 		this.selectedDate = date;
 		this.updateInputElement();
 		this.render();
-		this.dispatchEvent(
-			new CustomEvent("change", {
-				detail: { previousValue, newValue: this.formatDate(date) },
-			}),
-		);
+		this.fire("change", {
+			detail: { previous, current: this.formatDate(date) },
+		});
 	}
 
 	private formatDate(date: Date) {

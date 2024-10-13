@@ -28,7 +28,7 @@ export class HyperkitTransition extends HyperkitElement<
 			this.applyClass(this.enterToClass);
 		});
 
-		setTimeout(() => this.trigger("enter"), this.getTransitionDuration());
+		setTimeout(() => this.fire("enter"), this.getTransitionDuration());
 	}
 
 	exit() {
@@ -42,7 +42,7 @@ export class HyperkitTransition extends HyperkitElement<
 			this.removeClass(this.exitFromClass);
 			this.applyClass(this.exitToClass);
 
-			setTimeout(() => this.trigger("exit"), this.getTransitionDuration());
+			setTimeout(() => this.fire("exit"), this.getTransitionDuration());
 		});
 	}
 

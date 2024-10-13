@@ -7,11 +7,11 @@ import Layout from "../astro-components/Layout.astro";
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const entries = await getCollection("hyperkit-elements");
-  return entries.map((entry) => ({
-    params: { element: entry.slug },
-    props: { entry },
-  }));
+	const entries = await getCollection("hyperkit-elements");
+	return entries.map((entry) => ({
+		params: { element: entry.slug },
+		props: { entry },
+	}));
 }
 
 const { entry } = Astro.props;

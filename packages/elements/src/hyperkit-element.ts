@@ -7,7 +7,7 @@ interface BaseEvent {
 export abstract class HyperkitElement<
 	T extends BaseEvent | undefined = undefined,
 > extends HTMLElement {
-	public trigger<K extends T extends BaseEvent ? T["type"] : never>(
+	public fire<K extends T extends BaseEvent ? T["type"] : never>(
 		eventName: K,
 		options?: CustomEventInit<Extract<T, { type: K }>["detail"]>,
 	): void {

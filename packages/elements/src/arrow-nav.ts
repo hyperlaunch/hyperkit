@@ -1,4 +1,6 @@
-export class HyperkitArrowNav extends HTMLElement {
+import { HyperkitElement } from "./hyperkit-element";
+
+export class HyperkitArrowNav extends HyperkitElement {
 	private focusableElements: HTMLElement[] = [];
 
 	connectedCallback() {

@@ -84,13 +84,15 @@ transitionElement.exit();
 
 ### Listening for Transition Events
 
-The element emits a `change` event whenever a transition occurs. The event includes a `state` property indicating whether the transition has entered or exited.
+The `hyperkit-transition` emits `enter` and `exit` events that you can listen for using the `on` method. This is triggered when the state of the transition changes.
 
 ```js
-const transitionElement = document.querySelector("hyperkit-transition");
+detail.on("enter", () => {
+  console.log("Transition is entering");
+});
 
-transitionElement.addEventListener("change", (event) => {
-  console.log("Transition state:", event.detail.state); // "entered" or "exited"
+detail.on("exit", () => {
+  console.log("Transition is exiting");
 });
 ```
 

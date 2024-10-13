@@ -97,11 +97,11 @@ detail.hide();
 The `hyperkit-detail` emits `open` and `close` events that you can listen for using the `on` method. This is triggered when the visibility of the detail changes.
 
 ```js
-detail.on("open", () => {
+detail.on("show", () => {
   console.log("Detail is now open");
 });
 
-detail.on("close", () => {
+detail.on("hide", () => {
   console.log("Detail is now closed");
 });
 ```

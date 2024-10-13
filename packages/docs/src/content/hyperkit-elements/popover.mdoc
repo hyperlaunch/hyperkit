@@ -79,13 +79,15 @@ popover.hide(); // Hides the popover content
 
 #### Listening for Visibility Changes
 
-The element emits a `change` event whenever the visibility changes. The event's `detail` property contains the current visibility state:
+The `hyperkit-popover` emits `open` and `close` events that you can listen for using the `on` method. This is triggered when the visibility of the popover changes.
 
 ```js
-const popover = document.querySelector("hyperkit-popover");
+detail.on("show", () => {
+  console.log("Popover is now open");
+});
 
-popover.addEventListener("change", (event) => {
-  console.log("Popover is now", event.detail.visible ? "visible" : "hidden");
+detail.on("hide", () => {
+  console.log("Popover is now closed");
 });
 ```
 

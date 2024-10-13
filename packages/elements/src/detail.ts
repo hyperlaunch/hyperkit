@@ -2,7 +2,7 @@ import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
 class HyperkitDetail extends HyperkitElement<
-	{ type: "open" } | { type: "close" }
+	{ type: "show" } | { type: "hide" }
 > {
 	private triggerElement: HTMLElement | null = null;
 	private contentElement: HTMLElement | null = null;
@@ -103,10 +103,10 @@ class HyperkitDetail extends HyperkitElement<
 	private setVisible(visible: boolean) {
 		if (this.button) {
 			if (visible) {
-				this.trigger("open");
+				this.fire("show");
 				this.button.setAttribute("data-visible", "true");
 			} else {
-				this.trigger("close");
+				this.fire("hide");
 				this.button.removeAttribute("data-visible");
 			}
 		}

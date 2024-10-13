@@ -95,14 +95,14 @@ console.log(calendar.value); // Outputs the selected date as an ISO date string,
 
 ### Listening for Value Changes
 
-The element emits a `change` event whenever the selected date changes. The event includes both `previousValue` and `newValue` properties, which represent the old and new dates respectively. You can listen for this event to respond to changes:
+The element emits a `change` event whenever the selected date changes. The event includes both `previous` and `current` properties, which represent the old and new dates respectively. You can listen for this event to respond to changes:
 
 ```js
 const calendar = document.querySelector("hyperkit-calendar");
 
-calendar.addEventListener("change", (event) => {
-  console.log("Previous date:", event.detail.previousValue);
-  console.log("New date:", event.detail.newValue);
+calendar.on("change", (event) => {
+  console.log("Previous date:", event.detail.previous);
+  console.log("New date:", event.detail.current);
 });
 ```
 
@@ -226,7 +226,7 @@ Date choices can be constrained to past only with the `past-only` convenience at
 
 ### With a `change` event listener
 
-The change event can be listened to with `addEventListener`. The event’s detail includes `previousValue` and `newValue`, representing the old and new selected dates.
+The change event can be listened to with `on`. The event’s detail includes `previous` and `current`, representing the old and new selected dates.
 
 {% example %}{% calendar includeEventListenerExample=true / %}{% /example %}
 ```html
@@ -238,7 +238,7 @@ The change event can be listened to with `addEventListener`. The event’s detai
 ```js
 document
   .querySelector("#my-calendar")
-  .addEventListener("change", (event) =>
-    alert(`New value: ${(event.detail).newValue}`),
+  .on("change", (event) =>
+    alert(`New value: ${(event.detail).current}`),
   );
 ```

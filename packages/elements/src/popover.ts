@@ -1,6 +1,9 @@
+import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
-export class HyperkitPopover extends HTMLElement {
+export class HyperkitPopover extends HyperkitElement<
+	{ type: "show" } | { type: "hide" }
+> {
 	private triggerButton?: HTMLButtonElement | null = null;
 	private contentElement: HTMLElement | null = null;
 
@@ -92,9 +95,7 @@ export class HyperkitPopover extends HTMLElement {
 		this.triggerButton.setAttribute("aria-expanded", "true");
 		this.triggerButton.setAttribute("data-visible", "true");
 
-		this.dispatchEvent(
-			new CustomEvent("change", { detail: { visible: true } }),
-		);
+		this.fire("show");
 	}
 
 	public hide() {
@@ -128,9 +129,7 @@ export class HyperkitPopover extends HTMLElement {
 		this.triggerButton.setAttribute("aria-expanded", "false");
 		this.triggerButton.removeAttribute("data-visible");
 
-		this.dispatchEvent(
-			new CustomEvent("change", { detail: { visible: false } }),
-		);
+		this.fire("hide");
 	}
 
 	private attachOutsideClickListener() {
