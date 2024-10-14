@@ -7,7 +7,7 @@ The `<hyperkit-modal />` element allows you to create modals that display conten
 
 The modal can be dismissed by pressing the `Escape` key when it is visible.
 
-{% example hero=true %}{% modal name="heroModal" / %}{% /example %}
+{% example hero=true %}{% modal id="heroModal" / %}{% /example %}
 
 ## Usage
 
@@ -20,7 +20,7 @@ import "@hyperkit/elements/modal";
 Tags:
 
 ```html
-<hyperkit-modal-trigger>…</hyperkit-modal-trigger>
+<hyperkit-modal-summoner>…</hyperkit-modal-summoner>
 <hyperkit-modal>…</hyperkit-modal>
 ```
 
@@ -33,11 +33,11 @@ Tags:
 ---
 * `name`
 * String _(required)_
-* A unique name that links the `<hyperkit-modal-trigger>` to the corresponding modal.
+* A unique name that links the `<hyperkit-modal-summoner>` to the corresponding modal.
 ---
 {% /table %}
 
-### `<hyperkit-modal-trigger />` Options
+### `<hyperkit-modal-summoner />` Options
 
 {% table %}
 * Attribute
@@ -53,14 +53,14 @@ Tags:
 ### Children
 
 ```html
-<hyperkit-modal-trigger><button/></hyperkit-modal-trigger>
+<hyperkit-modal-summoner><button/></hyperkit-modal-summoner>
 <hyperkit-modal />
   …
   <h7-modal-dismisser><button /></h7-modal-dismisser>
 </hyperkit-modal>
 ```
 
-#### `<hyperkit-modal-trigger />`
+#### `<hyperkit-modal-summoner />`
 
 * Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `name` attribute.
 * Must contain a `<button />` for accessibility.
@@ -118,17 +118,17 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
 #### Example of a Styled Modal
 
 {% example %}
-{% modal name="styledModal" / %}
+{% modal id="styledModal" / %}
 {% /example %}
 
 ```html
-<hyperkit-modal-trigger>
+<hyperkit-modal-summoner>
   <button
     class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center font-medium w-min whitespace-nowrap"
   >
     Open Modal
   </button>
-</hyperkit-modal-trigger>
+</hyperkit-modal-summoner>
 <hyperkit-modal>
     <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
     <h7-modal-backdrop class="absolute inset-0 z-10" />
@@ -152,7 +152,7 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
 To ensure the modal is hidden by default, add the `hidden` attribute. The modal will remain hidden until programmatically shown.
 
 {% example %}
-{% modal name="hiddenModal" contentHidden=true / %}
+{% modal id="hiddenModal" contentHidden=true / %}
 {% /example %}
 
 ```html
@@ -164,7 +164,7 @@ To ensure the modal is hidden by default, add the `hidden` attribute. The modal 
 To dismiss the modal by clicking on the backdrop, use the `<h7-modal-backdrop />` element. When clicked, it will hide the modal.
 
 {% example %}
-{% modal name="backdropModal" / %}
+{% modal id="backdropModal" / %}
 {% /example %}
 
 ```html
@@ -179,7 +179,7 @@ To dismiss the modal by clicking on the backdrop, use the `<h7-modal-backdrop />
 You can animate the modal visibility using the `<hyperkit-transition />` element for smooth show/hide effects.
 
 {% example %}
-{% modal name="transitionModal" useTransition=true / %}
+{% modal id="transitionModal" useTransition=true / %}
 {% /example %}
 
 ```html

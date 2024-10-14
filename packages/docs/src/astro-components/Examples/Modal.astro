@@ -1,24 +1,25 @@
 ---
 type Props = {
-	name: string;
-	useTransition?: boolean;
-	contentHidden?: boolean;
+  id: string;
+  useTransition?: boolean;
+  contentHidden?: boolean;
 };
 
-const { name, contentHidden = false, useTransition = false } = Astro.props;
+const { id, contentHidden = false, useTransition = false } = Astro.props;
 ---
 
-<hyperkit-modal-trigger for={name}>
+<hyperkit-modal-summoner for={id}>
   <button
     class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center font-medium w-min whitespace-nowrap"
   >
     Open Modal
   </button>
-</hyperkit-modal-trigger>
-<hyperkit-modal hidden={contentHidden} name={name}>
+</hyperkit-modal-summoner>
+<hyperkit-modal hidden={contentHidden} id={id}>
   {
     useTransition ? (
       <hyperkit-transition
+        class="absolute inset-0 z-50 flex items-center justify-center bg-black/10"
         enter-class="transition-all duration-500 ease-in"
         enter-from-class="opacity-0"
         enter-to-class="opacity-100"
@@ -26,24 +27,22 @@ const { name, contentHidden = false, useTransition = false } = Astro.props;
         exit-from-class="opacity-100"
         exit-to-class="opacity-0"
       >
-        <div class="absolute inset-0 z-50 flex items-center justify-center">
-          <h7-modal-backdrop class="absolute inset-0 z-10" />
-          <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
-            <div class="flex justify-between items-center mb-2 text-zinc-800">
-              <div class="font-bold">Transitioning Modal Title</div>
-              <h7-modal-dismisser>
-                <button class="text-xs">Close</button>
-              </h7-modal-dismisser>
-            </div>
-            <div class="text-xs text-zinc-600">
-              This is some example content for the modal.
-            </div>
+        <h7-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
+        <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
+          <div class="flex justify-between items-center mb-2 text-zinc-800">
+            <div class="font-bold">Transitioning Modal Title</div>
+            <h7-modal-dismisser>
+              <button class="text-xs">Close</button>
+            </h7-modal-dismisser>
+          </div>
+          <div class="text-xs text-zinc-600">
+            This is some example content for the modal.
           </div>
         </div>
       </hyperkit-transition>
     ) : (
       <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
-        <h7-modal-backdrop class="absolute inset-0 z-10" />
+        <h7-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
         <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
           <div class="flex justify-between items-center mb-2 text-zinc-800">
             <div class="font-bold">Modal Title</div>

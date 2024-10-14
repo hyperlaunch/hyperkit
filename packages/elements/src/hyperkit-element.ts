@@ -14,20 +14,39 @@ export abstract class HyperkitElement<
 	} = { events: undefined; propTypes: Record<string, never> },
 > extends HTMLElement {
 	// TODO: Find out if I can avoid replicating this somehow
-	public propTypes: Options["propTypes"] = {};
-	public requiredChildren: string[] = [];
+	propTypes?: Options["propTypes"];
+	requiredParent?: string;
+	requiredChildren?: string[];
+	requiredSiblings?: string[];
 
 	connectedCallback() {
 		this.validateStructure();
 	}
 
 	private validateStructure() {
-		for (const selector of this.requiredChildren)
+		for (const selector of this.requiredChildren || [])
 			if (!this.querySelector(selector))
 				console.error(
 					`Required child for ${this.constructor.name} is missing: ${selector}`,
 					this,
 				);
+
+		for (const selector of this.requiredSiblings || [])
+			if (!document.querySelector(selector))
+				console.error(
+					`Required siblings for ${this.constructor.name} is missing: ${selector}`,
+					this,
+				);
+
+		if (this.requiredParent && !this.parent())
+			console.error(
+				`${this.constructor.name} must belong to: ${this.requiredParent}`,
+				this,
+			);
+	}
+
+	private parent() {
+		return this.requiredParent && this.closest(this.requiredParent);
 	}
 
 	public fire<

@@ -54,7 +54,7 @@ export default defineMarkdocConfig({
 		modal: {
 			render: component("./src/astro-components/Examples/Modal.astro"),
 			attributes: {
-				name: { type: String },
+				id: { type: String },
 				contentHidden: { type: Boolean },
 				useTransition: { type: Boolean },
 			},
