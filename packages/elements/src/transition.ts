@@ -1,46 +1,58 @@
 import { HyperkitElement } from "./hyperkit-element";
 
-export class HyperkitTransition extends HyperkitElement<
-	{ type: "enter" } | { type: "exit" }
-> {
-	private enterClass = this.getAttribute("enter-class") ?? "";
-	private enterFromClass = this.getAttribute("enter-from-class") ?? "";
-	private enterToClass = this.getAttribute("enter-to-class") ?? "";
-	private exitClass = this.getAttribute("exit-class") ?? "";
-	private exitFromClass = this.getAttribute("exit-from-class") ?? "";
-	private exitToClass = this.getAttribute("exit-to-class") ?? "";
+export class HyperkitTransition extends HyperkitElement<{
+	events: { type: "enter" } | { type: "exit" };
+	propTypes: {
+		"enter-class": "string";
+		"enter-from-class": "string";
+		"enter-to-class": "string";
+		"exit-class": "string";
+		"exit-from-class": "string";
+		"exit-to-class": "string";
+		"enter-on-connect": "boolean";
+	};
+}> {
+	public props = {
+		"enter-class": "string",
+		"enter-from-class": "string",
+		"enter-to-class": "string",
+		"exit-class": "string",
+		"exit-from-class": "string",
+		"exit-to-class": "string",
+		"enter-on-connect": "boolean",
+	} as const;
 
 	connectedCallback() {
-		if (this.hasAttribute("enter-on-connect")) this.enter();
+		if (this.prop("enter-on-connect")) this.enter();
 	}
 
 	enter() {
-		this.removeClasses(this.exitClass);
-		this.removeClasses(this.exitFromClass);
-		this.removeClasses(this.exitToClass);
+		this.removeClasses(this.prop("exit-class"));
+		this.removeClasses(this.prop("exit-from-class"));
+		this.removeClasses(this.prop("exit-to-class"));
 
 		this.removeAttribute("hidden");
 
-		this.applyClasses(this.enterClass, this.enterFromClass);
+		this.applyClasses(this.prop("enter-class"), this.prop("enter-from-class"));
 
 		requestAnimationFrame(() => {
-			this.removeClass(this.enterFromClass);
-			this.applyClass(this.enterToClass);
+			this.removeClass(this.prop("enter-from-class"));
+			this.applyClass(this.prop("enter-to-class"));
 		});
 
 		setTimeout(() => this.fire("enter"), this.getTransitionDuration());
 	}
 
 	exit() {
-		this.removeClasses(this.enterClass);
-		this.removeClasses(this.enterFromClass);
-		this.removeClasses(this.enterToClass);
+		this.removeClasses(this.prop("enter-class"));
+		this.removeClasses(this.prop("enter-from-class"));
+		this.removeClasses(this.prop("enter-to-class"));
 
-		this.applyClasses(this.exitClass, this.exitFromClass);
+		this.applyClasses(this.prop("exit-class"), this.prop("exit-from-class"));
 
 		requestAnimationFrame(() => {
-			this.removeClass(this.exitFromClass);
-			this.applyClass(this.exitToClass);
+			this.removeClass(this.prop("exit-from-class"));
+			this.applyClass(this.prop("exit-to-class"));
 
 			setTimeout(() => this.fire("exit"), this.getTransitionDuration());
 		});

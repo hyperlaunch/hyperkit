@@ -1,9 +1,9 @@
 import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
-class HyperkitDetail extends HyperkitElement<
-	{ type: "show" } | { type: "hide" }
-> {
+class HyperkitDetail extends HyperkitElement<{
+	events: { type: "show" } | { type: "hide" };
+}> {
 	private triggerElement: HTMLElement | null = null;
 	private contentElement: HTMLElement | null = null;
 	private button?: HTMLButtonElement | null = null;
@@ -140,7 +140,7 @@ class HyperkitAccordion extends HyperkitElement {
 
 	private initializeDetails() {
 		for (const detail of this.details)
-			detail.on("open", () => this.closeOtherDetails(detail));
+			detail.on("show", () => this.closeOtherDetails(detail));
 
 		for (const [index, detail] of this.details.entries())
 			index !== 0 ? detail.hide() : detail.show();

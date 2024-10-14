@@ -34,11 +34,11 @@ Tag:
 * String _(optional)_
 * The name of a corresponding `<input />` which will receive the value selected (and update the calendar if it's edited manually)
 ---
-* `min-date`
+* `min`
 * ISO Date String (ie. 2024-10-13) _(optional)_
 * Specifies a minimum date - earlier dates will be disabled
 ---
-* `max-date`
+* `max`
 * ISO Date String (ie. 2024-10-13) _(optional)_
 * Specifies a maximum date - later dates will be disabled
 ---
@@ -118,7 +118,7 @@ All elements can be styled conventionally with classes. The buttons inside `<h7-
 * `data-selected` is applied to the selected day.
 * `data-other-month` is applied to days outside of the current month - for example, when a month begins on a day that isn't Monday.
 
-When validation attributes like `min-date` are applied, any days which are unavailable will also receive the `disabled` attribute.
+When validation attributes like `min` are applied, any days which are unavailable will also receive the `disabled` attribute.
 
 #### Example of a Styled Calendar
 
@@ -191,13 +191,13 @@ This example uses a [Masked Input](/masked-input).
 
 ### With Min and Max Dates
 
-Date choices can be constrained with the `min-date` and `max-date` attributes. They can be used together, or independently.
+Date choices can be constrained with the `min` and `max` attributes. They can be used together, or independently.
 
 {% example %}
-  {% calendar minDate="2024-10-03" maxDate="2024-10-25" / %}
+  {% calendar min="2024-10-03" max="2024-10-25" / %}
 {% /example %}
 ```html
-<hyperkit-calendar min-date="2024-10-03" max-date="2024-10-25">
+<hyperkit-calendar min="2024-10-03" max="2024-10-25">
   ...
 </hyperkit-calendar>
 ```

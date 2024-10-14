@@ -1,6 +1,10 @@
 import { HyperkitElement } from "./hyperkit-element";
 
-export class HyperkitMaskedInput extends HyperkitElement {
+export class HyperkitMaskedInput extends HyperkitElement<{
+	propTypes: { mask: "string" };
+}> {
+	public props = { mask: "string" } as const;
+
 	private inputElement: HTMLInputElement | null = null;
 
 	connectedCallback() {
@@ -20,7 +24,7 @@ export class HyperkitMaskedInput extends HyperkitElement {
 	}
 
 	private attachListeners() {
-		const mask = this.getAttribute("mask") || "";
+		const mask = this.prop("mask");
 
 		const maskHandler = (event: Event) => {
 			const target = event.target as HTMLInputElement;

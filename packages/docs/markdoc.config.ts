@@ -21,8 +21,8 @@ export default defineMarkdocConfig({
 			attributes: {
 				for: { type: String },
 				value: { type: String },
-				minDate: { type: String },
-				maxDate: { type: String },
+				min: { type: String },
+				max: { type: String },
 				futureOnly: { type: Boolean },
 				pastOnly: { type: Boolean },
 				includeEventListenerExample: { type: Boolean },

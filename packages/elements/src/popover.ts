@@ -1,9 +1,9 @@
 import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
-export class HyperkitPopover extends HyperkitElement<
-	{ type: "show" } | { type: "hide" }
-> {
+export class HyperkitPopover extends HyperkitElement<{
+	events: { type: "show" } | { type: "hide" };
+}> {
 	private triggerButton?: HTMLButtonElement | null = null;
 	private contentElement: HTMLElement | null = null;
 
@@ -16,12 +16,9 @@ export class HyperkitPopover extends HyperkitElement<
 		this.setInitialVisibility();
 	}
 
-	public get hidden() {
-		return this.contentElement?.hasAttribute("hidden") ?? true;
-	}
-
 	private getButtonForTrigger() {
 		const triggerElement = this.querySelector("h7-popover-trigger");
+
 		if (!triggerElement) {
 			console.error("h7-popover-trigger tag is missing in the markup", this);
 		}
@@ -66,12 +63,12 @@ export class HyperkitPopover extends HyperkitElement<
 
 	private setupPopover() {
 		this.triggerButton?.addEventListener("click", () => {
-			this.hidden ? this.show() : this.hide();
+			this.contentElement?.hasAttribute("hidden") ? this.show() : this.hide();
 		});
 	}
 
 	private setInitialVisibility() {
-		if (!this.hidden) {
+		if (this.contentElement?.hasAttribute("hidden")) {
 			this.triggerButton?.setAttribute("data-visible", "true");
 			this.triggerButton?.setAttribute("aria-expanded", "true");
 		}
@@ -135,13 +132,13 @@ export class HyperkitPopover extends HyperkitElement<
 	private attachOutsideClickListener() {
 		document.addEventListener("click", (event) => {
 			const isInsidePopover = this.contains(event.target as Node);
-			if (!isInsidePopover && !this.hidden) this.hide();
+			if (!isInsidePopover && !this.prop("hidden")) this.hide();
 		});
 	}
 
 	private attachEscapeKeyListener() {
 		document.addEventListener("keydown", (event) => {
-			if (event.key === "Escape" && !this.hidden) this.hide();
+			if (event.key === "Escape" && !this.prop("hidden")) this.hide();
 		});
 	}
 }

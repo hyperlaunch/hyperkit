@@ -1,9 +1,12 @@
 import { HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
-export class HyperkitModal extends HyperkitElement<
-	{ type: "show" } | { type: "hide" }
-> {
+export class HyperkitModal extends HyperkitElement<{
+	events: { type: "show" } | { type: "hide" };
+	propTypes: { name: "string"; hidden: "boolean" };
+}> {
+	public props = { name: "string", hidden: "boolean" } as const;
+
 	private dismisserButton: HTMLButtonElement | null = null;
 	private backdropElement: HTMLElement | null = null;
 
@@ -15,12 +18,8 @@ export class HyperkitModal extends HyperkitElement<
 		this.setInitialVisibility();
 	}
 
-	public get hidden(): boolean {
-		return this.hasAttribute("hidden");
-	}
-
 	private validateStructure() {
-		const modalName = this.getAttribute("name");
+		const modalName = this.prop("name");
 
 		const trigger = document.querySelector<HTMLElement>(
 			`hyperkit-modal-trigger[for="${modalName}"]`,
@@ -60,7 +59,7 @@ export class HyperkitModal extends HyperkitElement<
 	}
 
 	private setInitialVisibility() {
-		if (!this.hidden) this.setVisible(true);
+		if (!this.prop("hidden")) this.setVisible(true);
 	}
 
 	public show() {
@@ -71,9 +70,7 @@ export class HyperkitModal extends HyperkitElement<
 		this.removeAttribute("hidden");
 		this.setAttribute("aria-hidden", "false");
 
-		if (transitionElement) {
-			transitionElement.enter();
-		}
+		if (transitionElement) transitionElement.enter();
 
 		this.setVisible(true);
 	}
@@ -86,15 +83,10 @@ export class HyperkitModal extends HyperkitElement<
 		if (transitionElement) {
 			transitionElement.exit();
 			transitionElement.addEventListener(
-				"change",
-				(event) => {
-					const customEvent = event as CustomEvent<{
-						state: "entered" | "exited";
-					}>;
-					if (customEvent.detail.state === "exited") {
-						this.setAttribute("hidden", "");
-						this.setAttribute("aria-hidden", "true");
-					}
+				"exit",
+				() => {
+					this.setAttribute("hidden", "");
+					this.setAttribute("aria-hidden", "true");
 				},
 				{ once: true },
 			);
@@ -114,13 +106,13 @@ export class HyperkitModal extends HyperkitElement<
 		document.addEventListener("click", (event) => {
 			const isInsideModal = this.contains(event.target as Node);
 
-			const modalName = this.getAttribute("name");
+			const modalName = this.prop("name");
 			const trigger = document.querySelector<HTMLElement>(
 				`hyperkit-modal-trigger[for="${modalName}"]`,
 			);
 			const isTriggerButton = trigger?.contains(event.target as Node);
 
-			if (!isInsideModal && !isTriggerButton && !this.hidden) {
+			if (!isInsideModal && !isTriggerButton && !this.prop("hidden")) {
 				this.hide();
 			}
 		});
@@ -129,7 +121,7 @@ export class HyperkitModal extends HyperkitElement<
 	private attachEscapeKeyListener() {
 		document.addEventListener(
 			"keydown",
-			(event) => event.key === "Escape" && !this.hidden && this.hide(),
+			(event) => event.key === "Escape" && !this.prop("hidden") && this.hide(),
 		);
 	}
 }
@@ -137,7 +129,8 @@ export class HyperkitModal extends HyperkitElement<
 if (!customElements.get("hyperkit-modal"))
 	customElements.define("hyperkit-modal", HyperkitModal);
 
-class ModalTrigger extends HTMLElement {
+class ModalTrigger extends HyperkitElement<{ propTypes: { for: "string" } }> {
+	public props = { for: "string" } as const;
 	private triggerButton: HTMLButtonElement | null = null;
 
 	connectedCallback() {
@@ -151,7 +144,7 @@ class ModalTrigger extends HTMLElement {
 			console.error("<hyperkit-modal-trigger> must contain a <button>", this);
 		}
 
-		const modalName = this.getAttribute("for");
+		const modalName = this.prop("for");
 		const modal = document.querySelector<HyperkitModal>(
 			`hyperkit-modal[name="${modalName}"]`,
 		);
@@ -176,7 +169,7 @@ class ModalTrigger extends HTMLElement {
 if (!customElements.get("hyperkit-modal-trigger"))
 	customElements.define("hyperkit-modal-trigger", ModalTrigger);
 
-class ModalDismisser extends HTMLElement {
+class ModalDismisser extends HyperkitElement {
 	private dismisserButton: HTMLButtonElement | null = null;
 
 	connectedCallback() {
@@ -185,7 +178,7 @@ class ModalDismisser extends HTMLElement {
 	}
 
 	private validateStructure() {
-		if (!this.hidest("hyperkit-modal")) {
+		if (!this.closest("hyperkit-modal")) {
 			console.error(
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
 				this,
@@ -202,7 +195,7 @@ class ModalDismisser extends HTMLElement {
 	}
 
 	private attachClickListener() {
-		const modal = this.hidest<HyperkitModal>("hyperkit-modal");
+		const modal = this.closest<HyperkitModal>("hyperkit-modal");
 		this.dismisserButton?.addEventListener("click", () => modal?.hide());
 	}
 }
@@ -210,14 +203,14 @@ class ModalDismisser extends HTMLElement {
 if (!customElements.get("h7-modal-dismisser"))
 	customElements.define("h7-modal-dismisser", ModalDismisser);
 
-class ModalBackdrop extends HTMLElement {
+class ModalBackdrop extends HyperkitElement {
 	connectedCallback() {
 		this.validateStructure();
 		this.attachClickListener();
 	}
 
 	private validateStructure() {
-		if (!this.hidest("hyperkit-modal")) {
+		if (!this.closest("hyperkit-modal")) {
 			console.error(
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-modal>`,
 				this,
@@ -226,7 +219,7 @@ class ModalBackdrop extends HTMLElement {
 	}
 
 	private attachClickListener() {
-		const modal = this.hidest<HyperkitModal>("hyperkit-modal");
+		const modal = this.closest<HyperkitModal>("hyperkit-modal");
 		this.addEventListener("click", () => modal?.hide());
 	}
 }

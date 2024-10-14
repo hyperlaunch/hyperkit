@@ -1,29 +1,29 @@
 ---
 type Props = {
-	for?: string;
-	value?: string;
-	minDate?: string;
-	maxDate?: string;
-	futureOnly?: boolean;
-	pastOnly?: boolean;
-	includeEventListenerExample?: boolean;
+  for?: string;
+  value?: string;
+  min?: string;
+  max?: string;
+  futureOnly?: boolean;
+  pastOnly?: boolean;
+  includeEventListenerExample?: boolean;
 };
 
 const {
-	for: forElement,
-	minDate,
-	maxDate,
-	futureOnly,
-	pastOnly,
-	value,
-	includeEventListenerExample,
+  for: forElement,
+  min,
+  max,
+  futureOnly,
+  pastOnly,
+  value,
+  includeEventListenerExample,
 } = Astro.props;
 ---
 
 <hyperkit-calendar
   class="w-72 bg-white rounded-lg shadow-lg p-4 block"
-  min-date={minDate}
-  max-date={maxDate}
+  min={min}
+  max={max}
   future-only={futureOnly}
   past-only={pastOnly}
   for={forElement}

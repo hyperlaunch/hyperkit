@@ -1,18 +1,28 @@
 import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitCalendar extends HyperkitElement<{
-	type: "change";
-	detail: { previous?: string; current: string };
+	events: { type: "change"; detail: { previous?: string; current: string } };
+	propTypes: {
+		value: "date";
+		min: "date";
+		max: "date";
+		"future-only": "boolean";
+		"past-only": "boolean";
+	};
 }> {
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
 	private monthElement: HTMLElement | null = null;
 	private dayButtonTemplate: HTMLButtonElement | null = null;
-	private futureOnly = this.hasAttribute("future-only");
-	private pastOnly = this.hasAttribute("past-only");
-	private minDate = this.parseDateAttr("min-date");
-	private maxDate = this.parseDateAttr("max-date");
+
+	public props = {
+		value: "date",
+		min: "date",
+		max: "date",
+		"future-only": "boolean",
+		"past-only": "boolean",
+	} as const;
 
 	private static monthNames = [
 		"January",
@@ -39,13 +49,11 @@ export class HyperkitCalendar extends HyperkitElement<{
 	}
 
 	private setInitialSelectedDate() {
-		const calendarValue = this.getAttribute("value");
+		const calendarValue = this.prop("value");
+
 		if (calendarValue) {
-			const parsedDate = new Date(calendarValue);
-			if (!Number.isNaN(parsedDate.getTime())) {
-				this.selectedDate = this.currentDate = parsedDate;
-				return;
-			}
+			this.selectedDate = this.currentDate = calendarValue;
+			return;
 		}
 
 		if (this.inputElement?.value) {
@@ -57,11 +65,6 @@ export class HyperkitCalendar extends HyperkitElement<{
 
 	get value() {
 		return this.selectedDate && this.formatDate(this.selectedDate);
-	}
-
-	private parseDateAttr(attrName: string): Date | null {
-		const attr = this.getAttribute(attrName);
-		return attr ? new Date(attr) : null;
 	}
 
 	private validateStructure() {
@@ -249,11 +252,16 @@ export class HyperkitCalendar extends HyperkitElement<{
 	private isDateDisabled(date?: Date): boolean {
 		if (!date) return true;
 		const now = new Date();
+		const min = this.prop("min");
+		const max = this.prop("max");
+
+		console.log("====>", this.prop("future-only"));
+
 		return Boolean(
-			(this.futureOnly && date < now) ||
-				(this.pastOnly && date > now) ||
-				(this.minDate && date < this.minDate) ||
-				(this.maxDate && date > this.maxDate),
+			(this.prop("future-only") && date < now) ||
+				(this.prop("past-only") && date > now) ||
+				(min && date < min) ||
+				(max && date > max),
 		);
 	}
 
