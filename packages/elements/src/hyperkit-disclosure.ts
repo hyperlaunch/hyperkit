@@ -69,6 +69,7 @@ export abstract class HyperkitDisclosureContent extends HyperkitElement<{
 
 		requestAnimationFrame(() => {
 			this.hidden ? this.handleDismissal() : this.handleSummoning();
+
 			if (this.dismissOnOutsideClick) this.attachOutsideClickListener();
 			if (this.dismissOnEscKey) this.attachEscapeKeyListener();
 		});
