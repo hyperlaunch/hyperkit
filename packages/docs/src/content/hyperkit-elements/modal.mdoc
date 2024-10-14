@@ -20,8 +20,11 @@ import "@hyperkit/elements/modal";
 Tags:
 
 ```html
-<hyperkit-modal-summoner>…</hyperkit-modal-summoner>
-<hyperkit-modal>…</hyperkit-modal>
+<hyperkit-modal-summoner for="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
+<hyperkit-modal id="modal-id" hidden>
+  <h7-modal-dismisser><button>Close Modal</button></h7-modal-dismisser>
+  <h7-modal-backdrop />
+</hyperkit-modal>
 ```
 
 ### `<hyperkit-modal />` Options
@@ -31,9 +34,13 @@ Tags:
 * Value
 * 
 ---
-* `name`
+* `id`
 * String _(required)_
-* A unique name that links the `<hyperkit-modal-summoner>` to the corresponding modal.
+* A unique identifier for the modal. This is required to link the `<hyperkit-modal-summoner>` to the correct modal content.
+---
+* `hidden`
+* Boolean _(optional)_
+* If set, the modal is hidden by default. Can be toggled programmatically.
 ---
 {% /table %}
 
@@ -46,23 +53,23 @@ Tags:
 ---
 * `for`
 * String _(required)_
-* Connects the trigger with a `<hyperkit-modal />` by matching it's `name` attribute.
+* Connects the trigger with a `<hyperkit-modal />` by matching its `id` attribute.
 ---
 {% /table %}
 
 ### Children
 
 ```html
-<hyperkit-modal-summoner><button/></hyperkit-modal-summoner>
-<hyperkit-modal />
-  …
-  <h7-modal-dismisser><button /></h7-modal-dismisser>
+<hyperkit-modal-summoner for="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
+<hyperkit-modal id="modal-id" hidden>
+  <h7-modal-dismisser><button>Close Modal</button></h7-modal-dismisser>
+  <h7-modal-backdrop />
 </hyperkit-modal>
 ```
 
 #### `<hyperkit-modal-summoner />`
 
-* Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `name` attribute.
+* Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `id` attribute.
 * Must contain a `<button />` for accessibility.
 
 #### `<h7-modal-dismisser />`
@@ -81,7 +88,7 @@ The `hyperkit-modal` element provides a simple JavaScript API to interact with t
 
 ### Showing or Hiding the Modal
 
-You can use the `show()` and `hide()` methods on the `hyperkit-modal` to control its visibility.
+You can use the `summon()` and `dismiss()` methods on the `hyperkit-modal` to control its visibility.
 
 #### Example Usage
 
@@ -89,22 +96,22 @@ You can use the `show()` and `hide()` methods on the `hyperkit-modal` to control
 const modal = document.querySelector("hyperkit-modal");
 
 // Show the modal
-modal.show();
+modal.summon();
 
 // Hide the modal
-modal.hide();
+modal.dismiss();
 ```
 
 ### Listening for Visibility Changes
 
-The `hyperkit-modal` emits `open` and `close` events that you can listen for using the `on` method. This is triggered when the visibility of the modal changes.
+The `hyperkit-modal` emits `summon` and `dismiss` events that you can listen for using the `on` method. This is triggered when the visibility of the modal changes.
 
 ```js
-detail.on("show", () => {
+modal.on("summon", () => {
   console.log("Modal is now open");
 });
 
-detail.on("hide", () => {
+modal.on("dismiss", () => {
   console.log("Modal is now closed");
 });
 ```
@@ -122,28 +129,26 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
 {% /example %}
 
 ```html
-<hyperkit-modal-summoner>
+<hyperkit-modal-summoner for="styledModal">
   <button
-    class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[visible]:bg-zinc-800 flex items-center justify-center font-medium w-min whitespace-nowrap"
+    class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[active]:bg-zinc-800 flex items-center justify-center font-medium w-min whitespace-nowrap"
   >
     Open Modal
   </button>
 </hyperkit-modal-summoner>
-<hyperkit-modal>
-    <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
-    <h7-modal-backdrop class="absolute inset-0 z-10" />
-    <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
-        <div class="flex justify-between items-center mb-2 text-zinc-800">
-        <div class="font-bold">Transitioning Modal Title</div>
-        <h7-modal-dismisser>
-            <button class="text-xs">Close</button>
-        </h7-modal-dismisser>
-        </div>
-        <div class="text-xs text-zinc-600">
-        This is some example content for the modal.
-        </div>
+<hyperkit-modal id="styledModal" hidden>
+  <h7-modal-dismisser>
+    <button class="text-xs">Close</button>
+  </h7-modal-dismisser>
+  <h7-modal-backdrop />
+  <div class="relative z-50 w-64 bg-white rounded-lg shadow-lg p-4">
+    <div class="flex justify-between items-center mb-2 text-zinc-800">
+      <div class="font-bold">Styled Modal Title</div>
     </div>
+    <div class="text-xs text-zinc-600">
+      This is some example content for the modal.
     </div>
+  </div>
 </hyperkit-modal>
 ```
 
@@ -156,7 +161,7 @@ To ensure the modal is hidden by default, add the `hidden` attribute. The modal 
 {% /example %}
 
 ```html
-<hyperkit-modal hidden />
+<hyperkit-modal id="hiddenModal" hidden />
 ```
 
 ### Using a Backdrop to Dismiss the Modal
@@ -168,9 +173,11 @@ To dismiss the modal by clicking on the backdrop, use the `<h7-modal-backdrop />
 {% /example %}
 
 ```html
-<hyperkit-modal>
+<hyperkit-modal id="backdropModal" hidden>
   <h7-modal-backdrop />
-  …
+  <div>
+    …
+  </div>
 </hyperkit-modal>
 ```
 
@@ -183,17 +190,19 @@ You can animate the modal visibility using the `<hyperkit-transition />` element
 {% /example %}
 
 ```html
-<hyperkit-modal>
-    <hyperkit-transition
-      class="block"
-      enter-class="transition-opacity duration-500 ease-in"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      exit-class="transition-opacity duration-300 ease-out"
-      exit-from-class="opacity-100"
-      exit-to-class="opacity-0"
-    >
-      …
-    </hyperkit-transition>
+<hyperkit-modal id="transitionModal" hidden>
+  <hyperkit-transition
+    class="block"
+    enter-class="transition-opacity duration-500 ease-in"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    exit-class="transition-opacity duration-300 ease-out"
+    exit-from-class="opacity-100"
+    exit-to-class="opacity-0"
+  >
+    …
+  </hyperkit-transition>
+  <h7-modal-dismisser><button>Close</button></h7-modal-dismisser>
+  <h7-modal-backdrop />
 </hyperkit-modal>
 ```

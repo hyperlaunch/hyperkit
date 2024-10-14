@@ -11,13 +11,20 @@ export abstract class HyperkitDisclosureSummoner extends HyperkitElement<{
 
 	public button = this.querySelector<HTMLButtonElement>("button");
 
+	dismissSummonedContent = false;
+
 	connectedCallback() {
 		super.connectedCallback();
 
 		requestAnimationFrame(() => {
 			!this.summons?.hidden && this.setActive();
 
-			this.button?.addEventListener("click", () => this.summonContent());
+			this.button?.addEventListener("click", () => {
+				if (!this.dismissSummonedContent || this.summons?.hidden)
+					return this.summonContent();
+
+				this.summons?.dismiss();
+			});
 
 			this.summons?.on("summoned", () => this.setActive());
 			this.summons?.on("dismissed", () => this.unsetActive());

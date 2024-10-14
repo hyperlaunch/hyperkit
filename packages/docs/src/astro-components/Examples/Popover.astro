@@ -8,7 +8,7 @@ type Props = {
 const { id, contentHidden = false, useTransition = false } = Astro.props;
 ---
 
-<div class="relative w-80 block">
+<div class="relative w-64 block">
   <hyperkit-popover-summoner for={id}>
     <button
       class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-800 text-zinc-200 data-[active]:bg-zinc-900 flex items-center justify-center font-medium w-min whitespace-nowrap"
@@ -48,7 +48,7 @@ const { id, contentHidden = false, useTransition = false } = Astro.props;
     }
   </hyperkit-popover>
 </div>
-<div class="w-80 h-28"></div>
+<div class="w-64 h-28"></div>
 
 <script>
   import "@hyperkit/elements/popover.ts";

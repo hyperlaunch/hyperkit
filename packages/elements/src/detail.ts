@@ -12,9 +12,6 @@ export class HyperkitDetail extends HyperkitDisclosureContent {
 	summonedBy = document.querySelector<HyperkitDetailSummoner>(
 		`hyperkit-detail-summoner[for=${this.prop("id")}`,
 	);
-
-	dismissOnOutsideClick = false;
-	dismissOnEscKey = false;
 }
 
 if (!customElements.get("hyperkit-detail"))
@@ -26,6 +23,8 @@ export class HyperkitDetailSummoner extends HyperkitDisclosureSummoner {
 	summons = document.querySelector<HyperkitDetail>(
 		`hyperkit-detail[id=${this.prop("for")}`,
 	);
+
+	dismissSummonedContent = !this.closest("hyperkit-accordion");
 }
 
 if (!customElements.get("hyperkit-detail-summoner"))
@@ -33,19 +32,20 @@ if (!customElements.get("hyperkit-detail-summoner"))
 
 class HyperkitAccordion extends HyperkitElement {
 	public requiredChildren = ["hyperkit-detail"];
-	private details: HyperkitDetail[] = [];
+	private details = Array.from(
+		this.querySelectorAll<HyperkitDetail>("hyperkit-detail"),
+	);
 
 	connectedCallback() {
 		super.connectedCallback();
-		this.initializeDetails();
-	}
 
-	private initializeDetails() {
-		for (const detail of this.details)
-			detail.on("summoned", () => this.closeOtherDetails(detail));
+		requestAnimationFrame(() => {
+			for (const detail of this.details)
+				detail.on("summoned", () => this.closeOtherDetails(detail));
 
-		for (const [index, detail] of this.details.entries())
-			index !== 0 ? detail.dismiss() : detail.summon();
+			for (const [index, detail] of this.details.entries())
+				index !== 0 ? detail.dismiss() : detail.summon();
+		});
 	}
 
 	private closeOtherDetails(openDetail: HyperkitDetail) {

@@ -19,9 +19,9 @@ Tags:
 
 ```html
 <hyperkit-accordion>…</hyperkit-accordion>
-<hyperkit-detail>…</hyperkit-detail>
+<hyperkit-detail-summoner for="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
+<hyperkit-detail id="detail-id">…</hyperkit-detail>
 ```
-
 
 ### `<hyperkit-detail />` Options
 
@@ -30,9 +30,26 @@ Tags:
 * Value
 * 
 ---
+* `id`
+* String _(required)_
+* Unique identifier for the detail. This is required to link the `<hyperkit-detail-summoner />` to the correct detail content.
+---
 * `hidden`
 * Boolean _(optional)_
 * If set, the detail content is hidden by default. Can be toggled programmatically.
+---
+{% /table %}
+
+### `<hyperkit-detail-summoner />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `for`
+* String _(required)_
+* The `id` of the associated `<hyperkit-detail />` that this summoner controls. Clicking the summoner will toggle the visibility of the detail linked by the `id`.
 ---
 {% /table %}
 
@@ -44,30 +61,24 @@ There are no specific options for `<hyperkit-accordion />`. It automatically man
 
 ```html
 <!-- Standalone Detail -->
-<hyperkit-detail>
-  <h7-detail-trigger><button /></h7-detail-trigger>
-  <h7-detail-content />
-</hyperkit-detail>
+<hyperkit-detail-summoner for="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
+<hyperkit-detail id="detail-id">Detail content</hyperkit-detail>
 
 <!-- Accordion with Multiple Details -->
 <hyperkit-accordion>
-  <hyperkit-detail>
-    <h7-detail-trigger><button /></h7-detail-trigger>
-    <h7-detail-content />
-  </hyperkit-detail>
-  <hyperkit-detail>
-    <h7-detail-trigger><button /></h7-detail-trigger>
-    <h7-detail-content />
-  </hyperkit-detail>
+  <hyperkit-detail-summoner for="detail-1"><button>Open Detail 1</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="detail-1">Detail content 1</hyperkit-detail>
+  <hyperkit-detail-summoner for="detail-2"><button>Open Detail 2</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="detail-2">Detail content 2</hyperkit-detail>
 </hyperkit-accordion>
 ```
 
-#### `<h7-detail-trigger />`
+#### `<hyperkit-detail-summoner />`
 
 * Acts as the trigger for expanding or collapsing the detail content.
-* Must contain a `<button />` for accessibility.
+* Must contain a `<button />` for accessibility and be linked to a `<hyperkit-detail />` via the `for` attribute.
 
-#### `<h7-detail-content />`
+#### `<hyperkit-detail />`
 
 * Holds the content that will be shown or hidden.
 * Hidden by default unless explicitly set to visible or controlled programmatically.
@@ -78,7 +89,7 @@ The `hyperkit-detail` element provides a simple JavaScript API to interact with 
 
 ### Showing or Hiding Details
 
-The `hyperkit-detail` exposes `show()` and `hide()` methods to control visibility.
+The `hyperkit-detail` exposes `summon()` and `dismiss()` methods to control visibility.
 
 #### Example Usage
 
@@ -86,22 +97,22 @@ The `hyperkit-detail` exposes `show()` and `hide()` methods to control visibilit
 const detail = document.querySelector("hyperkit-detail");
 
 // Show the detail
-detail.show();
+detail.summon();
 
 // Hide the detail
-detail.hide();
+detail.dismiss();
 ```
 
 ### Listening for Visibility Changes
 
-The `hyperkit-detail` emits `open` and `close` events that you can listen for using the `on` method. This is triggered when the visibility of the detail changes.
+The `hyperkit-detail` emits `summon` and `dismiss` events that you can listen for using the `on` method. This is triggered when the visibility of the detail changes.
 
 ```js
-detail.on("show", () => {
+detail.on("summon", () => {
   console.log("Detail is now open");
 });
 
-detail.on("hide", () => {
+detail.on("dismiss", () => {
   console.log("Detail is now closed");
 });
 ```
@@ -110,23 +121,23 @@ detail.on("hide", () => {
 
 ### Styling the Details
 
-You can apply custom styles to both the details and their triggers. The button inside `<h7-detail-trigger>` can be styled to indicate its open state. The trigger button also receives a `data-visible` attribute when the corresponding detail is visible.
+You can apply custom styles to both the details and their triggers. The button inside `<hyperkit-detail-summoner>` can be styled to indicate its open state. The trigger button also receives a `data-visible` attribute when the corresponding detail is visible.
 
 #### Example of a Styled Detail
 
 {% example %}{% detail id="styledDetail" / %}{% /example %}
 
 ```html
-<hyperkit-detail class="w-96 bg-white rounded-lg shadow-lg p-4">
-  <h7-detail-trigger>
+<div class="w-96 bg-white rounded-lg shadow-lg p-4">
+  <hyperkit-detail-summoner for="styledDetail">
     <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-700 data-[visible]:text-zinc-900 hover:text-zinc-600 transition-colors duration-200">
       Section Title
     </button>
-  </h7-detail-trigger>
-  <h7-detail-content class="mt-2 text-xs text-zinc-600">
+  </hyperkit-detail-summoner>
+  <hyperkit-detail id="styledDetail">
     This is some example content for the detail.
-  </h7-detail-content>
-</hyperkit-detail>
+  </hyperkit-detail>
+</div>
 ```
 
 ### Using Transitions
@@ -136,9 +147,9 @@ You can apply custom styles to both the details and their triggers. The button i
 To animate the visibility of the detail, use the `<hyperkit-transition />` element for smooth show/hide effects.
 
 ```html
-<hyperkit-detail>
-  <h7-detail-trigger><button /></h7-detail-trigger>
-  <h7-detail-content>
+<div>
+  <hyperkit-detail-summoner for="transitionDetail"><button /></hyperkit-detail-summoner>
+  <hyperkit-detail id="transitionDetail">
     <hyperkit-transition
       class="block"
       enter-class="transition-all duration-500 ease-in"
@@ -150,18 +161,22 @@ To animate the visibility of the detail, use the `<hyperkit-transition />` eleme
     >
       …
     </hyperkit-transition>
-  </h7-detail-content>
-</hyperkit-detail>
+  </hyperkit-detail>
+</div>
 ```
 
 ### Accordion Mode
 
 {% example %}{% accordion / %}{% /example %}
 
-When used inside `<hyperkit-accordion>`, only one detail can be open at a time. The accordion automatically manages the visibility of the details.
+When wrapped in a `<hyperkit-accordion />` tag, only one detail section can be open at a time, automatically closing others when a new section is expanded.
 
 ```html
 <hyperkit-accordion>
-  <hyperkit-detail>…</hyperkit-detail>
+  <hyperkit-detail-summoner for="accordionDetail1"><button>Open Detail 1</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="accordionDetail1">Detail content 1</hyperkit-detail>
+
+  <hyperkit-detail-summoner for="accordionDetail2"><button>Open Detail 2</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="accordionDetail2">Detail content 2</hyperkit-detail>
 </hyperkit-accordion>
 ```
