@@ -10,35 +10,36 @@ export class HyperkitMaskedInput extends HyperkitElement<{
 
 	connectedCallback() {
 		super.connectedCallback();
-		this.attachListeners();
-	}
 
-	private attachListeners() {
-		const mask = this.prop("mask");
+		requestAnimationFrame(() => {
+			const input = this.querySelector<HTMLInputElement>("input");
 
-		const maskHandler = (event: Event) => {
-			const target = event.target as HTMLInputElement;
-			const cursorPosition = target.selectionStart || 0;
-			const rawValue = target.value.replace(/[^a-zA-Z\d\-]/g, "");
-			const formattedValue = this.formatByMask({ value: rawValue, mask });
+			const mask = this.prop("mask");
 
-			target.value = formattedValue;
-			this.restoreCursorPosition({ target, cursorPosition, mask });
-		};
-
-		const deleteHandler = (event: KeyboardEvent) => {
-			if (event.key === "Backspace") {
+			const maskHandler = (event: Event) => {
 				const target = event.target as HTMLInputElement;
 				const cursorPosition = target.selectionStart || 0;
+				const rawValue = target.value.replace(/[^a-zA-Z\d\-]/g, "");
+				const formattedValue = this.formatByMask({ value: rawValue, mask });
 
-				event.preventDefault();
-				this.handleBackspace({ target, mask, cursorPosition });
-			}
-		};
+				target.value = formattedValue;
+				this.restoreCursorPosition({ target, cursorPosition, mask });
+			};
 
-		this.inputElement?.addEventListener("input", maskHandler);
-		this.inputElement?.addEventListener("blur", maskHandler);
-		this.inputElement?.addEventListener("keydown", deleteHandler);
+			const deleteHandler = (event: KeyboardEvent) => {
+				if (event.key === "Backspace") {
+					const target = event.target as HTMLInputElement;
+					const cursorPosition = target.selectionStart || 0;
+
+					event.preventDefault();
+					this.handleBackspace({ target, mask, cursorPosition });
+				}
+			};
+
+			input?.addEventListener("input", maskHandler);
+			input?.addEventListener("blur", maskHandler);
+			input?.addEventListener("keydown", deleteHandler);
+		});
 	}
 
 	private formatByMask({
