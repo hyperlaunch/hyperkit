@@ -8,7 +8,7 @@ export class HyperkitPopover extends HyperkitElement<{
 	private contentElement: HTMLElement | null = null;
 
 	public connectedCallback() {
-		this.validateStructure();
+		super.connectedCallback();
 		this.initializeElements();
 		this.setupPopover();
 		this.attachOutsideClickListener();
@@ -44,12 +44,9 @@ export class HyperkitPopover extends HyperkitElement<{
 		return contentElement;
 	}
 
-	private validateStructure() {
+	private initializeElements() {
 		this.triggerButton = this.getButtonForTrigger();
 		this.contentElement = this.getContentElement();
-	}
-
-	private initializeElements() {
 		this.triggerButton?.setAttribute("aria-expanded", "false");
 		this.triggerButton?.setAttribute(
 			"aria-controls",
@@ -132,13 +129,13 @@ export class HyperkitPopover extends HyperkitElement<{
 	private attachOutsideClickListener() {
 		document.addEventListener("click", (event) => {
 			const isInsidePopover = this.contains(event.target as Node);
-			if (!isInsidePopover && !this.prop("hidden")) this.hide();
+			if (!isInsidePopover) this.hide();
 		});
 	}
 
 	private attachEscapeKeyListener() {
 		document.addEventListener("keydown", (event) => {
-			if (event.key === "Escape" && !this.prop("hidden")) this.hide();
+			if (event.key === "Escape") this.hide();
 		});
 	}
 }
@@ -146,8 +143,9 @@ export class HyperkitPopover extends HyperkitElement<{
 if (!customElements.get("hyperkit-popover"))
 	customElements.define("hyperkit-popover", HyperkitPopover);
 
-class ChildElement extends HTMLElement {
+class ChildElement extends HyperkitElement {
 	connectedCallback() {
+		super.connectedCallback();
 		if (!this.closest("hyperkit-popover")) {
 			console.error(
 				`${this.tagName.toLowerCase()} must be used inside <hyperkit-popover>`,
@@ -157,7 +155,16 @@ class ChildElement extends HTMLElement {
 	}
 }
 
-for (const tag of ["h7-popover-trigger", "h7-popover-content"]) {
-	if (!customElements.get(tag))
-		customElements.define(tag, class extends ChildElement {});
+if (!customElements.get("h7-popover-content"))
+	customElements.define("h7-popover-content", class extends ChildElement {});
+
+class PopoverTrigger extends ChildElement {
+	public requiredChildren = ["button"];
+
+	connectedCallback() {
+		super.connectedCallback();
+	}
 }
+
+if (!customElements.get("h7-popover-trigger"))
+	customElements.define("h7-popover-trigger", class extends PopoverTrigger {});

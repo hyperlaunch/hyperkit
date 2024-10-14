@@ -10,6 +10,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 		"past-only": "boolean";
 	};
 }> {
+	public requiredChildren = ["h7-days-list", `button[slot="day-number"]`];
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
@@ -40,7 +41,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 	];
 
 	connectedCallback() {
-		this.validateStructure();
+		super.connectedCallback();
 		this.initializeElements();
 		this.setInitialSelectedDate();
 		this.attachInputListener();
@@ -65,19 +66,6 @@ export class HyperkitCalendar extends HyperkitElement<{
 
 	get value() {
 		return this.selectedDate && this.formatDate(this.selectedDate);
-	}
-
-	private validateStructure() {
-		const daysList = this.querySelector("h7-days-list");
-		const dayButton = this.querySelector('button[slot="day-number"]');
-
-		if (!daysList) {
-			console.error("h7-days-list is missing in the markup", this);
-		}
-
-		if (!dayButton) {
-			console.error("button[slot='day-number'] is missing in the markup", this);
-		}
 	}
 
 	private initializeElements() {
@@ -254,8 +242,6 @@ export class HyperkitCalendar extends HyperkitElement<{
 		const now = new Date();
 		const min = this.prop("min");
 		const max = this.prop("max");
-
-		console.log("====>", this.prop("future-only"));
 
 		return Boolean(
 			(this.prop("future-only") && date < now) ||

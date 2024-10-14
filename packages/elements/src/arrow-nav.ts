@@ -1,24 +1,13 @@
 import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitArrowNav extends HyperkitElement {
+	public requiredChildren = ["a, button, [tabindex]"];
 	private focusableElements: HTMLElement[] = [];
 
 	connectedCallback() {
-		this.validateStructure();
+		super.connectedCallback();
 		this.initializeElements();
 		this.attachArrowKeyListener();
-	}
-
-	private validateStructure() {
-		const focusableElements = this.querySelectorAll<HTMLElement>(
-			"a, button, [tabindex]",
-		);
-		if (!focusableElements || focusableElements.length === 0) {
-			console.error(
-				"No focusable elements found inside <hyperkit-arrow-nav>",
-				this,
-			);
-		}
 	}
 
 	private initializeElements() {

@@ -11,36 +11,11 @@ export class HyperkitModal extends HyperkitElement<{
 	private backdropElement: HTMLElement | null = null;
 
 	public connectedCallback() {
-		this.validateStructure();
+		super.connectedCallback();
 		this.initializeElements();
 		this.attachOutsideClickListener();
 		this.attachEscapeKeyListener();
 		this.setInitialVisibility();
-	}
-
-	private validateStructure() {
-		const modalName = this.prop("name");
-
-		const trigger = document.querySelector<HTMLElement>(
-			`hyperkit-modal-trigger[for="${modalName}"]`,
-		);
-
-		if (!trigger) {
-			console.error(
-				`No matching modal for trigger's "for" attribute: ${modalName}`,
-				this,
-			);
-		}
-
-		this.dismisserButton = this.getButtonForDismisser();
-		if (!this.dismisserButton) {
-			console.warn(
-				"Optional dismiss button is missing in <h7-modal-dismisser>",
-				this,
-			);
-		}
-
-		this.backdropElement = this.querySelector("h7-modal-backdrop");
 	}
 
 	private getButtonForDismisser(): HTMLButtonElement | null {
@@ -56,6 +31,15 @@ export class HyperkitModal extends HyperkitElement<{
 
 		this.dismisserButton?.addEventListener("click", () => this.hide());
 		this.backdropElement?.addEventListener("click", () => this.hide());
+		this.dismisserButton = this.getButtonForDismisser();
+		if (!this.dismisserButton) {
+			console.warn(
+				"Optional dismiss button is missing in <h7-modal-dismisser>",
+				this,
+			);
+		}
+
+		this.backdropElement = this.querySelector("h7-modal-backdrop");
 	}
 
 	private setInitialVisibility() {

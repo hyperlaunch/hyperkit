@@ -15,6 +15,20 @@ export abstract class HyperkitElement<
 > extends HTMLElement {
 	// TODO: Find out if I can avoid replicating this somehow
 	public propTypes: Options["propTypes"] = {};
+	public requiredChildren: string[] = [];
+
+	connectedCallback() {
+		this.validateStructure();
+	}
+
+	private validateStructure() {
+		for (const selector of this.requiredChildren)
+			if (!this.querySelector(selector))
+				console.error(
+					`Required child for ${this.constructor.name} is missing: ${selector}`,
+					this,
+				);
+	}
 
 	public fire<
 		K extends Options["events"] extends BaseEvent

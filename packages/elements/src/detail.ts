@@ -4,28 +4,17 @@ import type { HyperkitTransition } from "./transition";
 class HyperkitDetail extends HyperkitElement<{
 	events: { type: "show" } | { type: "hide" };
 }> {
+	public requiredChildren = ["h7-detail-trigger", "h7-detail-content"];
+
 	private triggerElement: HTMLElement | null = null;
 	private contentElement: HTMLElement | null = null;
 	private button?: HTMLButtonElement | null = null;
 	private clickListenerAdded = false;
 
 	connectedCallback() {
-		this.validateStructure();
+		super.connectedCallback();
 		this.initializeElements();
 		this.setInitialVisibility();
-	}
-
-	private validateStructure() {
-		this.triggerElement = this.querySelector("h7-detail-trigger");
-		this.contentElement = this.querySelector("h7-detail-content");
-
-		if (!this.triggerElement) {
-			console.error("Missing <h7-detail-trigger> in <hyperkit-detail>", this);
-		}
-
-		if (!this.contentElement) {
-			console.error("Missing <h7-detail-content> in <hyperkit-detail>", this);
-		}
 	}
 
 	private initializeElements() {
@@ -118,24 +107,12 @@ if (!customElements.get("hyperkit-detail")) {
 }
 
 class HyperkitAccordion extends HyperkitElement {
+	public requiredChildren = ["hyperkit-detail"];
 	private details: HyperkitDetail[] = [];
 
 	connectedCallback() {
-		this.validateStructure();
+		super.connectedCallback();
 		this.initializeDetails();
-	}
-
-	private validateStructure() {
-		this.details = Array.from(
-			this.querySelectorAll<HyperkitDetail>("hyperkit-detail"),
-		);
-
-		if (this.details.length === 0) {
-			console.error(
-				"No <hyperkit-detail> elements found in <hyperkit-accordion>",
-				this,
-			);
-		}
 	}
 
 	private initializeDetails() {

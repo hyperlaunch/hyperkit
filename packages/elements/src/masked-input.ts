@@ -3,24 +3,14 @@ import { HyperkitElement } from "./hyperkit-element";
 export class HyperkitMaskedInput extends HyperkitElement<{
 	propTypes: { mask: "string" };
 }> {
+	public requiredChildren = ["input"];
 	public propTypes = { mask: "string" } as const;
 
 	private inputElement: HTMLInputElement | null = null;
 
 	connectedCallback() {
-		this.validateStructure();
+		super.connectedCallback();
 		this.attachListeners();
-	}
-
-	private validateStructure() {
-		this.inputElement = this.querySelector("input");
-
-		if (!this.inputElement) {
-			console.error(
-				"Input element is missing in <hyperkit-masked-input>",
-				this,
-			);
-		}
 	}
 
 	private attachListeners() {
