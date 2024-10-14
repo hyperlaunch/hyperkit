@@ -16,7 +16,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 	private monthElement: HTMLElement | null = null;
 	private dayButtonTemplate: HTMLButtonElement | null = null;
 
-	public props = {
+	public propTypes = {
 		value: "date",
 		min: "date",
 		max: "date",

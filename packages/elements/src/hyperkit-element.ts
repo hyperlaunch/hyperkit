@@ -13,7 +13,8 @@ export abstract class HyperkitElement<
 		propTypes?: Record<string, PermittedPropTypes>;
 	} = { events: undefined; propTypes: Record<string, never> },
 > extends HTMLElement {
-	public props: Options["propTypes"] = {};
+	// TODO: Find out if I can avoid replicating this somehow
+	public propTypes: Options["propTypes"] = {};
 
 	public fire<
 		K extends Options["events"] extends BaseEvent
@@ -62,7 +63,7 @@ export abstract class HyperkitElement<
 
 		if (!value) return null as MappedReturnPropTypes;
 
-		const type: string | undefined = this.props?.[name];
+		const type: string | undefined = this.propTypes?.[name];
 		if (type === "string") return String(value) as MappedReturnPropTypes;
 		if (type === "number") return Number(value) as MappedReturnPropTypes;
 		if (type === "boolean")

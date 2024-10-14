@@ -5,7 +5,7 @@ export class HyperkitModal extends HyperkitElement<{
 	events: { type: "show" } | { type: "hide" };
 	propTypes: { name: "string"; hidden: "boolean" };
 }> {
-	public props = { name: "string", hidden: "boolean" } as const;
+	public propTypes = { name: "string", hidden: "boolean" } as const;
 
 	private dismisserButton: HTMLButtonElement | null = null;
 	private backdropElement: HTMLElement | null = null;
@@ -130,7 +130,7 @@ if (!customElements.get("hyperkit-modal"))
 	customElements.define("hyperkit-modal", HyperkitModal);
 
 class ModalTrigger extends HyperkitElement<{ propTypes: { for: "string" } }> {
-	public props = { for: "string" } as const;
+	public propTypes = { for: "string" } as const;
 	private triggerButton: HTMLButtonElement | null = null;
 
 	connectedCallback() {

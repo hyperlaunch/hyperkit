@@ -12,7 +12,7 @@ export class HyperkitTransition extends HyperkitElement<{
 		"enter-on-connect": "boolean";
 	};
 }> {
-	public props = {
+	public propTypes = {
 		"enter-class": "string",
 		"enter-from-class": "string",
 		"enter-to-class": "string",
