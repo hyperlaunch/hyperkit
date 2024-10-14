@@ -1,110 +1,35 @@
+import {
+	HyperkitDisclosureContent,
+	HyperkitDisclosureSummoner,
+} from "./hyperkit-disclosure";
 import { HyperkitElement } from "./hyperkit-element";
-import type { HyperkitTransition } from "./transition";
 
-class HyperkitDetail extends HyperkitElement<{
-	events: { type: "show" } | { type: "hide" };
-}> {
-	public requiredChildren = ["h7-detail-trigger", "h7-detail-content"];
+export class HyperkitDetail extends HyperkitDisclosureContent {
+	public requiredSiblings = [
+		`hyperkit-detail-summoner[for=${this.prop("id")}]`,
+	];
 
-	private triggerElement: HTMLElement | null = null;
-	private contentElement: HTMLElement | null = null;
-	private button?: HTMLButtonElement | null = null;
-	private clickListenerAdded = false;
+	summonedBy = document.querySelector<HyperkitDetailSummoner>(
+		`hyperkit-detail-summoner[for=${this.prop("id")}`,
+	);
 
-	connectedCallback() {
-		super.connectedCallback();
-		this.initializeElements();
-		this.setInitialVisibility();
-	}
-
-	private initializeElements() {
-		this.contentElement?.setAttribute(
-			"aria-hidden",
-			this.contentElement.hasAttribute("hidden") ? "true" : "false",
-		);
-
-		this.button =
-			this.triggerElement?.querySelector<HTMLButtonElement>("button");
-
-		if (!this.clickListenerAdded) {
-			this.button?.addEventListener("click", (event) => {
-				event.stopPropagation();
-				this.toggleContent();
-			});
-			this.clickListenerAdded = true;
-		}
-	}
-
-	private setInitialVisibility() {
-		this.setVisible(!this.hidden);
-	}
-
-	public get hidden(): boolean {
-		return this.contentElement?.hasAttribute("hidden") ?? false;
-	}
-
-	private toggleContent() {
-		this.hidden ? this.show() : this.hide();
-	}
-
-	public show() {
-		if (!this.contentElement) return;
-
-		const transitionElement =
-			this.contentElement.querySelector<HyperkitTransition>(
-				"hyperkit-transition",
-			);
-
-		this.contentElement.removeAttribute("hidden");
-		this.contentElement.setAttribute("aria-hidden", "false");
-
-		if (transitionElement) transitionElement.enter();
-
-		this.setVisible(true);
-	}
-
-	public hide() {
-		if (!this.contentElement) return;
-
-		const transitionElement =
-			this.contentElement.querySelector<HyperkitTransition>(
-				"hyperkit-transition",
-			);
-
-		if (transitionElement) {
-			transitionElement.exit();
-			transitionElement.on(
-				"exit",
-				() => {
-					this.contentElement?.setAttribute("hidden", "");
-					this.contentElement?.setAttribute("aria-hidden", "true");
-				},
-				{ once: true },
-			);
-		} else {
-			this.contentElement.setAttribute("hidden", "");
-			this.contentElement.setAttribute("aria-hidden", "true");
-		}
-
-		this.setVisible(false);
-	}
-
-	private setVisible(visible: boolean) {
-		if (this.button) {
-			if (visible) {
-				this.fire("show");
-				this.button.setAttribute("data-visible", "true");
-			} else {
-				this.fire("hide");
-				this.button.removeAttribute("data-visible");
-			}
-		}
-	}
+	dismissOnOutsideClick = false;
+	dismissOnEscKey = false;
 }
 
-if (!customElements.get("hyperkit-detail")) {
+if (!customElements.get("hyperkit-detail"))
 	customElements.define("hyperkit-detail", HyperkitDetail);
+
+export class HyperkitDetailSummoner extends HyperkitDisclosureSummoner {
+	public requiredSiblings = [`hyperkit-detail[id=${this.prop("for")}]`];
+
+	summons = document.querySelector<HyperkitDetail>(
+		`hyperkit-detail[id=${this.prop("for")}`,
+	);
 }
+
+if (!customElements.get("hyperkit-detail-summoner"))
+	customElements.define("hyperkit-detail-summoner", HyperkitDetailSummoner);
 
 class HyperkitAccordion extends HyperkitElement {
 	public requiredChildren = ["hyperkit-detail"];
@@ -117,15 +42,15 @@ class HyperkitAccordion extends HyperkitElement {
 
 	private initializeDetails() {
 		for (const detail of this.details)
-			detail.on("show", () => this.closeOtherDetails(detail));
+			detail.on("summoned", () => this.closeOtherDetails(detail));
 
 		for (const [index, detail] of this.details.entries())
-			index !== 0 ? detail.hide() : detail.show();
+			index !== 0 ? detail.dismiss() : detail.summon();
 	}
 
 	private closeOtherDetails(openDetail: HyperkitDetail) {
 		for (const detail of this.details) {
-			if (detail !== openDetail && !detail.hidden) detail.hide();
+			if (detail !== openDetail && !detail.hidden) detail.dismiss();
 		}
 	}
 }
