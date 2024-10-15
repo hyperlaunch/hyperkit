@@ -25,6 +25,8 @@ export class HyperkitPopoverSummoner extends HyperkitDisclosureSummoner {
 	summons = document.querySelector<HyperkitPopover>(
 		`hyperkit-popover[id=${this.prop("for")}`,
 	);
+
+	dismissSummonedContent = true;
 }
 
 if (!customElements.get("hyperkit-popover-summoner"))
