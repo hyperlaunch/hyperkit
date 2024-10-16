@@ -7,11 +7,11 @@ import Layout from "../astro-components/Layout.astro";
 export const prerender = true;
 
 export async function getStaticPaths() {
-	const entries = await getCollection("hyperkit-elements");
-	return entries.map((entry) => ({
-		params: { element: entry.slug },
-		props: { entry },
-	}));
+  const entries = await getCollection("hyperkit-elements");
+  return entries.map((entry) => ({
+    params: { element: entry.slug },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
@@ -21,7 +21,7 @@ const { Content } = await entry.render();
 
 <Layout>
   <div
-    class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 w-64"
+    class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink w-64"
   >
     <ComponentNav />
   </div>
@@ -40,6 +40,43 @@ const { Content } = await entry.render();
             {tagline}
           </h2>
         </header>
+        <div
+          class="lg:hidden bg-zinc-100 dark:bg-zinc-900 rounded-md py-2 px-4 text-xs border border-zinc-200 dark:border-zinc-800"
+        >
+          <hyperkit-detail-summoner for="sm-jump-links">
+            <button class="flex items-center font-semibold whitespace-nowrap">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-5 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+                ></path>
+              </svg>
+              On this page
+            </button>
+          </hyperkit-detail-summoner>
+          <hyperkit-detail id="sm-jump-links" hidden>
+            <hyperkit-transition
+              class="block"
+              enter-class="transition-all duration-300 ease-in"
+              enter-from-class="opacity-0 max-h-0"
+              enter-to-class="opacity-100 max-h-[1000px]"
+              exit-class="transition-all duration-150 ease-out"
+              exit-from-class="opacity-100 max-h-[1000px]"
+              exit-to-class="opacity-0 max-h-0"
+              class="block p-4 -mx-4 mt-2 -mb-2 border-t border-t-zinc-200 dark:border-t-zinc-800"
+            >
+              <JumpLinks targetElementId="element-docs" /></hyperkit-transition
+            >
+          </hyperkit-detail>
+        </div>
         <main
           class="prose prose-sm dark:prose-invert scroll-mt-10"
           id="element-docs"
@@ -48,10 +85,14 @@ const { Content } = await entry.render();
         </main>
       </div>
       <aside
-        class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink mt-4 w-64"
+        class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink w-64"
       >
         <JumpLinks targetElementId="element-docs" />
       </aside>
     </div>
   </div>
 </Layout>
+<script>
+  import "@hyperkit/elements/detail.ts";
+  import "@hyperkit/elements/transition.ts";
+</script>

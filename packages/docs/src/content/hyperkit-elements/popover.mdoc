@@ -54,25 +54,6 @@ Tags:
 ---
 {% /table %}
 
-### Children
-
-```html
-<hyperkit-popover-summoner for="popover-id"><button>Open Popover</button></hyperkit-popover-summoner>
-<hyperkit-popover id="popover-id" hidden>
-  <h7-popover-content />
-</hyperkit-popover>
-```
-
-#### `<hyperkit-popover-summoner />`
-
-* Associates with a `<hyperkit-popover>` by matching the `for` attribute to the popover's `id` attribute.
-* Must contain a `<button />` for accessibility.
-
-#### `<h7-popover-content />`
-
-* Holds the content that will be shown when the popover is visible.
-* Hidden by default unless explicitly set to visible or controlled programmatically.
-
 ### Transition Support
 
 `<h7-popover-content />` can optionally take a transition element (`<hyperkit-transition />`) as its immediate child. When that's the case, the popover controls the transition lifecycle, and the content becomes hidden when the transition exit finishes.
@@ -82,18 +63,16 @@ Tags:
 ```html
 <hyperkit-popover-summoner for="popover-with-transition"><button>Open Popover</button></hyperkit-popover-summoner>
 <hyperkit-popover id="popover-with-transition" hidden>
-  <h7-popover-content>
-    <hyperkit-transition
-      enter-class="transition-all duration-500 ease-in"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      exit-class="transition-all duration-300 ease-out"
-      exit-from-class="opacity-100"
-      exit-to-class="opacity-0"
-    >
-      …
-    </hyperkit-transition>
-  </h7-popover-content>
+  <hyperkit-transition
+    enter-class="transition-all duration-500 ease-in"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    exit-class="transition-all duration-300 ease-out"
+    exit-from-class="opacity-100"
+    exit-to-class="opacity-0"
+  >
+    …
+  </hyperkit-transition>
 </hyperkit-popover>
 ```
 
@@ -152,18 +131,16 @@ The trigger button also receives a `data-visible` attribute when the popover is 
     Open Popover
   </button>
 </hyperkit-popover-summoner>
-<hyperkit-popover id="styledPopover" hidden>
-  <h7-popover-content class="w-64 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2">
-    <div class="p-4">
-      <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
-        Popover Title
-      </div>
-      <div class="text-sm text-zinc-600">
-        This is some example content for the popover. You can put any HTML
-        content here.
-      </div>
+<hyperkit-popover id="styledPopover" hidden class="w-64 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2">
+  <div class="p-4">
+    <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
+      Popover Title
     </div>
-  </h7-popover-content>
+    <div class="text-sm text-zinc-600">
+      This is some example content for the popover. You can put any HTML
+      content here.
+    </div>
+  </div>
 </hyperkit-popover>
 ```
 
@@ -177,9 +154,7 @@ The popover content is hidden by default using the `hidden` attribute on the `<h
 
 ```html
 <hyperkit-popover-summoner for="hiddenPopover"><button>Open Popover</button></hyperkit-popover-summoner>
-<hyperkit-popover id="hiddenPopover" hidden>
-  <h7-popover-content hidden />
-</hyperkit-popover>
+<hyperkit-popover id="hiddenPopover" hidden>…</hyperkit-popover>
 ```
 
 ### Using a Transition
@@ -193,17 +168,15 @@ You can enhance your popover by adding a `<hyperkit-transition />` as a child of
 ```html
 <hyperkit-popover-summoner for="transitionPopover"><button>Open Popover</button></hyperkit-popover-summoner>
 <hyperkit-popover id="transitionPopover" hidden>
-  <h7-popover-content>
-    <hyperkit-transition
-      enter-class="transition-all duration-500 ease-in"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      exit-class="transition-all duration-300 ease-out"
-      exit-from-class="opacity-100"
-      exit-to-class="opacity-0"
-    >
-      …
-    </hyperkit-transition>
-  </h7-popover-content>
+  <hyperkit-transition
+    enter-class="transition-all duration-500 ease-in"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    exit-class="transition-all duration-300 ease-out"
+    exit-from-class="opacity-100"
+    exit-to-class="opacity-0"
+  >
+    …
+  </hyperkit-transition>
 </hyperkit-popover>
 ```

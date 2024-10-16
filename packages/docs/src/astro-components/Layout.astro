@@ -85,19 +85,25 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
             </svg>
           </button>
         </hyperkit-popover-summoner>
-        <hyperkit-popover
-          id="styledPopover"
-          hidden
-          class="w-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg overflow-hidden absolute right-0 mt-2 p-4"
-        >
-          <div
-            class="text-sm font-semibold text-zinc-950 dark:text-white mt-0 mb-2"
+        <hyperkit-popover id="styledPopover" hidden>
+          <hyperkit-transition
+            enter-class="transition-all duration-150 ease-in"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            exit-class="transition-all duration-300 ease-out"
+            exit-from-class="opacity-100"
+            exit-to-class="opacity-0"
+            class="w-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg overflow-hidden absolute right-0 mt-2 p-4"
           >
-            Components
-          </div>
-          <div class="text-xs text-zinc-600">
-            <ComponentNav />
-          </div>
+            <div
+              class="text-sm font-semibold text-zinc-950 dark:text-white mt-0 mb-2"
+            >
+              Components
+            </div>
+            <div class="text-xs text-zinc-600">
+              <ComponentNav />
+            </div></hyperkit-transition
+          >
         </hyperkit-popover>
       </div>
     </header>
@@ -110,4 +116,5 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
 </html>
 <script>
   import "@hyperkit/elements/popover.ts";
+  import "@hyperkit/elements/transition.ts";
 </script>
