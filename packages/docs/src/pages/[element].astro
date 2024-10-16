@@ -41,10 +41,12 @@ const { Content } = await entry.render();
           </h2>
         </header>
         <div
-          class="lg:hidden bg-zinc-100 dark:bg-zinc-900 rounded-md py-2 px-4 text-xs border border-zinc-200 dark:border-zinc-800"
+          class="lg:hidden bg-zinc-100 dark:bg-zinc-900 rounded-md text-xs border border-zinc-200 dark:border-zinc-800"
         >
           <hyperkit-detail-summoner for="sm-jump-links">
-            <button class="flex items-center font-semibold whitespace-nowrap">
+            <button
+              class="flex items-center w-full font-semibold whitespace-nowrap py-2 px-4"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -71,7 +73,7 @@ const { Content } = await entry.render();
               exit-class="transition-all duration-150 ease-out"
               exit-from-class="opacity-100 max-h-[1000px]"
               exit-to-class="opacity-0 max-h-0"
-              class="block p-4 -mx-4 mt-2 -mb-2 border-t border-t-zinc-200 dark:border-t-zinc-800"
+              class="block p-4 border-t border-t-zinc-200 dark:border-t-zinc-800"
             >
               <JumpLinks targetElementId="element-docs" /></hyperkit-transition
             >
