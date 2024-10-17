@@ -129,7 +129,8 @@ export abstract class HyperkitDisclosureContent<
 		document.addEventListener("click", (event) => {
 			const isInsidePopover = this.contains(event.target as Node);
 			const isSummonedBy = this.summonedBy?.button === event.target;
-			if (!isSummonedBy && !isInsidePopover) this.dismiss();
+			if (!isSummonedBy && !isInsidePopover && !this.hasAttribute("hidden"))
+				this.dismiss();
 		});
 	}
 

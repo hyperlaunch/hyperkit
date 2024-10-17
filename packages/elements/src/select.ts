@@ -51,6 +51,16 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	connectedCallback() {
 		super.connectedCallback();
 
+		// TODO: Wanna be able to use prop("for") here
+		const forAttr = this.getAttribute("for");
+		this.connectedInput = forAttr
+			? (document.getElementById(forAttr) as HTMLInputElement)
+			: null;
+
+		if (forAttr && this.connectedInput) this.value = this.connectedInput.value;
+
+		this.initializeArrowNavigation();
+
 		this.summonedBy?.setAttribute("aria-controls", this.id);
 		this.setAttribute("role", "listbox");
 
@@ -61,6 +71,8 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 			);
 			selectedButton?.focus();
 		});
+
+		this.on("dismissed", () => this.summonedBy?.button?.focus());
 	}
 
 	selected(option: HyperkitSelectOption) {
