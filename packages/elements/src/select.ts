@@ -15,6 +15,8 @@ class HyperkitSelectOption extends HyperkitElement<{
 		super.connectedCallback();
 
 		const button = this.querySelector<HTMLButtonElement>("button");
+
+		button?.setAttribute("role", "option");
 		button?.addEventListener("click", this.onClick.bind(this));
 	}
 
@@ -49,16 +51,8 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	connectedCallback() {
 		super.connectedCallback();
 
-		// TODO: Need to be able to use this.prop("for") here
-		const forAttr = this.getAttribute("for");
-		this.connectedInput = forAttr
-			? (document.getElementById(forAttr) as HTMLInputElement)
-			: null;
-		if (forAttr && this.connectedInput) {
-			this.value = this.connectedInput.value;
-		}
-
-		this.initializeArrowNavigation();
+		this.summonedBy?.setAttribute("aria-controls", this.id);
+		this.setAttribute("role", "listbox");
 
 		this.on("summoned", () => {
 			if (!this.value) return;
@@ -77,11 +71,17 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 			this.querySelectorAll<HyperkitSelectOption>("h7-select-option"),
 		)) {
 			const button = opt.querySelector<HTMLButtonElement>("button");
-			if (button) delete button.dataset.selected;
+
+			delete button?.dataset.selected;
+			button?.setAttribute("aria-selected", "false");
 		}
 
 		const selectedButton = option.querySelector<HTMLButtonElement>("button");
-		if (selectedButton) selectedButton.dataset.selected = "";
+
+		if (selectedButton) {
+			selectedButton.dataset.selected = "";
+			selectedButton.setAttribute("aria-selected", "true");
+		}
 
 		this.value = String(current);
 
@@ -117,13 +117,23 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 	connectedCallback() {
 		super.connectedCallback();
 
-		if (this.button) this.originalButtonText = this.button.textContent || "";
+		if (this.button) {
+			this.originalButtonText = this.button.textContent || "";
+			this.button.setAttribute("aria-expanded", "false");
+			this.button.setAttribute("aria-haspopup", "listbox");
+			this.button.setAttribute("aria-controls", this.summons?.id || "");
+		}
 
 		this.button?.addEventListener("keydown", this.onKeyDown.bind(this));
 
 		this.summons?.on("change", this.onValueChanged.bind(this));
 
 		this.updateButtonText();
+	}
+
+	onValueChanged() {
+		this.updateButtonText();
+		this.button?.setAttribute("aria-expanded", String(!this.summons?.hidden));
 	}
 
 	onKeyDown(event: KeyboardEvent) {
@@ -139,10 +149,6 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 			);
 			firstOptionButton?.focus();
 		}
-	}
-
-	onValueChanged() {
-		this.updateButtonText();
 	}
 
 	updateButtonText() {
