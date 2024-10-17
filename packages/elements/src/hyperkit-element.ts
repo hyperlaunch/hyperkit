@@ -1,4 +1,4 @@
-interface BaseEvent {
+export interface BaseEvent {
 	type: string;
 	// biome-ignore lint/suspicious/noExplicitAny: allow any detail
 	detail?: any;
@@ -9,9 +9,14 @@ type MappedReturnPropTypes = PermittedPropTypes & null;
 
 export abstract class HyperkitElement<
 	Options extends {
-		events?: BaseEvent | undefined;
+		events?: BaseEvent | never;
+		propagatedEvents?: BaseEvent | never;
 		propTypes?: Record<string, PermittedPropTypes>;
-	} = { events: undefined; propTypes: Record<string, never> },
+	} = {
+		events: never;
+		propagatedEvents: never;
+		propTypes: Record<string, never>;
+	},
 > extends HTMLElement {
 	// TODO: Find out if I can avoid replicating this somehow
 	propTypes?: Options["propTypes"];
@@ -49,28 +54,21 @@ export abstract class HyperkitElement<
 		return this.requiredParent && this.closest(this.requiredParent);
 	}
 
-	public fire<
-		K extends Options["events"] extends BaseEvent
-			? Options["events"]["type"]
-			: never,
-	>(
-		eventName: K,
-		options?: CustomEventInit<
-			Extract<Options["events"], { type: K }>["detail"]
-		>,
+	public fire<E extends Options["events"] | Options["propagatedEvents"]>(
+		eventName: E extends { type: infer T } ? T : never,
+		options?: CustomEventInit<E extends { detail: infer D } ? D : never>,
 	): void {
 		const event = new CustomEvent(eventName as string, { ...options });
 		this.dispatchEvent(event);
 	}
 
 	public on<
-		K extends Options["events"] extends BaseEvent
-			? Options["events"]["type"]
-			: never,
+		E extends Options["events"] | Options["propagatedEvents"],
+		K extends E extends { type: infer T } ? T : never,
 	>(
 		eventName: K,
 		listener: (
-			event: CustomEvent<Extract<Options["events"], { type: K }>["detail"]>,
+			event: CustomEvent<Extract<E, { type: K }>["detail"]>, // Extract the event detail based on the event type
 		) => void,
 		options?: boolean | AddEventListenerOptions,
 	): void {
@@ -81,6 +79,7 @@ export abstract class HyperkitElement<
 		);
 	}
 
+	// Just to be able to provide the return type xD
 	public prop<Name extends keyof Options["propTypes"]>(
 		name: Name,
 	): Options["propTypes"][Name] extends "string"

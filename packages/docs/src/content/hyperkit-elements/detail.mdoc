@@ -19,7 +19,7 @@ Tags:
 
 ```html
 <hyperkit-accordion>…</hyperkit-accordion>
-<hyperkit-detail-summoner for="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
+<hyperkit-detail-summoner summons="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
 <hyperkit-detail id="detail-id">…</hyperkit-detail>
 ```
 
@@ -47,7 +47,7 @@ Tags:
 * Value
 * 
 ---
-* `for`
+* `summons`
 * String _(required)_
 * The `id` of the associated `<hyperkit-detail />` that this summoner controls. Clicking the summoner will toggle the visibility of the detail linked by the `id`.
 ---
@@ -61,14 +61,14 @@ There are no specific options for `<hyperkit-accordion />`. It automatically man
 
 ```html
 <!-- Standalone Detail -->
-<hyperkit-detail-summoner for="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
+<hyperkit-detail-summoner summons="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
 <hyperkit-detail id="detail-id">Detail content</hyperkit-detail>
 
 <!-- Accordion with Multiple Details -->
 <hyperkit-accordion>
-  <hyperkit-detail-summoner for="detail-1"><button>Open Detail 1</button></hyperkit-detail-summoner>
+  <hyperkit-detail-summoner summons="detail-1"><button>Open Detail 1</button></hyperkit-detail-summoner>
   <hyperkit-detail id="detail-1">Detail content 1</hyperkit-detail>
-  <hyperkit-detail-summoner for="detail-2"><button>Open Detail 2</button></hyperkit-detail-summoner>
+  <hyperkit-detail-summoner summons="detail-2"><button>Open Detail 2</button></hyperkit-detail-summoner>
   <hyperkit-detail id="detail-2">Detail content 2</hyperkit-detail>
 </hyperkit-accordion>
 ```
@@ -76,7 +76,7 @@ There are no specific options for `<hyperkit-accordion />`. It automatically man
 #### `<hyperkit-detail-summoner />`
 
 * Acts as the trigger for expanding or collapsing the detail content.
-* Must contain a `<button />` for accessibility and be linked to a `<hyperkit-detail />` via the `for` attribute.
+* Must contain a `<button />` for accessibility and be linked to a `<hyperkit-detail />` via the `summons` attribute.
 
 #### `<hyperkit-detail />`
 
@@ -129,7 +129,7 @@ You can apply custom styles to both the details and their triggers. The button i
 
 ```html
 <div class="w-96 bg-white rounded-lg shadow-lg p-4">
-  <hyperkit-detail-summoner for="styledDetail">
+  <hyperkit-detail-summoner summons="styledDetail">
     <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-700 data-[active]:text-zinc-900 hover:text-zinc-600 transition-colors duration-200">
       Section Title
     </button>
@@ -148,7 +148,7 @@ To animate the visibility of the detail, use the `<hyperkit-transition />` eleme
 
 ```html
 <div>
-  <hyperkit-detail-summoner for="transitionDetail"><button /></hyperkit-detail-summoner>
+  <hyperkit-detail-summoner summons="transitionDetail"><button /></hyperkit-detail-summoner>
   <hyperkit-detail id="transitionDetail">
     <hyperkit-transition
       class="block"
@@ -173,10 +173,10 @@ When wrapped in a `<hyperkit-accordion />` tag, only one detail section can be o
 
 ```html
 <hyperkit-accordion>
-  <hyperkit-detail-summoner for="accordionDetail1"><button>Open Detail 1</button></hyperkit-detail-summoner>
+  <hyperkit-detail-summoner summons="accordionDetail1"><button>Open Detail 1</button></hyperkit-detail-summoner>
   <hyperkit-detail id="accordionDetail1">Detail content 1</hyperkit-detail>
 
-  <hyperkit-detail-summoner for="accordionDetail2"><button>Open Detail 2</button></hyperkit-detail-summoner>
+  <hyperkit-detail-summoner summons="accordionDetail2"><button>Open Detail 2</button></hyperkit-detail-summoner>
   <hyperkit-detail id="accordionDetail2">Detail content 2</hyperkit-detail>
 </hyperkit-accordion>
 ```

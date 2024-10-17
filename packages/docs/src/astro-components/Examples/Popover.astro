@@ -9,7 +9,7 @@ const { id, contentHidden = false, useTransition = false } = Astro.props;
 ---
 
 <div class="relative w-64 block">
-  <hyperkit-popover-summoner for={id}>
+  <hyperkit-popover-summoner summons={id}>
     <button
       class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-800 text-zinc-200 data-[active]:bg-zinc-900 flex items-center justify-center font-medium w-min whitespace-nowrap"
     >

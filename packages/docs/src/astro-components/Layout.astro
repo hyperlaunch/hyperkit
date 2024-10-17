@@ -67,7 +67,7 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
         <a href="/">Hyperkit</a>
       </h1>
       <div class="relative lg:hidden">
-        <hyperkit-popover-summoner for="styledPopover">
+        <hyperkit-popover-summoner summons="menuPopover">
           <button
             class="px-2.5 py-2 text-sm shadow-sm rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 data-[active]:bg-zinc-200 dark:data-[active]:bg-zinc-800 flex items-center font-medium transition-color duration-300 border border-zinc-200 dark:border-zinc-800"
           >
@@ -87,7 +87,7 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
             </svg>
           </button>
         </hyperkit-popover-summoner>
-        <hyperkit-popover id="styledPopover" hidden>
+        <hyperkit-popover id="menuPopover" hidden>
           <hyperkit-transition
             enter-class="transition-all duration-150 ease-in"
             enter-from-class="opacity-0"

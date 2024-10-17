@@ -10,7 +10,7 @@ const items = ["First", "Second", "Third"];
   {
     items.map((item, i) => (
       <div class="mb-4 pb-4 border-b border-b-zinc-200 last:mb-0 last:pb-0 last:border-0 block w-80">
-        <hyperkit-detail-summoner for={`${id}-${i}`}>
+        <hyperkit-detail-summoner summons={`${id}-${i}`}>
           <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-600 data-[active]:text-lime-500 hover:text-zinc-900">
             {item} Item
           </button>

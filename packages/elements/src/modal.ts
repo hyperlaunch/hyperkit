@@ -6,10 +6,12 @@ import {
 import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitModal extends HyperkitDisclosureContent {
-	public requiredSiblings = [`hyperkit-modal-summoner[for=${this.prop("id")}]`];
+	public requiredSiblings = [
+		`hyperkit-modal-summoner[summons=${this.prop("id")}]`,
+	];
 
 	summonedBy = document.querySelector<HyperkitModalSummoner>(
-		`hyperkit-modal-summoner[for=${this.prop("id")}`,
+		`hyperkit-modal-summoner[summons=${this.prop("id")}]`,
 	);
 
 	dismissOnOutsideClick = true;
@@ -20,10 +22,10 @@ if (!customElements.get("hyperkit-modal"))
 	customElements.define("hyperkit-modal", HyperkitModal);
 
 export class HyperkitModalSummoner extends HyperkitDisclosureSummoner {
-	public requiredSiblings = [`hyperkit-modal[id=${this.prop("for")}]`];
+	public requiredSiblings = [`hyperkit-modal[id=${this.prop("summons")}]`];
 
 	summons = document.querySelector<HyperkitModal>(
-		`hyperkit-modal[id=${this.prop("for")}`,
+		`hyperkit-modal[id=${this.prop("summons")}`,
 	);
 }
 

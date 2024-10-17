@@ -20,7 +20,7 @@ import "@hyperkit/elements/modal";
 Tags:
 
 ```html
-<hyperkit-modal-summoner for="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
+<hyperkit-modal-summoner summons="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
 <hyperkit-modal id="modal-id" hidden>
   <h7-modal-dismisser><button>Close Modal</button></h7-modal-dismisser>
   <h7-modal-backdrop />
@@ -51,7 +51,7 @@ Tags:
 * Value
 * 
 ---
-* `for`
+* `summons`
 * String _(required)_
 * Connects the trigger with a `<hyperkit-modal />` by matching its `id` attribute.
 ---
@@ -60,7 +60,7 @@ Tags:
 ### Children
 
 ```html
-<hyperkit-modal-summoner for="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
+<hyperkit-modal-summoner summons="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
 <hyperkit-modal id="modal-id" hidden>
   <h7-modal-dismisser><button>Close Modal</button></h7-modal-dismisser>
   <h7-modal-backdrop />
@@ -69,7 +69,7 @@ Tags:
 
 #### `<hyperkit-modal-summoner />`
 
-* Associates with a `<hyperkit-modal>` by matching the `for` attribute to the modal's `id` attribute.
+* Associates with a `<hyperkit-modal>` by matching the `summons` attribute to the modal's `id` attribute.
 * Must contain a `<button />` for accessibility.
 
 #### `<h7-modal-dismisser />`
@@ -129,7 +129,7 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
 {% /example %}
 
 ```html
-<hyperkit-modal-summoner for="styledModal">
+<hyperkit-modal-summoner summons="styledModal">
   <button
     class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[active]:bg-zinc-800 flex items-center justify-center font-medium w-min whitespace-nowrap"
   >

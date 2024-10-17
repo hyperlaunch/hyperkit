@@ -75,6 +75,14 @@ export default defineMarkdocConfig({
 		"arrow-nav": {
 			render: component("./src/astro-components/Examples/ArrowNav.astro"),
 		},
+		select: {
+			render: component("./src/astro-components/Examples/Select.astro"),
+			attributes: {
+				useTransition: { type: Boolean },
+				for: { type: String },
+				value: { type: String },
+			},
+		},
 	},
 	extends: [
 		shiki({

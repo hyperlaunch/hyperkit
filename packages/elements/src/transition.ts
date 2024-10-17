@@ -2,6 +2,7 @@ import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitTransition extends HyperkitElement<{
 	events: { type: "enter" } | { type: "exit" };
+	propagatedEvents: undefined;
 	propTypes: {
 		"enter-class": "string";
 		"enter-from-class": "string";

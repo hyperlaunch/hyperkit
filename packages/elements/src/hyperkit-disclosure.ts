@@ -1,10 +1,10 @@
-import { HyperkitElement } from "./hyperkit-element";
+import { type BaseEvent, HyperkitElement } from "./hyperkit-element";
 import type { HyperkitTransition } from "./transition";
 
 export abstract class HyperkitDisclosureSummoner extends HyperkitElement<{
-	propTypes: { for: "string" };
+	propTypes: { summons: "string" };
 }> {
-	public propTypes = { for: "string" } as const;
+	public propTypes = { summons: "string" } as const;
 	public requiredChildren = ["button"];
 
 	abstract summons: HyperkitDisclosureContent | null;
@@ -61,11 +61,17 @@ export abstract class HyperkitDisclosureDismisser extends HyperkitElement {
 	}
 }
 
-export abstract class HyperkitDisclosureContent extends HyperkitElement<{
-	events: { type: "summoned" } | { type: "dismissed" };
+type DisclosureContentEvents = { type: "summoned" } | { type: "dismissed" };
+
+export abstract class HyperkitDisclosureContent<
+	Options extends { events: BaseEvent | undefined } = { events: undefined },
+> extends HyperkitElement<{
+	events: DisclosureContentEvents;
+	propagatedEvents: Options["events"];
 	propTypes: { id: "string" };
 }> {
-	public propTypes = { id: "string" } as const;
+	public readonly propTypes = { id: "string" } as const;
+
 	abstract summonedBy: HyperkitDisclosureSummoner | null;
 
 	dismissOnOutsideClick = false;

@@ -5,11 +5,11 @@ import {
 
 export class HyperkitPopover extends HyperkitDisclosureContent {
 	public requiredSiblings = [
-		`hyperkit-popover-summoner[for=${this.prop("id")}]`,
+		`hyperkit-popover-summoner[summons=${this.prop("id")}]`,
 	];
 
 	summonedBy = document.querySelector<HyperkitPopoverSummoner>(
-		`hyperkit-popover-summoner[for=${this.prop("id")}`,
+		`hyperkit-popover-summoner[summons=${this.prop("id")}]`,
 	);
 
 	dismissOnOutsideClick = true;
@@ -20,10 +20,10 @@ if (!customElements.get("hyperkit-popover"))
 	customElements.define("hyperkit-popover", HyperkitPopover);
 
 export class HyperkitPopoverSummoner extends HyperkitDisclosureSummoner {
-	public requiredSiblings = [`hyperkit-popover[id=${this.prop("for")}]`];
+	public requiredSiblings = [`hyperkit-popover[id=${this.prop("summons")}]`];
 
 	summons = document.querySelector<HyperkitPopover>(
-		`hyperkit-popover[id=${this.prop("for")}`,
+		`hyperkit-popover[id=${this.prop("summons")}`,
 	);
 
 	dismissSummonedContent = true;

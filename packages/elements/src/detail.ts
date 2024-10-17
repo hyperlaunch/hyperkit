@@ -6,11 +6,11 @@ import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitDetail extends HyperkitDisclosureContent {
 	public requiredSiblings = [
-		`hyperkit-detail-summoner[for=${this.prop("id")}]`,
+		`hyperkit-detail-summoner[summons=${this.prop("id")}]`,
 	];
 
 	summonedBy = document.querySelector<HyperkitDetailSummoner>(
-		`hyperkit-detail-summoner[for=${this.prop("id")}`,
+		`hyperkit-detail-summoner[summons=${this.prop("id")}]`,
 	);
 }
 
@@ -18,10 +18,10 @@ if (!customElements.get("hyperkit-detail"))
 	customElements.define("hyperkit-detail", HyperkitDetail);
 
 export class HyperkitDetailSummoner extends HyperkitDisclosureSummoner {
-	public requiredSiblings = [`hyperkit-detail[id=${this.prop("for")}]`];
+	public requiredSiblings = [`hyperkit-detail[id=${this.prop("summons")}]`];
 
 	summons = document.querySelector<HyperkitDetail>(
-		`hyperkit-detail[id=${this.prop("for")}`,
+		`hyperkit-detail[id=${this.prop("summons")}`,
 	);
 
 	dismissSummonedContent = !this.closest("hyperkit-accordion");

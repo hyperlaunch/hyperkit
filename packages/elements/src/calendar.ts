@@ -2,12 +2,14 @@ import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitCalendar extends HyperkitElement<{
 	events: { type: "change"; detail: { previous?: string; current: string } };
+	propagatedEvents: undefined;
 	propTypes: {
 		value: "date";
 		min: "date";
 		max: "date";
 		"future-only": "boolean";
 		"past-only": "boolean";
+		for: "string";
 	};
 }> {
 	public requiredChildren = ["h7-days-list", `button[slot="day-number"]`];
@@ -23,6 +25,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 		max: "date",
 		"future-only": "boolean",
 		"past-only": "boolean",
+		for: "string",
 	} as const;
 
 	private static monthNames = [
@@ -70,7 +73,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 
 	private initializeElements() {
 		this.inputElement = document.querySelector(
-			`input[id="${this.getAttribute("for")}"]`,
+			`input[id="${this.prop("for")}"]`,
 		);
 		this.monthElement = this.querySelector("h7-current-month");
 
