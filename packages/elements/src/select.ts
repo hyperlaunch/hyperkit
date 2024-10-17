@@ -17,7 +17,7 @@ class HyperkitSelectOption extends HyperkitElement<{
 		const button = this.querySelector<HTMLButtonElement>("button");
 
 		button?.setAttribute("role", "option");
-		button?.addEventListener("click", this.onClick.bind(this));
+		button?.addEventListener("click", () => this.onClick());
 	}
 
 	onClick() {
@@ -135,13 +135,13 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 			this.button.setAttribute("aria-expanded", "false");
 			this.button.setAttribute("aria-haspopup", "listbox");
 			this.button.setAttribute("aria-controls", this.summons?.id || "");
+			this.button.addEventListener("keydown", this.onKeyDown.bind(this));
 		}
 
-		this.button?.addEventListener("keydown", this.onKeyDown.bind(this));
-
-		this.summons?.on("change", this.onValueChanged.bind(this));
-
-		this.updateButtonText();
+		requestAnimationFrame(() => {
+			this.summons?.on("change", this.onValueChanged.bind(this));
+			this.updateButtonText();
+		});
 	}
 
 	onValueChanged() {
