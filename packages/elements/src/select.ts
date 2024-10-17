@@ -67,9 +67,11 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 
 		this.on("summon", () => {
 			if (!this.value) return;
+
 			const selectedButton = this.querySelector<HTMLButtonElement>(
 				`h7-select-option[value="${this.value}"] button`,
 			);
+
 			selectedButton?.focus();
 		});
 	}
