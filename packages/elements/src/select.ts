@@ -5,18 +5,17 @@ import {
 } from "./hyperkit-disclosure";
 import { HyperkitElement } from "./hyperkit-element";
 
-class HyperkitSelectOption extends HyperkitElement {
+class HyperkitSelectOption extends HyperkitElement<{
+	propTypes: { value: "string" };
+}> {
+	propTypes = { value: "string" } as const;
 	requiredChildren = ["button"];
 
 	connectedCallback() {
 		super.connectedCallback();
 
-		const button = this.querySelector("button");
-		if (!button) {
-			console.warn("<h7-select-option> should have a nested button.");
-		} else {
-			button.addEventListener("click", this.onClick.bind(this));
-		}
+		const button = this.querySelector<HTMLButtonElement>("button");
+		button?.addEventListener("click", this.onClick.bind(this));
 	}
 
 	onClick() {
@@ -50,6 +49,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	connectedCallback() {
 		super.connectedCallback();
 
+		// TODO: Need to be able to use this.prop("for") here
 		const forAttr = this.getAttribute("for");
 		this.connectedInput = forAttr
 			? (document.getElementById(forAttr) as HTMLInputElement)
@@ -59,11 +59,29 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 		}
 
 		this.initializeArrowNavigation();
+
+		this.on("summoned", () => {
+			if (!this.value) return;
+			const selectedButton = this.querySelector<HTMLButtonElement>(
+				`h7-select-option[value="${this.value}"] button`,
+			);
+			selectedButton?.focus();
+		});
 	}
 
 	selected(option: HyperkitSelectOption) {
 		const previous = this.value;
-		const current = String(option.getAttribute("value"));
+		const current = String(option.prop("value"));
+
+		for (const opt of Array.from(
+			this.querySelectorAll<HyperkitSelectOption>("h7-select-option"),
+		)) {
+			const button = opt.querySelector<HTMLButtonElement>("button");
+			if (button) delete button.dataset.selected;
+		}
+
+		const selectedButton = option.querySelector<HTMLButtonElement>("button");
+		if (selectedButton) selectedButton.dataset.selected = "";
 
 		this.value = String(current);
 
@@ -77,9 +95,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	initializeArrowNavigation() {
 		const arrowNav = new HyperkitArrowNav();
 
-		const optionsContainer = document.createElement("div");
-		optionsContainer.append(...Array.from(this.children));
-		arrowNav.appendChild(optionsContainer);
+		for (const child of Array.from(this.children)) arrowNav.appendChild(child);
 
 		this.appendChild(arrowNav);
 	}
@@ -101,9 +117,7 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 	connectedCallback() {
 		super.connectedCallback();
 
-		if (this.button) {
-			this.originalButtonText = this.button.textContent || "";
-		}
+		if (this.button) this.originalButtonText = this.button.textContent || "";
 
 		this.button?.addEventListener("keydown", this.onKeyDown.bind(this));
 
@@ -140,11 +154,7 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 				`h7-select-option[value="${value}"]`,
 			);
 			const optionButton = option?.querySelector("button");
-			if (optionButton) {
-				textContent = String(optionButton.textContent);
-			} else {
-				textContent = value;
-			}
+			textContent = optionButton ? String(optionButton.textContent) : value;
 		}
 
 		if (this.button) this.button.textContent = textContent;

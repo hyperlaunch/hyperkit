@@ -1,3 +1,11 @@
+---
+const items = [
+  { value: "1", label: "First Option" },
+  { value: "2", label: "Second Option" },
+  { value: "3", label: "Third Option" },
+];
+---
+
 <div class="relative inline-block text-left w-36">
   <input id="my-dropdown-input" type="hidden" />
   <hyperkit-select-summoner summons="my-dropdown">
@@ -10,30 +18,18 @@
   <hyperkit-select
     for="my-dropdown-input"
     id="my-dropdown"
-    class="absolute mt-0.5 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+    class="absolute mt-0.5 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
     hidden
   >
-    <h7-select-option value="1">
-      <button
-        class="block w-full px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-left font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-      >
-        Option 1
-      </button>
-    </h7-select-option>
-    <h7-select-option value="2">
-      <button
-        class="block w-full px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-left font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-      >
-        Option 2
-      </button>
-    </h7-select-option>
-    <h7-select-option value="3">
-      <button
-        class="block w-full px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-left font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-      >
-        Option 3
-      </button>
-    </h7-select-option>
+    {
+      items.map(({ value, label }) => (
+        <h7-select-option value={value}>
+          <button class="block w-full px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-gray-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+            {label}
+          </button>
+        </h7-select-option>
+      ))
+    }
   </hyperkit-select>
 </div>
 <div class="w-36 h-24"></div>
