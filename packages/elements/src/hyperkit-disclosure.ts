@@ -11,7 +11,7 @@ export abstract class HyperkitDisclosureSummoner extends HyperkitElement<{
 
 	public button = this.querySelector<HTMLButtonElement>("button");
 
-	dismissSummonedContent = false;
+	dismisssummonContent = false;
 
 	connectedCallback() {
 		super.connectedCallback();
@@ -20,14 +20,14 @@ export abstract class HyperkitDisclosureSummoner extends HyperkitElement<{
 			!this.summons?.hidden && this.setActive();
 
 			this.button?.addEventListener("click", () => {
-				if (!this.dismissSummonedContent || this.summons?.hidden)
+				if (!this.dismisssummonContent || this.summons?.hidden)
 					return this.summonContent();
 
 				this.summons?.dismiss();
 			});
 
-			this.summons?.on("summoned", () => this.setActive());
-			this.summons?.on("dismissed", () => this.unsetActive());
+			this.summons?.on("summon", () => this.setActive());
+			this.summons?.on("dismiss", () => this.unsetActive());
 		});
 	}
 
@@ -61,7 +61,7 @@ export abstract class HyperkitDisclosureDismisser extends HyperkitElement {
 	}
 }
 
-type DisclosureContentEvents = { type: "summoned" } | { type: "dismissed" };
+type DisclosureContentEvents = { type: "summon" } | { type: "dismiss" };
 
 export abstract class HyperkitDisclosureContent<
 	Options extends { events: BaseEvent | undefined } = { events: undefined },
@@ -72,7 +72,7 @@ export abstract class HyperkitDisclosureContent<
 }> {
 	public readonly propTypes = { id: "string" } as const;
 
-	abstract summonedBy: HyperkitDisclosureSummoner | null;
+	abstract summonBy: HyperkitDisclosureSummoner | null;
 
 	dismissOnOutsideClick = false;
 	dismissOnEscKey = false;
@@ -108,7 +108,7 @@ export abstract class HyperkitDisclosureContent<
 
 	private handleSummoning() {
 		this.setAttribute("aria-hidden", "false");
-		this.fire("summoned");
+		this.fire("summon");
 	}
 
 	public dismiss() {
@@ -122,14 +122,14 @@ export abstract class HyperkitDisclosureContent<
 
 	private handleDismissal() {
 		this.setAttribute("aria-hidden", "true");
-		this.fire("dismissed");
+		this.fire("dismiss");
 	}
 
 	private attachOutsideClickListener() {
 		document.addEventListener("click", (event) => {
 			const isInsidePopover = this.contains(event.target as Node);
-			const isSummonedBy = this.summonedBy?.button === event.target;
-			if (!isSummonedBy && !isInsidePopover && !this.hasAttribute("hidden"))
+			const issummonBy = this.summonBy?.button === event.target;
+			if (!issummonBy && !isInsidePopover && !this.hasAttribute("hidden"))
 				this.dismiss();
 		});
 	}

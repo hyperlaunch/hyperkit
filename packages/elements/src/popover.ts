@@ -8,7 +8,7 @@ export class HyperkitPopover extends HyperkitDisclosureContent {
 		`hyperkit-popover-summoner[summons=${this.prop("id")}]`,
 	];
 
-	summonedBy = document.querySelector<HyperkitPopoverSummoner>(
+	summonBy = document.querySelector<HyperkitPopoverSummoner>(
 		`hyperkit-popover-summoner[summons=${this.prop("id")}]`,
 	);
 
@@ -26,7 +26,7 @@ export class HyperkitPopoverSummoner extends HyperkitDisclosureSummoner {
 		`hyperkit-popover[id=${this.prop("summons")}`,
 	);
 
-	dismissSummonedContent = true;
+	dismisssummonContent = true;
 }
 
 if (!customElements.get("hyperkit-popover-summoner"))

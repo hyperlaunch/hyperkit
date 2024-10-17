@@ -10,7 +10,7 @@ export class HyperkitModal extends HyperkitDisclosureContent {
 		`hyperkit-modal-summoner[summons=${this.prop("id")}]`,
 	];
 
-	summonedBy = document.querySelector<HyperkitModalSummoner>(
+	summonBy = document.querySelector<HyperkitModalSummoner>(
 		`hyperkit-modal-summoner[summons=${this.prop("id")}]`,
 	);
 

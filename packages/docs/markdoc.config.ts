@@ -31,6 +31,7 @@ export default defineMarkdocConfig({
 		"masked-input": {
 			render: component("./src/astro-components/Examples/MaskedInput.astro"),
 			attributes: {
+				id: { type: String },
 				mask: { type: String },
 				name: { type: String },
 				placeholder: { type: String },
@@ -63,6 +64,7 @@ export default defineMarkdocConfig({
 		detail: {
 			render: component("./src/astro-components/Examples/Detail.astro"),
 			attributes: {
+				id: { type: String },
 				useTransition: { type: Boolean },
 			},
 		},
@@ -78,9 +80,11 @@ export default defineMarkdocConfig({
 		select: {
 			render: component("./src/astro-components/Examples/Select.astro"),
 			attributes: {
+				id: { type: String },
 				useTransition: { type: Boolean },
 				for: { type: String },
 				value: { type: String },
+				optionsHidden: { type: Boolean },
 			},
 		},
 	},

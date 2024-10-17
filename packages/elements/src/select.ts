@@ -38,7 +38,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	requiredSiblings = [`hyperkit-select-summoner[summons="${this.prop("id")}"]`];
 	requiredChildren = ["h7-select-option"];
 
-	summonedBy = document.querySelector<HyperkitSelectSummoner>(
+	summonBy = document.querySelector<HyperkitSelectSummoner>(
 		`hyperkit-select-summoner[summons="${this.prop("id")}"]`,
 	);
 
@@ -51,7 +51,8 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	connectedCallback() {
 		super.connectedCallback();
 
-		// TODO: Wanna be able to use prop("for") here
+		this.value = this.getAttribute("value") || undefined;
+
 		const forAttr = this.getAttribute("for");
 		this.connectedInput = forAttr
 			? (document.getElementById(forAttr) as HTMLInputElement)
@@ -61,18 +62,16 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 
 		this.initializeArrowNavigation();
 
-		this.summonedBy?.setAttribute("aria-controls", this.id);
+		this.summonBy?.setAttribute("aria-controls", this.id);
 		this.setAttribute("role", "listbox");
 
-		this.on("summoned", () => {
+		this.on("summon", () => {
 			if (!this.value) return;
 			const selectedButton = this.querySelector<HTMLButtonElement>(
 				`h7-select-option[value="${this.value}"] button`,
 			);
 			selectedButton?.focus();
 		});
-
-		this.on("dismissed", () => this.summonedBy?.button?.focus());
 	}
 
 	selected(option: HyperkitSelectOption) {
@@ -123,7 +122,7 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 		`hyperkit-select[id="${this.prop("summons")}"]`,
 	);
 
-	dismissSummonedContent = true;
+	dismisssummonContent = true;
 	originalButtonText = "";
 
 	connectedCallback() {

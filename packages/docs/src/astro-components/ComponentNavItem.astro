@@ -4,13 +4,20 @@ type Props = {
 };
 
 const { href } = Astro.props;
+const active = Astro.url.pathname === href;
 ---
 
 <li class="pb-2 last:pb-0">
   <a
     href={href}
-    class="text-sm text-zinc-800
-dark:text-zinc-200 hover:text-lime-500 dark:hover:text-lime-400"
+    class:list={[
+      "text-sm",
+      {
+        "text-zinc-800 dark:text-zinc-200 hover:text-lime-500 dark:hover:text-lime-400":
+          !active,
+        "text-lime-500 dark:text-lime-400 pointer-events-none": active,
+      },
+    ]}
   >
     <slot />
   </a>

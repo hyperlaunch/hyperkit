@@ -9,7 +9,7 @@ export class HyperkitDetail extends HyperkitDisclosureContent {
 		`hyperkit-detail-summoner[summons=${this.prop("id")}]`,
 	];
 
-	summonedBy = document.querySelector<HyperkitDetailSummoner>(
+	summonBy = document.querySelector<HyperkitDetailSummoner>(
 		`hyperkit-detail-summoner[summons=${this.prop("id")}]`,
 	);
 }
@@ -24,7 +24,7 @@ export class HyperkitDetailSummoner extends HyperkitDisclosureSummoner {
 		`hyperkit-detail[id=${this.prop("summons")}`,
 	);
 
-	dismissSummonedContent = !this.closest("hyperkit-accordion");
+	dismisssummonContent = !this.closest("hyperkit-accordion");
 }
 
 if (!customElements.get("hyperkit-detail-summoner"))
@@ -41,7 +41,7 @@ class HyperkitAccordion extends HyperkitElement {
 
 		requestAnimationFrame(() => {
 			for (const detail of this.details)
-				detail.on("summoned", () => this.closeOtherDetails(detail));
+				detail.on("summon", () => this.closeOtherDetails(detail));
 
 			for (const [index, detail] of this.details.entries())
 				index !== 0 ? detail.dismiss() : detail.summon();
