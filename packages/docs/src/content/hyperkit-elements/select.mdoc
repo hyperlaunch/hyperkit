@@ -135,12 +135,13 @@ Here’s an example with a styled summoner and option buttons:
 
 ### With an Initial Value
 
-The `value` attribute allows you to set a pre-selected option.
+The `value` attribute allows you to set a pre-selected option. Setting the text of `<hyperkit-select-summoner />` to the selected option avoids a flicker when the custom element is first connected.
 
 {% example %}
   {% select id="selectWithValue" value="2" optionsHidden=true / %}
 {% /example %}
 ```html
+<hyperkit-select-summoner>Second Option</hyperkit-select-summoner>
 <hyperkit-select value="2">
   ...
 </hyperkit-select>
