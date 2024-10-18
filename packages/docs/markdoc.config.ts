@@ -94,6 +94,11 @@ export default defineMarkdocConfig({
 				includeInputs: { type: Boolean },
 			},
 		},
+		"fieldset-repeater": {
+			render: component(
+				"./src/astro-components/Examples/FieldsetRepeater.astro",
+			),
+		},
 	},
 	extends: [
 		shiki({
