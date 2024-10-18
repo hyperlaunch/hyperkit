@@ -16,14 +16,14 @@ export class HyperkitFieldsetRepeater extends HyperkitElement {
 		if (!template || !template.content) return;
 
 		const newFieldset = template.content.cloneNode(true) as DocumentFragment;
-		const sortable = this.querySelector("hyperkit-sortable");
 
+		const sortable = this.querySelector("hyperkit-sortable");
 		if (sortable) {
 			sortable.appendChild(newFieldset);
 
 			const newItem = sortable.lastElementChild as HyperkitSortableItem;
 
-			this.updatePosition(newItem, sortable.children.length);
+			this.updatePositions();
 
 			requestAnimationFrame(() => {
 				const transition = newItem?.querySelector<HyperkitTransition>(
@@ -34,13 +34,18 @@ export class HyperkitFieldsetRepeater extends HyperkitElement {
 		}
 	}
 
-	private updatePosition(item: HyperkitSortableItem, position: number) {
-		const positionInput = item.querySelector<HTMLInputElement>(
-			"hyperkit-sortable-position input",
+	public updatePositions() {
+		const sortableItems = this.querySelectorAll<HyperkitSortableItem>(
+			"hyperkit-sortable-item",
 		);
-		if (positionInput) {
-			positionInput.value = String(position); // Set the new position
-		}
+		sortableItems.forEach((item, index) => {
+			const positionInput = item.querySelector<HTMLInputElement>(
+				"hyperkit-sortable-position input",
+			);
+			if (positionInput) {
+				positionInput.value = String(index + 1);
+			}
+		});
 	}
 }
 
@@ -51,7 +56,7 @@ export class HyperkitRepeatedFieldset extends HyperkitElement {
 	connectedCallback() {
 		super.connectedCallback();
 
-		this.setAttribute("role", "group"); // Role of group for fieldsets
+		this.setAttribute("role", "group");
 		this.setAttribute("aria-labelledby", "fieldset-title");
 
 		const destroyer = this.querySelector<HyperkitFieldsetDestroyer>(
@@ -69,19 +74,33 @@ export class HyperkitRepeatedFieldset extends HyperkitElement {
 			"hyperkit-sortable-item",
 		);
 
+		const repeater = this.closest<HyperkitFieldsetRepeater>(
+			"hyperkit-fieldset-repeater",
+		);
+
 		if (transition) {
 			transition.exit();
 			transition.on(
 				"exit",
 				() => {
-					if (sortableItem) return sortableItem.remove();
-					super.remove();
+					if (sortableItem) {
+						sortableItem.remove();
+						repeater?.updatePositions();
+					} else {
+						super.remove();
+						repeater?.updatePositions();
+					}
 				},
 				{ once: true },
 			);
 		} else {
-			if (sortableItem) return sortableItem.remove();
-			super.remove();
+			if (sortableItem) {
+				sortableItem.remove();
+				repeater?.updatePositions();
+			} else {
+				super.remove();
+				repeater?.updatePositions();
+			}
 		}
 	}
 }
@@ -105,7 +124,7 @@ export class HyperkitFieldsetCreator extends HyperkitElement<{
 		const button = this.querySelector("button");
 
 		if (button && repeater) {
-			button.setAttribute("aria-expanded", "false"); // Set initial state
+			button.setAttribute("aria-expanded", "false");
 			button.setAttribute("aria-controls", repeaterId);
 			button.addEventListener("click", () => {
 				repeater.add();

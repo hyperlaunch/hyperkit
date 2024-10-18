@@ -6,14 +6,19 @@ export class HyperkitSortableItem extends HyperkitElement {
 	connectedCallback() {
 		super.connectedCallback();
 
+		this.setAttribute("role", "listitem");
+		this.setAttribute("aria-grabbed", "false"); // Initially not grabbed
+
 		this.addEventListener("dragstart", () => {
 			this.dataset.dragging = "true";
 			this.setAttribute("draggable", "true");
+			this.setAttribute("aria-grabbed", "true"); // Mark as grabbed
 		});
 
 		this.addEventListener("dragend", () => {
 			delete this.dataset.dragging;
 			this.removeAttribute("draggable");
+			this.setAttribute("aria-grabbed", "false"); // Mark as released
 		});
 	}
 
@@ -34,17 +39,23 @@ export class HyperkitSortableHandle extends HyperkitElement {
 	connectedCallback() {
 		const button = this.querySelector("button");
 		if (button) {
+			button.setAttribute("aria-label", "Drag to reorder");
+			button.setAttribute("aria-haspopup", "true");
+
 			button.addEventListener("mousedown", () => {
 				const item = this.closest<HyperkitSortableItem>(
 					"hyperkit-sortable-item",
 				);
 				item?.setAttribute("draggable", "true");
+				item?.setAttribute("aria-grabbed", "true");
 			});
+
 			button.addEventListener("touchstart", () => {
 				const item = this.closest<HyperkitSortableItem>(
 					"hyperkit-sortable-item",
 				);
 				item?.setAttribute("draggable", "true");
+				item?.setAttribute("aria-grabbed", "true");
 			});
 		}
 	}
@@ -61,6 +72,9 @@ export class HyperkitSortable extends HyperkitElement<{
 
 	connectedCallback() {
 		super.connectedCallback();
+
+		this.setAttribute("role", "list");
+		this.setAttribute("aria-live", "polite"); // Notify screen readers of changes
 
 		requestAnimationFrame(() => {
 			this.setupDragAndDrop();
@@ -118,7 +132,10 @@ export class HyperkitSortable extends HyperkitElement<{
 			this.emitSortedEvent();
 		});
 
-		this.addEventListener("dragend", () => this.clearDragIndicators());
+		this.addEventListener("dragend", () => {
+			this.clearDragIndicators();
+			this.updateLiveRegion("Item reordered."); // Update live region for screen readers
+		});
 
 		this.addEventListener("dragleave", () => this.clearDragIndicators());
 	}
@@ -169,6 +186,22 @@ export class HyperkitSortable extends HyperkitElement<{
 			this.querySelectorAll<HyperkitSortableItem>("hyperkit-sortable-item"),
 		).map((item) => item.id);
 		this.fire("sorted", { detail: { positions } });
+	}
+
+	private updateLiveRegion(message: string) {
+		const liveRegion = document.createElement("div");
+		liveRegion.setAttribute("role", "alert");
+		liveRegion.setAttribute("aria-live", "assertive");
+		liveRegion.style.position = "absolute";
+		liveRegion.style.clip = "rect(0, 0, 0, 0)";
+		liveRegion.style.height = "1px";
+		liveRegion.style.width = "1px";
+		liveRegion.style.overflow = "hidden";
+		liveRegion.textContent = message;
+		document.body.appendChild(liveRegion);
+		setTimeout(() => {
+			document.body.removeChild(liveRegion);
+		}, 1000);
 	}
 }
 
