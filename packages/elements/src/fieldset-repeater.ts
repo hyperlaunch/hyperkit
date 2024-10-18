@@ -15,21 +15,32 @@ export class HyperkitFieldsetRepeater extends HyperkitElement {
 		);
 		if (!template || !template.content) return;
 
-		// Clone the entire template content
 		const newFieldset = template.content.cloneNode(true) as DocumentFragment;
-
-		// Append the whole DocumentFragment to the sortable container
 		const sortable = this.querySelector("hyperkit-sortable");
-		sortable?.appendChild(newFieldset);
 
-		// Ensure the transition is triggered after the element is appended and visible in the DOM
-		requestAnimationFrame(() => {
-			const transition =
-				sortable?.lastElementChild?.querySelector<HyperkitTransition>(
+		if (sortable) {
+			sortable.appendChild(newFieldset);
+
+			const newItem = sortable.lastElementChild as HyperkitSortableItem;
+
+			this.updatePosition(newItem, sortable.children.length);
+
+			requestAnimationFrame(() => {
+				const transition = newItem?.querySelector<HyperkitTransition>(
 					"hyperkit-transition",
 				);
-			transition?.enter();
-		});
+				transition?.enter();
+			});
+		}
+	}
+
+	private updatePosition(item: HyperkitSortableItem, position: number) {
+		const positionInput = item.querySelector<HTMLInputElement>(
+			"hyperkit-sortable-position input",
+		);
+		if (positionInput) {
+			positionInput.value = String(position); // Set the new position
+		}
 	}
 }
 
@@ -39,6 +50,9 @@ if (!customElements.get("hyperkit-fieldset-repeater"))
 export class HyperkitRepeatedFieldset extends HyperkitElement {
 	connectedCallback() {
 		super.connectedCallback();
+
+		this.setAttribute("role", "group"); // Role of group for fieldsets
+		this.setAttribute("aria-labelledby", "fieldset-title");
 
 		const destroyer = this.querySelector<HyperkitFieldsetDestroyer>(
 			"hyperkit-fieldset-destroyer",
@@ -51,7 +65,6 @@ export class HyperkitRepeatedFieldset extends HyperkitElement {
 			"hyperkit-transition",
 		);
 
-		// Check if it's inside a hyperkit-sortable-item and remove it
 		const sortableItem = this.closest<HyperkitSortableItem>(
 			"hyperkit-sortable-item",
 		);
@@ -91,8 +104,14 @@ export class HyperkitFieldsetCreator extends HyperkitElement<{
 		);
 		const button = this.querySelector("button");
 
-		if (button && repeater)
-			button.addEventListener("click", () => repeater.add());
+		if (button && repeater) {
+			button.setAttribute("aria-expanded", "false"); // Set initial state
+			button.setAttribute("aria-controls", repeaterId);
+			button.addEventListener("click", () => {
+				repeater.add();
+				button.setAttribute("aria-expanded", "true");
+			});
+		}
 	}
 }
 
@@ -104,6 +123,8 @@ export class HyperkitFieldsetDestroyer extends HyperkitElement {
 
 	connectedCallback() {
 		super.connectedCallback();
+
+		this.querySelector("button")?.setAttribute("aria-label", "Remove fieldset");
 
 		this.addEventListener("click", () =>
 			this.closest<HyperkitRepeatedFieldset>(

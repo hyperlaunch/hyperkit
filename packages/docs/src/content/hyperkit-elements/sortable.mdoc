@@ -103,7 +103,7 @@ Each item can manage its own position input using the `updatePosition(position: 
 
 This example shows a sortable list with custom styles for the items and the drag handle. The list uses classes to style the background, borders, and button:
 
-{% example %}{%sortable id="heroSortable" / %}{% /example %}
+{% example %}{%sortable id="styledSortable" / %}{% /example %}
 
 ```html
 <hyperkit-sortable class="bg-white rounded-md shadow-md w-64 overflow-hidden">
@@ -122,7 +122,7 @@ This example shows a sortable list with custom styles for the items and the drag
 
 If you need the sortable items to update input fields with their current positions, you can include `<hyperkit-sortable-position><input /></hyperkit-sortable-position>` inside each item.
 
-{% example %}{% sortable includeInputs=true / %}{% /example %}
+{% example %}{% sortable id="trackedSortable" includeInputs=true / %}{% /example %}
 
 ```html
 <hyperkit-sortable>

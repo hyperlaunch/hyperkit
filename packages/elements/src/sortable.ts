@@ -61,8 +61,11 @@ export class HyperkitSortable extends HyperkitElement<{
 
 	connectedCallback() {
 		super.connectedCallback();
-		this.setupDragAndDrop();
-		this.updatePositions();
+
+		requestAnimationFrame(() => {
+			this.setupDragAndDrop();
+			this.updatePositions();
+		});
 	}
 
 	private setupDragAndDrop() {
