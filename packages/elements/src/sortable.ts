@@ -19,6 +19,13 @@ export class HyperkitSortableItem extends HyperkitElement {
 			this.removeAttribute("draggable");
 		});
 	}
+
+	public updatePosition(position: number) {
+		const positionInput = this.querySelector<HTMLInputElement>(
+			"hyperkit-sortable-position input",
+		);
+		if (positionInput) positionInput.value = String(position);
+	}
 }
 
 if (!customElements.get("hyperkit-sortable-item"))
@@ -52,6 +59,7 @@ export class HyperkitSortable extends HyperkitElement<{
 	connectedCallback() {
 		super.connectedCallback();
 		this.setupDragAndDrop();
+		this.updatePositions();
 	}
 
 	private setupDragAndDrop() {
@@ -71,13 +79,13 @@ export class HyperkitSortable extends HyperkitElement<{
 
 			if (afterElement == null) {
 				const lastItem = this.lastElementChild as HyperkitSortableItem;
-				if (lastItem && lastItem !== draggingItem) lastItem.dataset.above = "";
+				if (lastItem && lastItem !== draggingItem) lastItem.dataset.after = "";
 			} else {
-				afterElement.dataset.below = "";
+				afterElement.dataset.before = "";
 				const previousSibling =
 					afterElement.previousElementSibling as HyperkitSortableItem;
 				if (previousSibling && previousSibling !== draggingItem)
-					previousSibling.dataset.above = "";
+					previousSibling.dataset.after = "";
 			}
 		});
 
@@ -114,8 +122,8 @@ export class HyperkitSortable extends HyperkitElement<{
 			"hyperkit-sortable-item",
 		);
 		for (const item of Array.from(items)) {
-			delete item.dataset.above;
-			delete item.dataset.below;
+			delete item.dataset.after;
+			delete item.dataset.before;
 		}
 	}
 
@@ -143,13 +151,13 @@ export class HyperkitSortable extends HyperkitElement<{
 		).element;
 	}
 
+	// Updated to call updatePosition on each sortable item
 	private updatePositions() {
-		const items = this.querySelectorAll("hyperkit-sortable-item");
+		const items = this.querySelectorAll<HyperkitSortableItem>(
+			"hyperkit-sortable-item",
+		);
 		items.forEach((item, index) => {
-			const positionInput = item.querySelector<HTMLInputElement>(
-				"hyperkit-sortable-position input",
-			);
-			if (positionInput) positionInput.value = String(index + 1);
+			item.updatePosition(index + 1); // Let the item manage its own input value
 		});
 	}
 
