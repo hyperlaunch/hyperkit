@@ -1,5 +1,4 @@
 import { HyperkitElement } from "./hyperkit-element";
-import "drag-drop-touch";
 
 export class HyperkitSortableItem extends HyperkitElement {
 	public requiredChildren = ["hyperkit-sortable-handle"];
