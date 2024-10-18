@@ -1,4 +1,5 @@
 import { HyperkitElement } from "./hyperkit-element";
+import type { HyperkitSortableItem } from "./sortable";
 import type { HyperkitTransition } from "./transition";
 
 export class HyperkitFieldsetRepeater extends HyperkitElement {
@@ -17,14 +18,18 @@ export class HyperkitFieldsetRepeater extends HyperkitElement {
 		// Clone the entire template content
 		const newFieldset = template.content.cloneNode(true) as DocumentFragment;
 
-		// Append the whole DocumentFragment
-		this.querySelector("hyperkit-sortable")?.appendChild(newFieldset);
+		// Append the whole DocumentFragment to the sortable container
+		const sortable = this.querySelector("hyperkit-sortable");
+		sortable?.appendChild(newFieldset);
 
-		// Find the transition element and trigger the enter transition if it exists
-		const transition = newFieldset.querySelector<HyperkitTransition>(
-			"hyperkit-transition",
-		);
-		transition?.enter();
+		// Ensure the transition is triggered after the element is appended and visible in the DOM
+		requestAnimationFrame(() => {
+			const transition =
+				sortable?.lastElementChild?.querySelector<HyperkitTransition>(
+					"hyperkit-transition",
+				);
+			transition?.enter();
+		});
 	}
 }
 
@@ -45,10 +50,26 @@ export class HyperkitRepeatedFieldset extends HyperkitElement {
 		const transition = this.querySelector<HyperkitTransition>(
 			"hyperkit-transition",
 		);
-		if (!transition) return super.remove();
 
-		transition.exit();
-		transition.on("exit", () => super.remove(), { once: true });
+		// Check if it's inside a hyperkit-sortable-item and remove it
+		const sortableItem = this.closest<HyperkitSortableItem>(
+			"hyperkit-sortable-item",
+		);
+
+		if (transition) {
+			transition.exit();
+			transition.on(
+				"exit",
+				() => {
+					if (sortableItem) return sortableItem.remove();
+					super.remove();
+				},
+				{ once: true },
+			);
+		} else {
+			if (sortableItem) return sortableItem.remove();
+			super.remove();
+		}
 	}
 }
 
