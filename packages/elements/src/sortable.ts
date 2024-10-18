@@ -1,7 +1,7 @@
 import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitSortableItem extends HyperkitElement {
-	public requiredChildren = ["hyperkit-sortable-handle"];
+	public requiredChildren = ["h7-sortable-handle"];
 
 	connectedCallback() {
 		super.connectedCallback();
@@ -18,44 +18,18 @@ export class HyperkitSortableItem extends HyperkitElement {
 			delete this.dataset.dragging;
 			this.removeAttribute("draggable");
 		});
-
-		this.addEventListener("touchstart", this.handleTouchStart.bind(this), {
-			passive: true,
-		});
-		this.addEventListener("touchend", this.handleTouchEnd.bind(this));
-	}
-
-	private handleTouchStart(event: TouchEvent) {
-		this.dataset.dragging = "true";
-		this.setAttribute("draggable", "true");
-
-		event.preventDefault();
-		const touch = event.touches[0];
-		const eventForDrag = new DragEvent("dragstart", {
-			clientX: touch.clientX,
-			clientY: touch.clientY,
-		});
-		this.dispatchEvent(eventForDrag);
-	}
-
-	private handleTouchEnd(event: TouchEvent) {
-		delete this.dataset.dragging;
-		this.removeAttribute("draggable");
-
-		const dragEndEvent = new DragEvent("dragend");
-		this.dispatchEvent(dragEndEvent);
 	}
 
 	public updatePosition(position: number) {
 		const positionInput = this.querySelector<HTMLInputElement>(
-			"hyperkit-sortable-position input",
+			"h7-sortable-position input",
 		);
 		if (positionInput) positionInput.value = String(position);
 	}
 }
 
-if (!customElements.get("hyperkit-sortable-item"))
-	customElements.define("hyperkit-sortable-item", HyperkitSortableItem);
+if (!customElements.get("h7-sortable-item"))
+	customElements.define("h7-sortable-item", HyperkitSortableItem);
 
 export class HyperkitSortableHandle extends HyperkitElement {
 	requiredChildren = ["button"];
@@ -64,34 +38,21 @@ export class HyperkitSortableHandle extends HyperkitElement {
 		const button = this.querySelector("button");
 		if (button) {
 			button.addEventListener("mousedown", () => {
-				const item = this.closest<HyperkitSortableItem>(
-					"hyperkit-sortable-item",
-				);
+				const item = this.closest<HyperkitSortableItem>("h7-sortable-item");
 				item?.setAttribute("draggable", "true");
 			});
-
-			button.addEventListener(
-				"touchstart",
-				() => {
-					const item = this.closest<HyperkitSortableItem>(
-						"hyperkit-sortable-item",
-					);
-					item?.setAttribute("draggable", "true");
-				},
-				{ passive: true },
-			);
 		}
 	}
 }
 
-if (!customElements.get("hyperkit-sortable-handle"))
-	customElements.define("hyperkit-sortable-handle", HyperkitSortableHandle);
+if (!customElements.get("h7-sortable-handle"))
+	customElements.define("h7-sortable-handle", HyperkitSortableHandle);
 
 export class HyperkitSortable extends HyperkitElement<{
 	events: { type: "sorted"; detail: { positions: string[] } };
 	propagatedEvents: undefined;
 }> {
-	requiredChildren = ["hyperkit-sortable-item"];
+	requiredChildren = ["h7-sortable-item"];
 
 	connectedCallback() {
 		super.connectedCallback();
@@ -152,29 +113,11 @@ export class HyperkitSortable extends HyperkitElement<{
 		this.addEventListener("dragend", () => this.clearDragIndicators());
 
 		this.addEventListener("dragleave", () => this.clearDragIndicators());
-
-		this.addEventListener("touchmove", this.handleTouchMove.bind(this));
-		this.addEventListener("touchend", this.handleTouchEnd.bind(this));
-	}
-
-	private handleTouchMove(event: TouchEvent) {
-		const touch = event.touches[0];
-		const dragOverEvent = new DragEvent("dragover", {
-			clientX: touch.clientX,
-			clientY: touch.clientY,
-		});
-		this.dispatchEvent(dragOverEvent);
-	}
-
-	private handleTouchEnd(event: TouchEvent) {
-		const dragEndEvent = new DragEvent("drop");
-		this.dispatchEvent(dragEndEvent);
 	}
 
 	private clearDragIndicators() {
-		const items = this.querySelectorAll<HyperkitSortableItem>(
-			"hyperkit-sortable-item",
-		);
+		const items =
+			this.querySelectorAll<HyperkitSortableItem>("h7-sortable-item");
 		for (const item of Array.from(items)) {
 			delete item.dataset.after;
 			delete item.dataset.before;
@@ -184,7 +127,7 @@ export class HyperkitSortable extends HyperkitElement<{
 	private getDragAfterElement(y: number) {
 		const draggableElements = Array.from(
 			this.querySelectorAll<HyperkitSortableItem>(
-				"hyperkit-sortable-item:not([data-dragging='true'])",
+				"h7-sortable-item:not([data-dragging='true'])",
 			),
 		);
 
@@ -206,15 +149,14 @@ export class HyperkitSortable extends HyperkitElement<{
 	}
 
 	private updatePositions() {
-		const items = this.querySelectorAll<HyperkitSortableItem>(
-			"hyperkit-sortable-item",
-		);
+		const items =
+			this.querySelectorAll<HyperkitSortableItem>("h7-sortable-item");
 		items.forEach((item, index) => item.updatePosition(index + 1));
 	}
 
 	private emitSortedEvent() {
 		const positions = Array.from(
-			this.querySelectorAll<HyperkitSortableItem>("hyperkit-sortable-item"),
+			this.querySelectorAll<HyperkitSortableItem>("h7-sortable-item"),
 		).map((item) => item.id);
 		this.fire("sorted", { detail: { positions } });
 	}
