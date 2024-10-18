@@ -18,6 +18,32 @@ export class HyperkitSortableItem extends HyperkitElement {
 			delete this.dataset.dragging;
 			this.removeAttribute("draggable");
 		});
+
+		this.addEventListener("touchstart", this.handleTouchStart.bind(this), {
+			passive: true,
+		});
+		this.addEventListener("touchend", this.handleTouchEnd.bind(this));
+	}
+
+	private handleTouchStart(event: TouchEvent) {
+		this.dataset.dragging = "true";
+		this.setAttribute("draggable", "true");
+
+		event.preventDefault();
+		const touch = event.touches[0];
+		const eventForDrag = new DragEvent("dragstart", {
+			clientX: touch.clientX,
+			clientY: touch.clientY,
+		});
+		this.dispatchEvent(eventForDrag);
+	}
+
+	private handleTouchEnd(event: TouchEvent) {
+		delete this.dataset.dragging;
+		this.removeAttribute("draggable");
+
+		const dragEndEvent = new DragEvent("dragend");
+		this.dispatchEvent(dragEndEvent);
 	}
 
 	public updatePosition(position: number) {
@@ -43,6 +69,17 @@ export class HyperkitSortableHandle extends HyperkitElement {
 				);
 				item?.setAttribute("draggable", "true");
 			});
+
+			button.addEventListener(
+				"touchstart",
+				() => {
+					const item = this.closest<HyperkitSortableItem>(
+						"hyperkit-sortable-item",
+					);
+					item?.setAttribute("draggable", "true");
+				},
+				{ passive: true },
+			);
 		}
 	}
 }
@@ -115,6 +152,23 @@ export class HyperkitSortable extends HyperkitElement<{
 		this.addEventListener("dragend", () => this.clearDragIndicators());
 
 		this.addEventListener("dragleave", () => this.clearDragIndicators());
+
+		this.addEventListener("touchmove", this.handleTouchMove.bind(this));
+		this.addEventListener("touchend", this.handleTouchEnd.bind(this));
+	}
+
+	private handleTouchMove(event: TouchEvent) {
+		const touch = event.touches[0];
+		const dragOverEvent = new DragEvent("dragover", {
+			clientX: touch.clientX,
+			clientY: touch.clientY,
+		});
+		this.dispatchEvent(dragOverEvent);
+	}
+
+	private handleTouchEnd(event: TouchEvent) {
+		const dragEndEvent = new DragEvent("drop");
+		this.dispatchEvent(dragEndEvent);
 	}
 
 	private clearDragIndicators() {
