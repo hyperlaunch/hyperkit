@@ -6,8 +6,6 @@ export class HyperkitMaskedInput extends HyperkitElement<{
 	public requiredChildren = ["input"];
 	public propTypes = { mask: "string" } as const;
 
-	private inputElement: HTMLInputElement | null = null;
-
 	connectedCallback() {
 		super.connectedCallback();
 

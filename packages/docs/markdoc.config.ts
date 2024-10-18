@@ -87,6 +87,10 @@ export default defineMarkdocConfig({
 				optionsHidden: { type: Boolean },
 			},
 		},
+		sortable: {
+			render: component("./src/astro-components/Examples/Sortable.astro"),
+			attributes: {},
+		},
 	},
 	extends: [
 		shiki({
