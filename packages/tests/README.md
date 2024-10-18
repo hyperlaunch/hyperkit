@@ -1,4 +1,4 @@
-# @hyperkit/tests
+# @hyperkitxyz/tests
 
 To install dependencies:
 

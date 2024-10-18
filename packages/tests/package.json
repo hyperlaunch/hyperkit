@@ -1,5 +1,5 @@
 {
-	"name": "@hyperkit/tests",
+	"name": "@hyperkitxyz/tests",
 	"module": "index.ts",
 	"type": "module",
 	"devDependencies": {

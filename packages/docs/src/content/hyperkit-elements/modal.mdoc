@@ -14,7 +14,7 @@ The modal can be dismiss by pressing the `Escape` key when it is visible.
 Import the JS:
 
 ```js
-import "@hyperkit/elements/modal";
+import "@hyperkitxyz/elements/modal";
 ```
 
 Tags:
@@ -22,8 +22,8 @@ Tags:
 ```html
 <hyperkit-modal-summoner summons="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
 <hyperkit-modal id="modal-id" hidden>
-  <h7-modal-dismisser><button>Close Modal</button></h7-modal-dismisser>
-  <h7-modal-backdrop />
+  <hyperkit-modal-dismisser><button>Close Modal</button></hyperkit-modal-dismisser>
+  <hyperkit-modal-backdrop />
 </hyperkit-modal>
 ```
 
@@ -62,8 +62,8 @@ Tags:
 ```html
 <hyperkit-modal-summoner summons="modal-id"><button>Open Modal</button></hyperkit-modal-summoner>
 <hyperkit-modal id="modal-id" hidden>
-  <h7-modal-dismisser><button>Close Modal</button></h7-modal-dismisser>
-  <h7-modal-backdrop />
+  <hyperkit-modal-dismisser><button>Close Modal</button></hyperkit-modal-dismisser>
+  <hyperkit-modal-backdrop />
 </hyperkit-modal>
 ```
 
@@ -72,12 +72,12 @@ Tags:
 * Associates with a `<hyperkit-modal>` by matching the `summons` attribute to the modal's `id` attribute.
 * Must contain a `<button />` for accessibility.
 
-#### `<h7-modal-dismisser />`
+#### `<hyperkit-modal-dismisser />`
 
 * A button used to dismiss the modal.
 * Must contain a `<button />` for accessibility.
 
-#### `<h7-modal-backdrop />`
+#### `<hyperkit-modal-backdrop />`
 
 * A backdrop that dismisses the modal when clicked.
 * Can be nested inside the modal and will trigger dismissal when clicked.
@@ -137,10 +137,10 @@ You can apply custom styles to the modal, backdrop, and buttons. The modal is hi
   </button>
 </hyperkit-modal-summoner>
 <hyperkit-modal id="styledModal" hidden>
-  <h7-modal-dismisser>
+  <hyperkit-modal-dismisser>
     <button class="text-xs">Close</button>
-  </h7-modal-dismisser>
-  <h7-modal-backdrop />
+  </hyperkit-modal-dismisser>
+  <hyperkit-modal-backdrop />
   <div class="relative z-50 w-64 bg-white rounded-lg shadow-lg p-4">
     <div class="flex justify-between items-center mb-2 text-zinc-800">
       <div class="font-bold">Styled Modal Title</div>
@@ -166,7 +166,7 @@ To ensure the modal is hidden by default, add the `hidden` attribute. The modal 
 
 ### Using a Backdrop to Dismiss the Modal
 
-To dismiss the modal by clicking on the backdrop, use the `<h7-modal-backdrop />` element. When clicked, it will hide the modal.
+To dismiss the modal by clicking on the backdrop, use the `<hyperkit-modal-backdrop />` element. When clicked, it will hide the modal.
 
 {% example %}
 {% modal id="backdropModal" / %}
@@ -174,7 +174,7 @@ To dismiss the modal by clicking on the backdrop, use the `<h7-modal-backdrop />
 
 ```html
 <hyperkit-modal id="backdropModal" hidden>
-  <h7-modal-backdrop />
+  <hyperkit-modal-backdrop />
   <div>
     …
   </div>
@@ -202,7 +202,7 @@ You can animate the modal visibility using the `<hyperkit-transition />` element
   >
     …
   </hyperkit-transition>
-  <h7-modal-dismisser><button>Close</button></h7-modal-dismisser>
-  <h7-modal-backdrop />
+  <hyperkit-modal-dismisser><button>Close</button></hyperkit-modal-dismisser>
+  <hyperkit-modal-backdrop />
 </hyperkit-modal>
 ```

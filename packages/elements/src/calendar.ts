@@ -12,7 +12,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 		for: "string";
 	};
 }> {
-	public requiredChildren = ["h7-days-list", `button[slot="day-number"]`];
+	public requiredChildren = ["hyperkit-days-list", `button[slot="day-number"]`];
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
@@ -75,7 +75,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 		this.inputElement = document.querySelector(
 			`input[id="${this.prop("for")}"]`,
 		);
-		this.monthElement = this.querySelector("h7-current-month");
+		this.monthElement = this.querySelector("hyperkit-current-month");
 
 		this.dayButtonTemplate = this.querySelector<HTMLButtonElement>(
 			'button[slot="day-number"]',
@@ -96,12 +96,12 @@ export class HyperkitCalendar extends HyperkitElement<{
 
 	private setupNavigationButtons() {
 		this.setupButton({
-			selector: "h7-previous-month button",
+			selector: "hyperkit-previous-month button",
 			callback: () => this.changeMonth(-1),
 		});
 
 		this.setupButton({
-			selector: "h7-next-month button",
+			selector: "hyperkit-next-month button",
 			callback: () => this.changeMonth(1),
 		});
 	}
@@ -126,7 +126,7 @@ export class HyperkitCalendar extends HyperkitElement<{
 	}
 
 	private get daysElement(): HTMLElement | null {
-		return this.querySelector("h7-days-list");
+		return this.querySelector("hyperkit-days-list");
 	}
 
 	render() {
@@ -302,10 +302,10 @@ class ChildElement extends HTMLElement {
 }
 
 for (const tag of [
-	"h7-previous-month",
-	"h7-next-month",
-	"h7-current-month",
-	"h7-days-list",
+	"hyperkit-previous-month",
+	"hyperkit-next-month",
+	"hyperkit-current-month",
+	"hyperkit-days-list",
 ]) {
 	if (!customElements.get(tag))
 		customElements.define(tag, class extends ChildElement {});

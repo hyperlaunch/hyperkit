@@ -27,13 +27,13 @@ const { id, contentHidden = false, useTransition = false } = Astro.props;
         exit-from-class="opacity-100"
         exit-to-class="opacity-0"
       >
-        <h7-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
+        <hyperkit-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
         <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
           <div class="flex justify-between items-center mb-2 text-zinc-800">
             <div class="font-bold">Transitioning Modal Title</div>
-            <h7-modal-dismisser>
+            <hyperkit-modal-dismisser>
               <button class="text-xs">Close</button>
-            </h7-modal-dismisser>
+            </hyperkit-modal-dismisser>
           </div>
           <div class="text-xs text-zinc-600">
             This is some example content for the modal.
@@ -42,13 +42,13 @@ const { id, contentHidden = false, useTransition = false } = Astro.props;
       </hyperkit-transition>
     ) : (
       <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
-        <h7-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
+        <hyperkit-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
         <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
           <div class="flex justify-between items-center mb-2 text-zinc-800">
             <div class="font-bold">Modal Title</div>
-            <h7-modal-dismisser>
+            <hyperkit-modal-dismisser>
               <button class="text-xs">Close</button>
-            </h7-modal-dismisser>
+            </hyperkit-modal-dismisser>
           </div>
           <div class="text-xs text-zinc-600">
             This is some example content for the modal.
@@ -60,6 +60,6 @@ const { id, contentHidden = false, useTransition = false } = Astro.props;
 </hyperkit-modal>
 
 <script>
-  import "@hyperkit/elements/modal.ts";
-  import "@hyperkit/elements/transition.ts";
+  import "@hyperkitxyz/elements/modal.ts";
+  import "@hyperkitxyz/elements/transition.ts";
 </script>

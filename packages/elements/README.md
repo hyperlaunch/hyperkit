@@ -1,4 +1,4 @@
-# @hyperkit/components
+# @hyperkitxyz/components
 
 To install dependencies:
 

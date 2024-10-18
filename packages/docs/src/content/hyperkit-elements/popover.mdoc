@@ -14,7 +14,7 @@ The popover can also be closed by pressing the `Escape` key when it is visible.
 Import the JS:
 
 ```js
-import "@hyperkit/elements/popover";
+import "@hyperkitxyz/elements/popover";
 ```
 
 Tags:
@@ -124,7 +124,7 @@ The trigger button also receives a `data-visible` attribute when the popover is 
 
 ### Default Hidden
 
-The popover content is hidden by default using the `hidden` attribute on the `<h7-popover-content />`. This is the typical configuration, where the content is revealed only after the trigger is clicked.
+The popover content is hidden by default using the `hidden` attribute on the `<hyperkit-popover-content />`. This is the typical configuration, where the content is revealed only after the trigger is clicked.
 
 {% example %}
 {% popover contentHidden=true id="hiddenPopover" / %}
@@ -137,7 +137,7 @@ The popover content is hidden by default using the `hidden` attribute on the `<h
 
 ### Using a Transition
 
-You can enhance your popover by adding a `<hyperkit-transition />` as a child of `<h7-popover-content />`. This allows for smooth transitions when showing or hiding the content, while the popover still controls the visibility lifecycle. The transition will handle animations, and the popover will become fully hidden once the exit transition completes.
+You can enhance your popover by adding a `<hyperkit-transition />` as a child of `<hyperkit-popover-content />`. This allows for smooth transitions when showing or hiding the content, while the popover still controls the visibility lifecycle. The transition will handle animations, and the popover will become fully hidden once the exit transition completes.
 
 {% example %}
 {% popover contentHidden=true useTransition=true id="transitionPopover" / %}

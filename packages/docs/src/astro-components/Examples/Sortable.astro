@@ -16,29 +16,29 @@ const items = [
 <hyperkit-sortable class="bg-white rounded-md shadow-md w-64 overflow-hidden">
   {
     items.map(({ label, name }) => (
-      <h7-sortable-item class="flex items-center justify-between pr-4 pl-3 py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400 text-zinc-800">
-        <h7-sortable-handle>
+      <hyperkit-sortable-item class="flex items-center justify-between pr-4 pl-3 py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400 text-zinc-800">
+        <hyperkit-sortable-handle>
           <button class="cursor-move mr-2 text-zinc-400 select-none font-black px-1">
             &#8942;
           </button>
-        </h7-sortable-handle>
+        </hyperkit-sortable-handle>
         <span class="text-xs font-medium flex-grow">{label}</span>
         {includeInputs && (
-          <h7-sortable-position>
+          <hyperkit-sortable-position>
             <input
               type="text"
               readonly
               class="w-8 text-right text-xs text-gray-400 bg-transparent border-none pointer-events-none"
               name={`${id}[positions][${name}]`}
             />
-          </h7-sortable-position>
+          </hyperkit-sortable-position>
         )}
-      </h7-sortable-item>
+      </hyperkit-sortable-item>
     ))
   }
 </hyperkit-sortable>
 
 <script>
-  import "@hyperkit/elements/sortable.ts";
+  import "@hyperkitxyz/elements/sortable.ts";
   import "drag-drop-touch";
 </script>

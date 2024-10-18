@@ -26,8 +26,8 @@ class HyperkitSelectOption extends HyperkitElement<{
 	}
 }
 
-if (!customElements.get("h7-select-option"))
-	customElements.define("h7-select-option", HyperkitSelectOption);
+if (!customElements.get("hyperkit-select-option"))
+	customElements.define("hyperkit-select-option", HyperkitSelectOption);
 
 class HyperkitSelect extends HyperkitDisclosureContent<{
 	events: {
@@ -36,7 +36,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	};
 }> {
 	requiredSiblings = [`hyperkit-select-summoner[summons="${this.prop("id")}"]`];
-	requiredChildren = ["h7-select-option"];
+	requiredChildren = ["hyperkit-select-option"];
 
 	summonBy = document.querySelector<HyperkitSelectSummoner>(
 		`hyperkit-select-summoner[summons="${this.prop("id")}"]`,
@@ -69,7 +69,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 			if (!this.value) return;
 
 			const selectedButton = this.querySelector<HTMLButtonElement>(
-				`h7-select-option[value="${this.value}"] button`,
+				`hyperkit-select-option[value="${this.value}"] button`,
 			);
 
 			selectedButton?.focus();
@@ -81,7 +81,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 		const current = String(option.prop("value"));
 
 		for (const opt of Array.from(
-			this.querySelectorAll<HyperkitSelectOption>("h7-select-option"),
+			this.querySelectorAll<HyperkitSelectOption>("hyperkit-select-option"),
 		)) {
 			const button = opt.querySelector<HTMLButtonElement>("button");
 
@@ -158,7 +158,7 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 		) {
 			event.preventDefault();
 			const firstOptionButton = this.summons.querySelector<HTMLButtonElement>(
-				"h7-select-option button",
+				"hyperkit-select-option button",
 			);
 			firstOptionButton?.focus();
 		}
@@ -170,7 +170,7 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 
 		if (value && this.summons) {
 			const option = this.summons.querySelector(
-				`h7-select-option[value="${value}"]`,
+				`hyperkit-select-option[value="${value}"]`,
 			);
 			const optionButton = option?.querySelector("button");
 			textContent = optionButton ? String(optionButton.textContent) : value;

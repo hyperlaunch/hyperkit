@@ -39,8 +39,8 @@ export class HyperkitModalDismisser extends HyperkitDisclosureDismisser {
 	dismisses = this.closest<HyperkitModal>("hyperkit-modal");
 }
 
-if (!customElements.get("h7-modal-dismisser"))
-	customElements.define("h7-modal-dismisser", HyperkitModalDismisser);
+if (!customElements.get("hyperkit-modal-dismisser"))
+	customElements.define("hyperkit-modal-dismisser", HyperkitModalDismisser);
 
 export class HyperkitModalBackdrop extends HyperkitElement {
 	public requiredParent = "hyperkit-modal";
@@ -56,5 +56,5 @@ export class HyperkitModalBackdrop extends HyperkitElement {
 	}
 }
 
-if (!customElements.get("h7-modal-backdrop"))
-	customElements.define("h7-modal-backdrop", HyperkitModalBackdrop);
+if (!customElements.get("hyperkit-modal-backdrop"))
+	customElements.define("hyperkit-modal-backdrop", HyperkitModalBackdrop);

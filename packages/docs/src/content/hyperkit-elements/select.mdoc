@@ -12,7 +12,7 @@ The `<hyperkit-select />` element provides a summoner and a set of selectable op
 Import the JS:
 
 ```js
-import "@hyperkit/elements/select";
+import "@hyperkitxyz/elements/select";
 ```
 
 Tags:
@@ -66,13 +66,13 @@ Tags:
 <!-- Select with Summoner and Options -->
 <hyperkit-select-summoner summons="select-id"><button>Open Select</button></hyperkit-select-summoner>
 <hyperkit-select id="select-id" for="hidden-input-id">
-  <h7-select-option value="option1"><button>Option 1</button></h7-select-option>
-  <h7-select-option value="option2"><button>Option 2</button></h7-select-option>
-  <h7-select-option value="option3"><button>Option 3</button></h7-select-option>
+  <hyperkit-select-option value="option1"><button>Option 1</button></hyperkit-select-option>
+  <hyperkit-select-option value="option2"><button>Option 2</button></hyperkit-select-option>
+  <hyperkit-select-option value="option3"><button>Option 3</button></hyperkit-select-option>
 </hyperkit-select>
 ```
 
-#### `<h7-select-option />`
+#### `<hyperkit-select-option />`
 
 * Represents an individual option inside the select.
 * Must contain a `<button />` for accessibility and selection.
@@ -123,11 +123,11 @@ Here’s an example with a styled summoner and option buttons:
 <hyperkit-select>
   <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
     {items.map(({ value, label }) => (
-      <h7-select-option value={value}>
+      <hyperkit-select-option value={value}>
         <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
           {label}
         </button>
-      </h7-select-option>
+      </hyperkit-select-option>
     ))}
   </div>
 </hyperkit-select>
@@ -178,9 +178,9 @@ The `hidden` attribute can be used to ensure the select options remain hidden un
   <button>Open Select</button>
 </hyperkit-select-summoner>
 <hyperkit-select id="hiddenSelect" hidden>
-  <h7-select-option value="option1"><button>Option 1</button></h7-select-option>
-  <h7-select-option value="option2"><button>Option 2</button></h7-select-option>
-  <h7-select-option value="option3"><button>Option 3</button></h7-select-option>
+  <hyperkit-select-option value="option1"><button>Option 1</button></hyperkit-select-option>
+  <hyperkit-select-option value="option2"><button>Option 2</button></hyperkit-select-option>
+  <hyperkit-select-option value="option3"><button>Option 3</button></hyperkit-select-option>
 </hyperkit-select>
 ```
 
@@ -205,16 +205,16 @@ You can enhance your select by adding a transition for smooth animations when sh
     exit-to-class="opacity-0"
   >
     <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-      <h7-select-option value="option1">
+      <hyperkit-select-option value="option1">
         <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
           Option 1
         </button>
-      </h7-select-option>
-      <h7-select-option value="option2">
+      </hyperkit-select-option>
+      <hyperkit-select-option value="option2">
         <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
           Option 2
         </button>
-      </h7-select-option>
+      </hyperkit-select-option>
     </div>
   </hyperkit-transition>
 </hyperkit-select>

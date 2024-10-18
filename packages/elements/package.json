@@ -1,5 +1,5 @@
 {
-	"name": "@hyperkit/elements",
+	"name": "@hyperkitxyz/elements",
 	"main": "./src/index.ts",
 	"devDependencies": {
 		"@types/bun": "latest"

@@ -3,7 +3,7 @@ name: Sortable List
 tagline: A flexible drag-and-drop sortable list with optional position tracking.
 ---
 
-The `<hyperkit-sortable />` element provides a flexible drag-and-drop sorting feature for lists. It supports both handle-based dragging with the `<h7-sortable-handle />` element and automatic position updating using `<h7-sortable-position />`, which can store the item's order in an input field.
+The `<hyperkit-sortable />` element provides a flexible drag-and-drop sorting feature for lists. It supports both handle-based dragging with the `<hyperkit-sortable-handle />` element and automatic position updating using `<hyperkit-sortable-position />`, which can store the item's order in an input field.
 
 This element is highly customisable, enabling developers to integrate it seamlessly into their projects. With simple markup and optional styling hooks, it offers a rich user experience for managing lists.
 
@@ -15,17 +15,17 @@ The element uses the `draggable` features of HTML 5, which do not support touch 
 
 ### Import the JS:
 ```js
-import "@hyperkit/elements/sortable";
+import "@hyperkitxyz/elements/sortable";
 import "drag-drop-sort"; // If you want touch support
 ```
 
 ### Tags:
 ```html
 <hyperkit-sortable>
-  <h7-sortable-item>
-    <h7-sortable-handle><button /></h7-sortable-handle>
-    <h7-sortable-position><input /></h7-sortable-position>
-  </h7-sortable-item>
+  <hyperkit-sortable-item>
+    <hyperkit-sortable-handle><button /></hyperkit-sortable-handle>
+    <hyperkit-sortable-position><input /></hyperkit-sortable-position>
+  </hyperkit-sortable-item>
 </hyperkit-sortable>
 ```
 
@@ -45,27 +45,27 @@ import "drag-drop-sort"; // If you want touch support
 
 ```html
 <hyperkit-sortable>
-  <h7-sortable-item>
-    <h7-sortable-handle>
+  <hyperkit-sortable-item>
+    <hyperkit-sortable-handle>
       <button>Drag</button>
-    </h7-sortable-handle>
-    <h7-sortable-position>
+    </hyperkit-sortable-handle>
+    <hyperkit-sortable-position>
       <input type="text" readonly />
-    </h7-sortable-position>
-  </h7-sortable-item>
+    </hyperkit-sortable-position>
+  </hyperkit-sortable-item>
 </hyperkit-sortable>
 ```
 
-#### `<h7-sortable-item />`
+#### `<hyperkit-sortable-item />`
 * Represents an individual sortable item.
-* Must contain a `<h7-sortable-handle />` for drag functionality.
-* Optionally contains `<h7-sortable-position />` to track and display the item's order.
+* Must contain a `<hyperkit-sortable-handle />` for drag functionality.
+* Optionally contains `<hyperkit-sortable-position />` to track and display the item's order.
 
-#### `<h7-sortable-handle />`
+#### `<hyperkit-sortable-handle />`
 * Provides a draggable handle for each item.
 * Must wrap a button or clickable element that initiates the drag operation.
 
-#### `<h7-sortable-position />`
+#### `<hyperkit-sortable-position />`
 * Optionally wraps an `<input />` element to display the position value of the item.
 * The position is automatically updated when the item is dragged and reordered.
 
@@ -77,12 +77,12 @@ The `hyperkit-sortable` element emits a `sorted` event whenever the items are re
 
 ```html
 <hyperkit-sortable id="my-sortable">
-  <h7-sortable-item id="item-1">
+  <hyperkit-sortable-item id="item-1">
     ...
-  </h7-sortable-item>
-  <h7-sortable-item id="item-2">
+  </hyperkit-sortable-item>
+  <hyperkit-sortable-item id="item-2">
     ...
-  </h7-sortable-item>
+  </hyperkit-sortable-item>
 </hyperkit-sortable>
 ```
 
@@ -107,32 +107,32 @@ This example shows a sortable list with custom styles for the items and the drag
 
 ```html
 <hyperkit-sortable class="bg-white rounded-md shadow-md w-64 overflow-hidden">
-  <h7-sortable-item class="flex items-center justify-between pr-4 pl-3 py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400 text-zinc-800">
-    <h7-sortable-handle>
+  <hyperkit-sortable-item class="flex items-center justify-between pr-4 pl-3 py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400 text-zinc-800">
+    <hyperkit-sortable-handle>
       <button class="cursor-move mr-2 text-zinc-400 select-none font-black px-1">
         &#8942;
       </button>
-    </h7-sortable-handle>
+    </hyperkit-sortable-handle>
     <span class="text-xs font-medium flex-grow">Item 1</span>
-  </h7-sortable-item>
+  </hyperkit-sortable-item>
 </hyperkit-sortable>
 ```
 
 ### With Position Inputs
 
-If you need the sortable items to update input fields with their current positions, you can include `<h7-sortable-position><input /></h7-sortable-position>` inside each item.
+If you need the sortable items to update input fields with their current positions, you can include `<hyperkit-sortable-position><input /></hyperkit-sortable-position>` inside each item.
 
 {% example %}{% sortable includeInputs=true / %}{% /example %}
 
 ```html
 <hyperkit-sortable>
-  <h7-sortable-item>
-    <h7-sortable-handle>
+  <hyperkit-sortable-item>
+    <hyperkit-sortable-handle>
       <button>Drag</button>
-    </h7-sortable-handle>
-    <h7-sortable-position>
+    </hyperkit-sortable-handle>
+    <hyperkit-sortable-position>
       <input type="text" readonly />
-    </h7-sortable-position>
-  </h7-sortable-item>
+    </hyperkit-sortable-position>
+  </hyperkit-sortable-item>
 </hyperkit-sortable>
 ```
