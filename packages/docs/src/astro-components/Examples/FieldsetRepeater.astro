@@ -1,56 +1,76 @@
 ---
-
+const items = [
+  { id: "item-1", fname: "Chris", lname: "Garrett" },
+  { id: "item-2", fname: "Sumuva", lname: "Guy" },
+];
 ---
 
 <div class="w-72 mx-auto bg-white rounded-lg shadow-md p-6">
-  <div class="text-lg font-semibold mb-2 text-zinc-900">Fieldset Repeater</div>
-  <hyperkit-fieldset-repeater id="fieldset-repeater" class="flex flex-col">
-    <hyperkit-repeated-fieldset>
-      <hyperkit-transition
-        class="flex items-end justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
-        enter-class="transition-all duration-500 ease-in origin-top"
-        enter-from-class="opacity-0 max-h-0"
-        enter-to-class="opacity-100 max-h-[1000px]"
-        exit-class="transition-all duration-300 ease-out"
-        exit-from-class="opacity-100 max-h-[1000px]"
-        exit-to-class="opacity-0 max-h-0"
+  <div class="text-lg font-semibold text-zinc-900">Fieldset Repeater</div>
+  <hyperkit-fieldset-repeater id="fieldset-repeater">
+    <hyperkit-sortable class="flex flex-col">
+      {
+        items.map((item) => (
+          <hyperkit-sortable-item class="py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400">
+            <hyperkit-sortable-position>
+              <input type="hidden" name="items[][position]" />
+            </hyperkit-sortable-position>
+            <hyperkit-repeated-fieldset>
+              <hyperkit-transition
+                class="flex items-end justify-between space-x-2"
+                enter-class="transition-all duration-500 ease-in origin-top"
+                enter-from-class="opacity-0 max-h-0"
+                enter-to-class="opacity-100 max-h-[1000px]"
+                exit-class="transition-all duration-300 ease-out"
+                exit-from-class="opacity-100 max-h-[1000px]"
+                exit-to-class="opacity-0 max-h-0"
+              >
+                <hyperkit-sortable-handle>
+                  <button class="py-1 pr-1 cursor-move text-zinc-400 select-none font-black">
+                    &#8942;
+                  </button>
+                </hyperkit-sortable-handle>
+                <label>
+                  <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
+                  <input
+                    type="text"
+                    name="items[][firstname]"
+                    value={item.fname}
+                    class="w-20 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  />
+                </label>
+                <label>
+                  <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
+                  <input
+                    type="text"
+                    name="items[][lastname]"
+                    value={item.lname}
+                    class="w-20 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  />
+                </label>
+                <input type="hidden" name="items[][id]" value="item-1" />
+                <hyperkit-fieldset-destroyer>
+                  <button
+                    type="button"
+                    class="px-2 py-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
+                    aria-label="Remove item"
+                  >
+                    ×
+                  </button>
+                </hyperkit-fieldset-destroyer>
+              </hyperkit-transition>
+            </hyperkit-repeated-fieldset>
+          </hyperkit-sortable-item>
+        ))
+      }
+    </hyperkit-sortable>
+    <template slot="new-fieldset">
+      <hyperkit-sortable-item
+        class="data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400"
       >
-        <label>
-          <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
-          <input
-            type="text"
-            name="items[][firstname]"
-            value="Chris"
-            class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-          />
-        </label>
-        <label>
-          <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
-          <input
-            type="text"
-            name="items[][lastname]"
-            value="Garrett"
-            class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-          />
-        </label>
-        <input type="hidden" name="items[][id]" value="item-1" />
-        <hyperkit-fieldset-destroyer>
-          <button
-            type="button"
-            class="px-2 py-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
-            aria-label="Remove item">×</button
-          >
-        </hyperkit-fieldset-destroyer>
-      </hyperkit-transition>
-    </hyperkit-repeated-fieldset>
-
-    <hyperkit-new-fieldset class="hidden">
-      <template>
-        <hyperkit-repeated-fieldset
-          class="flex items-end justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
-        >
+        <hyperkit-repeated-fieldset>
           <hyperkit-transition
-            class="flex items-end justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
+            class="flex items-end justify-between space-x-2 py-2 border-b border-b-zinc-200"
             enter-class="transition-all duration-500 ease-in origin-top"
             enter-from-class="opacity-0 max-h-0"
             enter-to-class="opacity-100 max-h-[1000px]"
@@ -58,12 +78,19 @@
             exit-from-class="opacity-100 max-h-[1000px]"
             exit-to-class="opacity-0 max-h-0"
           >
+            <hyperkit-sortable-handle>
+              <button
+                class="py-1 cursor-move mr-2 text-zinc-400 select-none font-black"
+              >
+                &#8942;
+              </button>
+            </hyperkit-sortable-handle>
             <label>
               <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
               <input
                 type="text"
                 name="items[][firstname]"
-                class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                class="w-20 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </label>
             <label>
@@ -71,20 +98,22 @@
               <input
                 type="text"
                 name="items[][lastname]"
-                class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                class="w-20 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </label>
             <hyperkit-fieldset-destroyer>
               <button
                 type="button"
                 class="px-2 py-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
-                aria-label="Remove item">×</button
+                aria-label="Remove item"
               >
+                ×
+              </button>
             </hyperkit-fieldset-destroyer>
           </hyperkit-transition>
-        </hyperkit-repeated-fieldset>
-      </template>
-    </hyperkit-new-fieldset>
+        </hyperkit-repeated-fieldset></hyperkit-sortable-item
+      >
+    </template>
   </hyperkit-fieldset-repeater>
   <hyperkit-fieldset-creator for="fieldset-repeater">
     <button
@@ -98,4 +127,6 @@
 
 <script>
   import "@hyperkitxyz/elements/fieldset-repeater.ts";
+  import "@hyperkitxyz/elements/sortable.ts";
+  import "drag-drop-touch";
 </script>

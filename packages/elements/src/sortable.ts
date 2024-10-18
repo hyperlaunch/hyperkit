@@ -5,10 +5,7 @@ export class HyperkitSortableItem extends HyperkitElement {
 
 	connectedCallback() {
 		super.connectedCallback();
-		this.setupDragListeners();
-	}
 
-	private setupDragListeners() {
 		this.addEventListener("dragstart", () => {
 			this.dataset.dragging = "true";
 			this.setAttribute("draggable", "true");

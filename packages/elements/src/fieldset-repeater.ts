@@ -1,34 +1,30 @@
 import { HyperkitElement } from "./hyperkit-element";
-import { HyperkitTransition } from "./transition";
+import type { HyperkitTransition } from "./transition";
 
 export class HyperkitFieldsetRepeater extends HyperkitElement {
+	requiredChildren = ["template[slot='new-fieldset']"];
+
 	connectedCallback() {
 		super.connectedCallback();
 	}
 
-	public addNewFieldset() {
+	public add() {
 		const template = this.querySelector<HTMLTemplateElement>(
-			"hyperkit-new-fieldset template",
+			"template[slot='new-fieldset']",
 		);
 		if (!template || !template.content) return;
 
+		// Clone the entire template content
 		const newFieldset = template.content.cloneNode(true) as DocumentFragment;
-		const fieldset = newFieldset.querySelector<HyperkitRepeatedFieldset>(
-			"hyperkit-repeated-fieldset",
+
+		// Append the whole DocumentFragment
+		this.querySelector("hyperkit-sortable")?.appendChild(newFieldset);
+
+		// Find the transition element and trigger the enter transition if it exists
+		const transition = newFieldset.querySelector<HyperkitTransition>(
+			"hyperkit-transition",
 		);
-
-		if (fieldset) {
-			// Insert the new fieldset before the new fieldset container
-			this.insertBefore(fieldset, this.querySelector("hyperkit-new-fieldset"));
-
-			// Optionally apply the enter transition if it exists
-			const transition = fieldset.querySelector<HyperkitTransition>(
-				"hyperkit-transition",
-			);
-			if (transition) {
-				transition.enter();
-			}
-		}
+		transition?.enter();
 	}
 }
 
@@ -38,27 +34,21 @@ if (!customElements.get("hyperkit-fieldset-repeater"))
 export class HyperkitRepeatedFieldset extends HyperkitElement {
 	connectedCallback() {
 		super.connectedCallback();
-		this.setupDestroyer();
+
+		const destroyer = this.querySelector<HyperkitFieldsetDestroyer>(
+			"hyperkit-fieldset-destroyer",
+		);
+		destroyer?.addEventListener("click", () => this.remove());
 	}
 
-	private setupDestroyer() {
-		const destroyer = this.querySelector("hyperkit-fieldset-destroyer");
-		if (destroyer) {
-			destroyer.addEventListener("click", () => this.removeWithTransition());
-		}
-	}
-
-	private removeWithTransition() {
-		// Optionally apply the exit transition if it exists
+	public remove() {
 		const transition = this.querySelector<HyperkitTransition>(
 			"hyperkit-transition",
 		);
-		if (transition) {
-			transition.exit();
-			transition.on("exit", () => this.remove(), { once: true });
-		} else {
-			this.remove();
-		}
+		if (!transition) return super.remove();
+
+		transition.exit();
+		transition.on("exit", () => super.remove(), { once: true });
 	}
 }
 
@@ -81,7 +71,7 @@ export class HyperkitFieldsetCreator extends HyperkitElement<{
 		const button = this.querySelector("button");
 
 		if (button && repeater)
-			button.addEventListener("click", () => repeater.addNewFieldset());
+			button.addEventListener("click", () => repeater.add());
 	}
 }
 
@@ -97,7 +87,7 @@ export class HyperkitFieldsetDestroyer extends HyperkitElement {
 		this.addEventListener("click", () =>
 			this.closest<HyperkitRepeatedFieldset>(
 				"hyperkit-repeated-fieldset",
-			)?.removeWithTransition(),
+			)?.remove(),
 		);
 	}
 }
@@ -107,8 +97,3 @@ if (!customElements.get("hyperkit-fieldset-destroyer"))
 		"hyperkit-fieldset-destroyer",
 		HyperkitFieldsetDestroyer,
 	);
-
-export class HyperkitNewFieldset extends HyperkitElement {}
-
-if (!customElements.get("hyperkit-new-fieldset"))
-	customElements.define("hyperkit-new-fieldset", HyperkitNewFieldset);
