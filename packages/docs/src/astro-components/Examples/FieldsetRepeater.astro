@@ -5,65 +5,83 @@
 <div class="w-72 mx-auto bg-white rounded-lg shadow-md p-6">
   <div class="text-lg font-semibold mb-2 text-zinc-900">Fieldset Repeater</div>
   <hyperkit-fieldset-repeater id="fieldset-repeater" class="flex flex-col">
-    <hyperkit-repeated-fieldset
-      class="flex items-center justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
-    >
-      <label>
-        <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
-        <input
-          type="text"
-          name="items[][firstname]"
-          value="Chris"
-          class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-        />
-      </label>
-      <label>
-        <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
-        <input
-          type="text"
-          name="items[][lastname]"
-          value="Garrett"
-          class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-        />
-      </label>
-      <input type="hidden" name="items[][id]" value="item-1" />
-      <hyperkit-fieldset-destroyer>
-        <button
-          type="button"
-          class="px-2 py-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
-          aria-label="Remove item">×</button
-        >
-      </hyperkit-fieldset-destroyer>
+    <hyperkit-repeated-fieldset>
+      <hyperkit-transition
+        class="flex items-end justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
+        enter-class="transition-all duration-500 ease-in origin-top"
+        enter-from-class="opacity-0 max-h-0"
+        enter-to-class="opacity-100 max-h-[1000px]"
+        exit-class="transition-all duration-300 ease-out"
+        exit-from-class="opacity-100 max-h-[1000px]"
+        exit-to-class="opacity-0 max-h-0"
+      >
+        <label>
+          <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
+          <input
+            type="text"
+            name="items[][firstname]"
+            value="Chris"
+            class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+          />
+        </label>
+        <label>
+          <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
+          <input
+            type="text"
+            name="items[][lastname]"
+            value="Garrett"
+            class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+          />
+        </label>
+        <input type="hidden" name="items[][id]" value="item-1" />
+        <hyperkit-fieldset-destroyer>
+          <button
+            type="button"
+            class="px-2 py-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
+            aria-label="Remove item">×</button
+          >
+        </hyperkit-fieldset-destroyer>
+      </hyperkit-transition>
     </hyperkit-repeated-fieldset>
 
     <hyperkit-new-fieldset class="hidden">
       <template>
         <hyperkit-repeated-fieldset
-          class="flex items-center justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
+          class="flex items-end justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
         >
-          <label>
-            <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
-            <input
-              type="text"
-              name="items[][firstname]"
-              class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-            />
-          </label>
-          <label>
-            <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
-            <input
-              type="text"
-              name="items[][lastname]"
-              class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-            />
-          </label>
-          <hyperkit-fieldset-destroyer>
-            <button
-              type="button"
-              class="px-2 py-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
-              aria-label="Remove item">×</button
-            >
-          </hyperkit-fieldset-destroyer>
+          <hyperkit-transition
+            class="flex items-end justify-between space-x-2 mb-2 pb-2 border-b border-b-zinc-200"
+            enter-class="transition-all duration-500 ease-in origin-top"
+            enter-from-class="opacity-0 max-h-0"
+            enter-to-class="opacity-100 max-h-[1000px]"
+            exit-class="transition-all duration-300 ease-out"
+            exit-from-class="opacity-100 max-h-[1000px]"
+            exit-to-class="opacity-0 max-h-0"
+          >
+            <label>
+              <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
+              <input
+                type="text"
+                name="items[][firstname]"
+                class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </label>
+            <label>
+              <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
+              <input
+                type="text"
+                name="items[][lastname]"
+                class="w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </label>
+            <hyperkit-fieldset-destroyer>
+              <button
+                type="button"
+                class="px-2 py-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
+                aria-label="Remove item">×</button
+              >
+            </hyperkit-fieldset-destroyer>
+          </hyperkit-transition>
         </hyperkit-repeated-fieldset>
       </template>
     </hyperkit-new-fieldset>

@@ -55,7 +55,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 
 		const forAttr = this.getAttribute("for");
 		this.connectedInput = forAttr
-			? (document.getElementById(forAttr) as HTMLInputElement)
+			? document.querySelector<HTMLInputElement>(`#${forAttr}`)
 			: null;
 
 		if (forAttr && this.connectedInput) this.value = this.connectedInput.value;
