@@ -7,6 +7,8 @@ The `<hyperkit-sortable />` element provides a flexible drag-and-drop sorting fe
 
 This element is highly customisable, enabling developers to integrate it seamlessly into their projects. With simple markup and optional styling hooks, it offers a rich user experience for managing lists.
 
+The element uses the `draggable` features of HTML 5, which do not support touch events out of the box. If you would like touch screen support, add the `drop-drop-sort` polyfill package (`bun add drag-drop-polyfill`).
+
 {% example hero=true %}{%sortable id="heroSortable" / %}{% /example %}
 
 ## Usage
@@ -14,6 +16,7 @@ This element is highly customisable, enabling developers to integrate it seamles
 ### Import the JS:
 ```js
 import "@hyperkit/elements/sortable";
+import "drag-drop-sort"; // If you want touch support
 ```
 
 ### Tags:
