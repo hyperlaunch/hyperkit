@@ -151,14 +151,11 @@ export class HyperkitSortable extends HyperkitElement<{
 		).element;
 	}
 
-	// Updated to call updatePosition on each sortable item
 	private updatePositions() {
 		const items = this.querySelectorAll<HyperkitSortableItem>(
 			"hyperkit-sortable-item",
 		);
-		items.forEach((item, index) => {
-			item.updatePosition(index + 1); // Let the item manage its own input value
-		});
+		items.forEach((item, index) => item.updatePosition(index + 1));
 	}
 
 	private emitSortedEvent() {

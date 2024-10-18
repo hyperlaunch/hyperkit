@@ -89,7 +89,10 @@ export default defineMarkdocConfig({
 		},
 		sortable: {
 			render: component("./src/astro-components/Examples/Sortable.astro"),
-			attributes: {},
+			attributes: {
+				id: { type: String },
+				includeInputs: { type: Boolean },
+			},
 		},
 	},
 	extends: [
