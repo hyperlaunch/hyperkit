@@ -1,4 +1,5 @@
 import { HyperkitElement } from "./hyperkit-element";
+import "drag-drop-touch";
 
 export class HyperkitSortableItem extends HyperkitElement {
 	public requiredChildren = ["h7-sortable-handle"];
@@ -38,6 +39,10 @@ export class HyperkitSortableHandle extends HyperkitElement {
 		const button = this.querySelector("button");
 		if (button) {
 			button.addEventListener("mousedown", () => {
+				const item = this.closest<HyperkitSortableItem>("h7-sortable-item");
+				item?.setAttribute("draggable", "true");
+			});
+			button.addEventListener("touchstart", () => {
 				const item = this.closest<HyperkitSortableItem>("h7-sortable-item");
 				item?.setAttribute("draggable", "true");
 			});
