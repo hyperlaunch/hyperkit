@@ -38,7 +38,7 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
       </div>
     </div>
     <div
-      class="bg-zinc-950 dark:bg-white border border-zinc-700 dark:border-zinc-400 rounded shadow-md px-4 py-2 lg:mx-auto white-space-no-wrap text-zinc-100 dark:text-zinc-950 text-sm lg:text-base font-medium"
+      class="bg-zinc-950 dark:bg-white border border-zinc-700 dark:border-zinc-400 rounded shadow-md px-4 py-2 mr-auto lg:mx-auto white-space-no-wrap text-zinc-100 dark:text-zinc-950 text-sm lg:text-base font-medium"
     >
       bun add @hyperkitxyz/elements
     </div>
@@ -59,12 +59,12 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
         </div>
       </div>
     </div>
-    <nav class="w-full flex flex-col gap-6 lg:gap-4 xl:gap-6 2xl:gap-4">
+    <nav class="flex flex-col gap-2 lg:gap-4 xl:gap-6 2xl:gap-4">
       {
         tree.map(({ name, items }, i) => (
           <>
             <hyperkit-detail-summoner summons={`component-grid-${i}`}>
-              <button class="w-full flex items-center justify-between text-left px-4 py-2 lg:px-6 bg-zinc-200 dark:bg-zinc-800 rounded font-bold group">
+              <button class="block w-full flex items-center justify-between text-left px-4 py-2 lg:px-6 bg-zinc-200 dark:bg-zinc-800 rounded font-bold group">
                 {name}
                 <span class="group-data-[active]:rotate-180 transition-rotate duration-300">
                   <svg
@@ -86,7 +86,7 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
             </hyperkit-detail-summoner>
             <hyperkit-detail id={`component-grid-${i}`}>
               <hyperkit-transition
-                class="grid lg:gap-4 xl:gap-6 2xl:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                class="grid gap-2 lg:gap-4 xl:gap-6 2xl:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                 enter-class="transition-all duration-500 ease-in"
                 enter-from-class="opacity-0 max-h-0"
                 enter-to-class="opacity-100 max-h-[1000px]"
