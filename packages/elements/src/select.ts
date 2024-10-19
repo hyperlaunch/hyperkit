@@ -9,6 +9,7 @@ class HyperkitSelectOption extends HyperkitElement<{
 	propTypes: { value: "string" };
 }> {
 	propTypes = { value: "string" } as const;
+	requiredParent = "hyperkit-select";
 	requiredChildren = ["button"];
 
 	connectedCallback() {

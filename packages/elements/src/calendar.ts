@@ -12,12 +12,15 @@ export class HyperkitCalendar extends HyperkitElement<{
 		for: "string";
 	};
 }> {
-	public requiredChildren = ["hyperkit-days-list", `button[slot="day-number"]`];
+	public requiredChildren = [
+		"hyperkit-days-list",
+		`template[slot="day-number"]`,
+	];
 	private currentDate = new Date();
 	private selectedDate: Date | null = null;
 	private inputElement: HTMLInputElement | null = null;
 	private monthElement: HTMLElement | null = null;
-	private dayButtonTemplate: HTMLButtonElement | null = null;
+	private dayTemplate: HTMLTemplateElement | null = null;
 
 	public propTypes = {
 		value: "date",
@@ -77,11 +80,11 @@ export class HyperkitCalendar extends HyperkitElement<{
 		);
 		this.monthElement = this.querySelector("hyperkit-current-month");
 
-		this.dayButtonTemplate = this.querySelector<HTMLButtonElement>(
-			'button[slot="day-number"]',
+		this.dayTemplate = this.querySelector<HTMLTemplateElement>(
+			'template[slot="day-number"]',
 		);
 
-		this.dayButtonTemplate?.remove();
+		this.dayTemplate?.remove();
 	}
 
 	private attachInputListener() {
@@ -223,10 +226,15 @@ export class HyperkitCalendar extends HyperkitElement<{
 		date?: Date;
 		isOtherMonth?: boolean;
 	}): HTMLElement {
-		if (!this.dayButtonTemplate)
+		if (!this.dayTemplate)
 			throw new Error("Day button template is not defined");
 
-		const button = this.dayButtonTemplate.cloneNode(true) as HTMLButtonElement;
+		const dayButtonFragment = this.dayTemplate.content.cloneNode(
+			true,
+		) as DocumentFragment;
+		const button = dayButtonFragment.querySelector(
+			"button",
+		) as HTMLButtonElement;
 		button.textContent = content;
 
 		if (isOtherMonth || this.isDateDisabled(date)) {
@@ -291,14 +299,15 @@ export class HyperkitCalendar extends HyperkitElement<{
 if (!customElements.get("hyperkit-calendar"))
 	customElements.define("hyperkit-calendar", HyperkitCalendar);
 
-class ChildElement extends HTMLElement {
-	connectedCallback() {
-		if (!this.closest("hyperkit-calendar"))
-			console.error(
-				`${this.tagName.toLowerCase()} must be used inside hyperkit-calendar`,
-				this,
-			);
-	}
+class HyperkitDayNumber extends HyperkitElement {
+	public requiredChildren = ["button"];
+}
+
+if (!customElements.get("hyperkit-day-number"))
+	customElements.define("hyperkit-day-number", HyperkitDayNumber);
+
+class ChildElement extends HyperkitElement {
+	requiredParent = "hyperkit-calendar";
 }
 
 for (const tag of [

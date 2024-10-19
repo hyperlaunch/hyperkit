@@ -18,20 +18,12 @@ export class HyperkitFieldsetRepeater extends HyperkitElement {
 		const newFieldset = template.content.cloneNode(true) as DocumentFragment;
 
 		const sortable = this.querySelector("hyperkit-sortable");
-		if (sortable) {
-			sortable.appendChild(newFieldset);
 
-			const newItem = sortable.lastElementChild as HyperkitSortableItem;
+		sortable
+			? sortable.appendChild(newFieldset)
+			: this.appendChild(newFieldset);
 
-			this.updatePositions();
-
-			requestAnimationFrame(() => {
-				const transition = newItem?.querySelector<HyperkitTransition>(
-					"hyperkit-transition",
-				);
-				transition?.enter();
-			});
-		}
+		this.updatePositions();
 	}
 
 	public updatePositions() {
@@ -53,6 +45,8 @@ if (!customElements.get("hyperkit-fieldset-repeater"))
 	customElements.define("hyperkit-fieldset-repeater", HyperkitFieldsetRepeater);
 
 export class HyperkitRepeatedFieldset extends HyperkitElement {
+	requiredParent = "hyperkit-fieldset-repeater";
+
 	connectedCallback() {
 		super.connectedCallback();
 
@@ -117,20 +111,22 @@ export class HyperkitFieldsetCreator extends HyperkitElement<{
 	connectedCallback() {
 		super.connectedCallback();
 
-		const repeaterId = this.prop("for");
-		const repeater = document.querySelector<HyperkitFieldsetRepeater>(
-			`#${repeaterId}`,
-		);
-		const button = this.querySelector("button");
+		requestAnimationFrame(() => {
+			const repeaterId = this.prop("for");
+			const repeater = document.querySelector<HyperkitFieldsetRepeater>(
+				`#${repeaterId}`,
+			);
+			const button = this.querySelector("button");
 
-		if (button && repeater) {
-			button.setAttribute("aria-expanded", "false");
-			button.setAttribute("aria-controls", repeaterId);
-			button.addEventListener("click", () => {
-				repeater.add();
-				button.setAttribute("aria-expanded", "true");
-			});
-		}
+			if (button && repeater) {
+				button.setAttribute("aria-expanded", "false");
+				button.setAttribute("aria-controls", repeaterId);
+				button.addEventListener("click", () => {
+					repeater.add();
+					button.setAttribute("aria-expanded", "true");
+				});
+			}
+		});
 	}
 }
 
@@ -138,6 +134,7 @@ if (!customElements.get("hyperkit-fieldset-creator"))
 	customElements.define("hyperkit-fieldset-creator", HyperkitFieldsetCreator);
 
 export class HyperkitFieldsetDestroyer extends HyperkitElement {
+	requiredParent = "hyperkit-repeated-fieldset";
 	requiredChildren = ["button"];
 
 	connectedCallback() {

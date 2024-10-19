@@ -60,7 +60,11 @@ Tag:
   <hyperkit-current-month></hyperkit-current-month>
   <hyperkit-next-month><button>&gt;</button></hyperkit-next-month>
   <hyperkit-days-list></hyperkit-days-list>
-  <button slot="day-number"></button>
+  <template slot="day-number">
+    <hyperkit-day-number>
+      <button></button>
+    </hyperkit-day-number>
+  </template>
 </hyperkit-calendar>
 ```
 
@@ -76,9 +80,9 @@ Tag:
 * Will receive the list of day numbers for the current month as clickable buttons for selection.
 * Should be treated as a `<div />`.
 
-#### `<button slot="day-number" />`
+#### `<template slot="day-number">`
 * Template for the day numbers.
-* A button inside `<hyperkit-days-list />` for selecting specific days.
+* Contains a `<hyperkit-day-number>` element with a `<button />` inside for selecting specific days.
 
 ## JavaScript API
 
@@ -110,9 +114,9 @@ calendar.on("change", (event) => {
 
 ### Styling
 
-All elements can be styled conventionally with classes. The buttons inside `<hyperkit-previous-month>`, `<hyperkit-next-month>`, and `<button slot="day-number" />` should be styled directly. 
+All elements can be styled conventionally with classes. The buttons inside `<hyperkit-previous-month>`, `<hyperkit-next-month>`, and the `<button />` inside `<hyperkit-day-number>` should be styled directly.
 
-`<button slot="day-number" />` receives some special data attributes that can be used to apply contextual styles:
+`<button />` inside `<hyperkit-day-number>` receives some special data attributes that can be used to apply contextual styles:
 
 * `data-today` is applied to the current day.
 * `data-selected` is applied to the selected day.
@@ -145,10 +149,13 @@ When validation attributes like `min` are applied, any days which are unavailabl
     <div class="text-center text-xs font-semibold text-zinc-600">S</div>
   </div>
   <hyperkit-days-list class="grid grid-cols-7 gap-1"></hyperkit-days-list>
-  <button
-    slot="day-number"
-    class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer text-xs hover:bg-zinc-100 focus:ring-1 focus:ring-lime-500 focus:bg-lime-200 transition-colors duration-200 data-[today]:bg-lime-600 text-zinc-800 data-[today]:text-white data-[selected]:bg-lime-200 data-[other-month]:text-zinc-400 disabled:text-zinc-400"
-  ></button>
+  <template slot="day-number">
+    <hyperkit-day-number>
+      <button
+        class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer text-xs hover:bg-zinc-100 focus:ring-1 focus:ring-lime-500 focus:bg-lime-200 transition-colors duration-200 data-[today]:bg-lime-600 text-zinc-800 data-[today]:text-white data-[selected]:bg-lime-200 data-[other-month]:text-zinc-400 disabled:text-zinc-400"
+      ></button>
+    </hyperkit-day-number>
+  </template>
 </hyperkit-calendar>
 ```
 
@@ -222,23 +229,4 @@ Date choices can be constrained to past only with the `past-only` convenience at
 <hyperkit-calendar past-only>
   ...
 </hyperkit-calendar>
-```
-
-### With a `change` event listener
-
-The change event can be listened to with `on`. The event’s detail includes `previous` and `current`, representing the old and new selected dates.
-
-{% example %}{% calendar includeEventListenerExample=true / %}{% /example %}
-```html
-<hyperkit-calendar id="my-calendar">
-  ...
-</hyperkit-calendar>
-```
-
-```js
-document
-  .querySelector("#my-calendar")
-  .on("change", (event) =>
-    alert(`New value: ${(event.detail).current}`),
-  );
 ```

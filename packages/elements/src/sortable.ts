@@ -1,6 +1,7 @@
 import { HyperkitElement } from "./hyperkit-element";
 
 export class HyperkitSortableItem extends HyperkitElement {
+	requiredParent = "hyperkit-sortable";
 	public requiredChildren = ["hyperkit-sortable-handle"];
 
 	connectedCallback() {
@@ -34,6 +35,7 @@ if (!customElements.get("hyperkit-sortable-item"))
 	customElements.define("hyperkit-sortable-item", HyperkitSortableItem);
 
 export class HyperkitSortableHandle extends HyperkitElement {
+	requiredParent = "hyperkit-sortable-item";
 	requiredChildren = ["button"];
 
 	connectedCallback() {
@@ -134,7 +136,7 @@ export class HyperkitSortable extends HyperkitElement<{
 
 		this.addEventListener("dragend", () => {
 			this.clearDragIndicators();
-			this.updateLiveRegion("Item reordered."); // Update live region for screen readers
+			this.updateLiveRegion("Item reordered.");
 		});
 
 		this.addEventListener("dragleave", () => this.clearDragIndicators());
@@ -193,7 +195,6 @@ export class HyperkitSortable extends HyperkitElement<{
 		liveRegion.setAttribute("role", "alert");
 		liveRegion.setAttribute("aria-live", "assertive");
 		liveRegion.style.position = "absolute";
-		liveRegion.style.clip = "rect(0, 0, 0, 0)";
 		liveRegion.style.height = "1px";
 		liveRegion.style.width = "1px";
 		liveRegion.style.overflow = "hidden";

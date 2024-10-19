@@ -1,0 +1,116 @@
+---
+type Props = {
+  id: string;
+};
+const { id } = Astro.props;
+
+const items = [
+  { id: "item-1", fname: "Chris", lname: "Garrett" },
+  { id: "item-2", fname: "Sumuva", lname: "Guy" },
+];
+---
+
+<div class="w-72 lg:w-96 bg-white rounded-lg shadow-md p-6">
+  <div class="text-lg font-semibold text-zinc-900">Fieldset Repeater</div>
+  <hyperkit-fieldset-repeater id={id}>
+    {
+      items.map((item) => (
+        <hyperkit-repeated-fieldset class="block py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400">
+          <hyperkit-transition
+            class="flex items-end justify-between"
+            enter-class="transition-all duration-500 ease-in origin-top"
+            enter-from-class="opacity-0 max-h-0"
+            enter-to-class="opacity-100 max-h-[1000px]"
+            exit-class="transition-all duration-300 ease-out"
+            exit-from-class="opacity-100 max-h-[1000px]"
+            exit-to-class="opacity-0 max-h-0"
+          >
+            <label class="mr-2">
+              <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
+              <input
+                type="text"
+                name={`items-${id}[][firstname]`}
+                value={item.fname}
+                class="w-16 lg:w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </label>
+            <label>
+              <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
+              <input
+                type="text"
+                name={`items-${id}[][lastname]`}
+                value={item.lname}
+                class="w-16 lg:w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </label>
+            <input type="hidden" name={`items-${id}[][id]`} value={item.id} />
+            <hyperkit-fieldset-destroyer>
+              <button
+                type="button"
+                class="pb-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
+              >
+                ×
+              </button>
+            </hyperkit-fieldset-destroyer>
+          </hyperkit-transition>
+        </hyperkit-repeated-fieldset>
+      ))
+    }
+    <template slot="new-fieldset">
+      <hyperkit-repeated-fieldset
+        class="block py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400"
+      >
+        <hyperkit-transition
+          hidden
+          enter-on-connect
+          enter-class="transition-all duration-500 ease-in origin-top"
+          enter-from-class="opacity-0 max-h-0"
+          enter-to-class="opacity-100 max-h-[1000px]"
+          exit-class="transition-all duration-300 ease-out"
+          exit-from-class="opacity-100 max-h-[1000px]"
+          exit-to-class="opacity-0 max-h-0"
+        >
+          <div class="flex items-end justify-between">
+            <label class="mr-2">
+              <div class="mb-1 text-zinc-600 text-xs">First Name:</div>
+              <input
+                type="text"
+                name={`items-${id}[][firstname]`}
+                class="w-16 lg:w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </label>
+            <label>
+              <div class="mb-1 text-zinc-600 text-xs">Last Name:</div>
+              <input
+                type="text"
+                name={`items-${id}[][lastname]`}
+                class="w-16 lg:w-24 px-3 py-2 text-xs text-gray-800 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </label>
+            <hyperkit-fieldset-destroyer>
+              <button
+                type="button"
+                class="pb-1 text-lg text-red-500 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-all duration-200"
+              >
+                ×
+              </button>
+            </hyperkit-fieldset-destroyer>
+          </div>
+        </hyperkit-transition>
+      </hyperkit-repeated-fieldset>
+    </template>
+  </hyperkit-fieldset-repeater>
+  <hyperkit-fieldset-creator for={id}>
+    <button
+      type="button"
+      class="px-2.5 py-2 text-xs shadow-sm rounded border-none bg-zinc-800 text-zinc-200 hover:bg-zinc-900 flex items-center justify-center font-medium w-full whitespace-nowrap transition-all duration-200"
+    >
+      Add Item
+    </button>
+  </hyperkit-fieldset-creator>
+</div>
+
+<script>
+  import "@hyperkitxyz/elements/fieldset-repeater.ts";
+  import "@hyperkitxyz/elements/transition.ts";
+</script>

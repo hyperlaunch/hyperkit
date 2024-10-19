@@ -96,7 +96,17 @@ export default defineMarkdocConfig({
 		},
 		"fieldset-repeater": {
 			render: component(
-				"./src/astro-components/Examples/FieldsetRepeater.astro",
+				"./src/astro-components/Examples/FieldsetRepeater/FieldsetRepeater.astro",
+			),
+		},
+		"sortable-fieldset": {
+			render: component(
+				"./src/astro-components/Examples/FieldsetRepeater/SortableFieldsetRepeater.astro",
+			),
+		},
+		"transition-fieldset": {
+			render: component(
+				"./src/astro-components/Examples/FieldsetRepeater/TransitionFieldsetRepeater.astro",
 			),
 		},
 	},
