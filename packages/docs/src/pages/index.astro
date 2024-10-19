@@ -1,8 +1,44 @@
 ---
-import ComponentNav from "../astro-components/ComponentNav.astro";
+import { Picture } from "astro:assets";
+import robot from "../assets/robot.png";
 import Layout from "../astro-components/Layout.astro";
 ---
 
 <Layout>
-  <ComponentNav />
+  <div class="w-full flex flex-col gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
+    <div class="flex flex-col w-full items-center justify-end relative">
+      <Picture
+        src={robot}
+        format="webp"
+        alt=""
+        class="w-full max-w-4xl h-auto"
+        widths={[375, 750, 1200, 1500]}
+      />
+      <div class="lg:absolute z-40">
+        <div
+          class="max-w-5xl mx-auto text-black dark:text-white [text-shadow:_0_1px_30px_rgb(255_255_255/_100%)]
+lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30px_rgb(0_0_0_/_100%)] dark:lg:[text-shadow:_0_1px_50px_rgb(0_0_0_/_100%)]"
+        >
+          <h1
+            class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4"
+          >
+            Building blocks for Modern Interfaces
+          </h1>
+          <h2 class="md:text-lg lg:text-xl xl:text-2xl">
+            A suite of unstyled custom elements designed for building rich,
+            interactive UIs rapidly without writing JavaScript. From sortable
+            lists to calendars, modals, and repeating forms, Hyperkit is for
+            crafting dynamic, scalable interfaces, with pure HTML and CSS.
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="py-2 lg:py-4 xl:py-6 2xl:py-8 flex">
+      <div
+        class="bg-zinc-300 dark:bg-zinc-700 rounded-md shadow-md px-4 py-2 mx-auto white-space-no-wrap text-zinc-950 dark:text-white text-sm lg:text-base font-medium"
+      >
+        bun add @hyperkitxyz/elements
+      </div>
+    </div>
+  </div>
 </Layout>

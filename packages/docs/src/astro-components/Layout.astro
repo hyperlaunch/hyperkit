@@ -64,12 +64,12 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
     class="p-6 lg:p-8 xl:p-10 2xl:p-12 flex flex-col items-center gap-6 lg:gap-8 xl:gap-10 2xl:gap-12"
   >
     <header
-      class="w-full max-w-7xl flex items-center justify-between border-b border-zinc-300 dark:border-zinc-700 pb-6 lg:border-none lg:pb-0"
+      class="w-full max-w-7xl flex items-center justify-between border-b border-zinc-300 dark:border-zinc-700 pb-6"
     >
       <h1 class="text-xl font-black text-black dark:text-white">
         <a href="/">Hyperkit</a>
       </h1>
-      <div class="relative lg:hidden">
+      <div class="relative">
         <hyperkit-popover-summoner summons="menuPopover">
           <button
             class="px-2.5 py-2 text-sm shadow-sm rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 data-[active]:bg-zinc-200 dark:data-[active]:bg-zinc-800 flex items-center font-medium transition-color duration-300 border border-zinc-200 dark:border-zinc-800"
@@ -98,7 +98,7 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
             exit-class="transition-all duration-300 ease-out"
             exit-from-class="opacity-100"
             exit-to-class="opacity-0"
-            class="w-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg overflow-hidden absolute right-0 mt-2 p-4"
+            class="w-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg overflow-hidden absolute right-0 mt-2 p-4 z-50"
           >
             <div
               class="text-sm font-semibold text-zinc-950 dark:text-white mt-0 mb-2"
@@ -107,8 +107,8 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
             </div>
             <div class="text-xs text-zinc-600">
               <ComponentNav />
-            </div></hyperkit-transition
-          >
+            </div>
+          </hyperkit-transition>
         </hyperkit-popover>
       </div>
     </header>
