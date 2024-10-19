@@ -1,6 +1,14 @@
 {
 	"name": "@hyperkitxyz/elements",
 	"main": "./src/index.ts",
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hyperlaunch/hyperkit.git"
+	},
+	"author": "Chris Garrett <chris@hyperlaunch.com>",
+	"license": "MIT",
+	"private": false,
 	"devDependencies": {
 		"@oxc-transform/binding-linux-x64-gnu": "^0.31.0",
 		"@types/bun": "latest",

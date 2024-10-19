@@ -31,5 +31,5 @@ await Bun.build({
 	entrypoints: entrypoints.map((file) => `./src/${file}`),
 	outdir: "./package/dist",
 	plugins: [dts({ outdir: "./package/dist" })],
-	minify: true, // Minify the JavaScript output
+	minify: true,
 });
