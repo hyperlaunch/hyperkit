@@ -2,7 +2,9 @@
 	"name": "@hyperkitxyz/elements",
 	"main": "./src/index.ts",
 	"devDependencies": {
-		"@types/bun": "latest"
+		"@oxc-transform/binding-linux-x64-gnu": "^0.31.0",
+		"@types/bun": "latest",
+		"bun-plugin-dts-auto": "^0.20.6"
 	},
 	"peerDependencies": {
 		"typescript": "^5.0.0",

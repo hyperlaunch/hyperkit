@@ -37,7 +37,7 @@ Ensure you have [Bun](https://bun.sh/) installed as your package manager and run
 To install the Hyperkit elements, run:
 
 ```bash
-bun add @hyperkit/elements
+bun add @hyperkitxyz/elements
 ```
 
 ### Development
