@@ -2,6 +2,9 @@
 import { Picture } from "astro:assets";
 import robot from "../assets/robot.png";
 import Layout from "../astro-components/Layout.astro";
+import { getComponentTree } from "../utils/component-tree";
+
+const tree = await getComponentTree();
 ---
 
 <Layout>
@@ -20,16 +23,16 @@ import Layout from "../astro-components/Layout.astro";
 lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30px_rgb(0_0_0_/_100%)] dark:lg:[text-shadow:_0_1px_50px_rgb(0_0_0_/_100%)]"
         >
           <h1
-            class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4"
+            class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 lg:mb-6 xl:mb-8"
           >
-            Headless Elements for Supercharged UI
+            Headless Elements, Supercharged UIs
           </h1>
-          <h2 class="md:text-lg lg:text-xl xl:text-2xl">
+          <p class="md:text-lg lg:text-xl xl:text-2xl">
             A suite of unstyled custom elements designed for building rich,
             interactive UIs rapidly &mdash; without writing JavaScript. From
             sortable lists to calendars, modals, and repeating forms, Hyperkit
             is let's you create dynamic, scalable interfaces, with pure HTML.
-          </h2>
+          </p>
         </div>
       </div>
     </div>
@@ -38,5 +41,39 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
     >
       bun add @hyperkitxyz/elements
     </div>
+    <div class="flex items-center justify-center w-full">
+      <div class="relative flex items-center w-full max-w-screen-lg">
+        <div
+          class="flex-grow h-px bg-gradient-to-r from-transparent via-zinc-200 to-zinc-200 dark:via-zinc-700 dark:to-zinc-700"
+        >
+        </div>
+        <h2
+          class="mx-4 text-xs uppercase font-semibold tracking-wider text-zinc-900 dark:text-zinc-100"
+        >
+          Components
+        </h2>
+        <div
+          class="flex-grow h-px bg-gradient-to-l from-transparent via-zinc-200 to-zinc-200 dark:via-zinc-700 dark:to-zinc-700"
+        >
+        </div>
+      </div>
+    </div>
+    <nav class="w-full flex flex-col gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
+      {
+        tree.map(({ name, items }) => (
+          <div>
+            <h2>{name}</h2>
+            <div class="grid gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {items.map((item) => (
+                <a href={`/${item?.slug}`}>
+                  <h3>{item?.data.name}</h3>
+                  <p>{item?.data.tagline}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </nav>
   </div>
 </Layout>
