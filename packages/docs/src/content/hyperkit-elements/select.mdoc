@@ -184,6 +184,35 @@ The `hidden` attribute can be used to ensure the select options remain hidden un
 </hyperkit-select>
 ```
 
+### Adding Arrow Key Navigation
+
+You can use the arrow-nav element to add arrow key navigation to your select. When the select nests a `<hyperkit-arrow-nav />`, it will enable "jumping" to the first item in the list on downkey press, once the menu is opened:
+
+{% example %}
+  {% select id="selectWithTransition" useArrowNav=true / %}
+{% /example %}
+```html
+<hyperkit-select-summoner summons="selectWithTransition">
+  <button>Open Select</button>
+</hyperkit-select-summoner>
+<hyperkit-select id="selectWithTransition">
+  <hyperkit-arrow-nav>
+    <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <hyperkit-select-option value="option1">
+        <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+          Option 1
+        </button>
+      </hyperkit-select-option>
+      <hyperkit-select-option value="option2">
+        <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+          Option 2
+        </button>
+      </hyperkit-select-option>
+    </div>
+  </hyperkit-arrow-nav>
+</hyperkit-select>
+```
+
 ### Using a Transition
 
 You can enhance your select by adding a transition for smooth animations when showing or hiding options. Here’s an example of how to integrate it with your select:

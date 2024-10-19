@@ -82,6 +82,7 @@ export default defineMarkdocConfig({
 			attributes: {
 				id: { type: String },
 				useTransition: { type: Boolean },
+				useArrowNav: { type: Boolean },
 				for: { type: String },
 				value: { type: String },
 				optionsHidden: { type: Boolean },

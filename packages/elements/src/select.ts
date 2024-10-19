@@ -52,28 +52,29 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 	connectedCallback() {
 		super.connectedCallback();
 
-		this.value = this.getAttribute("value") || undefined;
+		requestAnimationFrame(() => {
+			this.value = this.getAttribute("value") || undefined;
 
-		const forAttr = this.getAttribute("for");
-		this.connectedInput = forAttr
-			? document.querySelector<HTMLInputElement>(`#${forAttr}`)
-			: null;
+			const forAttr = this.getAttribute("for");
+			this.connectedInput = forAttr
+				? document.querySelector<HTMLInputElement>(`#${forAttr}`)
+				: null;
 
-		if (forAttr && this.connectedInput) this.value = this.connectedInput.value;
+			if (forAttr && this.connectedInput)
+				this.value = this.connectedInput.value;
 
-		this.initializeArrowNavigation();
+			this.summonBy?.setAttribute("aria-controls", this.id);
+			this.setAttribute("role", "listbox");
 
-		this.summonBy?.setAttribute("aria-controls", this.id);
-		this.setAttribute("role", "listbox");
+			this.on("summon", () => {
+				if (!this.value) return;
 
-		this.on("summon", () => {
-			if (!this.value) return;
+				const selectedButton = this.querySelector<HTMLButtonElement>(
+					`hyperkit-select-option[value="${this.value}"] button`,
+				);
 
-			const selectedButton = this.querySelector<HTMLButtonElement>(
-				`hyperkit-select-option[value="${this.value}"] button`,
-			);
-
-			selectedButton?.focus();
+				selectedButton?.focus();
+			});
 		});
 	}
 
@@ -105,14 +106,6 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 
 		this.dismiss();
 	}
-
-	initializeArrowNavigation() {
-		const arrowNav = new HyperkitArrowNav();
-
-		for (const child of Array.from(this.children)) arrowNav.appendChild(child);
-
-		this.appendChild(arrowNav);
-	}
 }
 
 if (!customElements.get("hyperkit-select"))
@@ -136,7 +129,7 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 			this.button.setAttribute("aria-expanded", "false");
 			this.button.setAttribute("aria-haspopup", "listbox");
 			this.button.setAttribute("aria-controls", this.summons?.id || "");
-			this.button.addEventListener("keydown", this.onKeyDown.bind(this));
+			this.button.addEventListener("keydown", (e) => this.onKeyDown(e));
 		}
 
 		requestAnimationFrame(() => {
@@ -151,6 +144,9 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 	}
 
 	onKeyDown(event: KeyboardEvent) {
+		const arrowNav = this.summons.querySelector("hyperkit-arrow-nav");
+
+		if (!arrowNav) return;
 		if (
 			event.key === "ArrowDown" &&
 			this.summons &&
