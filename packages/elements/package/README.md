@@ -31,6 +31,10 @@ bun add @hyperkitxyz/elements
 
 Simply import the elements and include them in your HTML to start building dynamic interfaces.
 
+```js
+import "@hyperkitxyz/modal"
+```
+
 ---
 
 For full documentation and examples, visit [hyperkitxyz.com](https://hyperkitxyz.com).
