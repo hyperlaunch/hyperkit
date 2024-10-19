@@ -38,7 +38,7 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
       </div>
     </div>
     <div
-      class="bg-zinc-950 dark:bg-white border border-zinc-700 dark:border-zinc-400 rounded-md shadow-md px-4 py-2 lg:mx-auto white-space-no-wrap text-zinc-100 dark:text-zinc-950 text-sm lg:text-base font-medium"
+      class="bg-zinc-950 dark:bg-white border border-zinc-700 dark:border-zinc-400 rounded shadow-md px-4 py-2 lg:mx-auto white-space-no-wrap text-zinc-100 dark:text-zinc-950 text-sm lg:text-base font-medium"
     >
       bun add @hyperkitxyz/elements
     </div>
@@ -64,7 +64,7 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
         tree.map(({ name, items }, i) => (
           <>
             <hyperkit-detail-summoner summons={`component-grid-${i}`}>
-              <button class="w-full flex items-center justify-between text-left px-4 py-2 lg:px-6 bg-zinc-200 dark:bg-zinc-800 rounded-md font-bold group">
+              <button class="w-full flex items-center justify-between text-left px-4 py-2 lg:px-6 bg-zinc-200 dark:bg-zinc-800 rounded font-bold group">
                 {name}
                 <span class="group-data-[active]:rotate-180 transition-rotate duration-300">
                   <svg
@@ -97,21 +97,13 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
                 {items.map((item) => (
                   <a
                     href={`/${item?.slug}`}
-                    class="group border border-zinc-200 dark:border-zinc-800 rounded-md overflow-hidden hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-color duration-300"
+                    class="group border border-zinc-200 dark:border-zinc-800 rounded overflow-hidden hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-color duration-300"
                   >
-                    {/* {item?.data && (
-                      <Picture
-                        src={item?.data.thumbnail}
-                        format="webp"
-                        alt=""
-                        widths={[375, 750, 1200, 1500]}
-                      />
-                    )} */}
                     <div class="p-4 lg:p-6 xl:p-8">
                       <h3 class="lg:text-lg xl:text-xl font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-lime-500 dark:group-hover:text-lime-400 mb-2">
                         {item?.data.name}
                       </h3>
-                      <p class="group-hover:text-zinc-900 dark:group-hover:text-zinc-100">
+                      <p class="text-zinc-600 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100">
                         {item?.data.tagline}
                       </p>
                     </div>

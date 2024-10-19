@@ -122,7 +122,7 @@ Here’s an example with a styled summoner and option buttons:
   </button>
 </hyperkit-select-summoner>
 <hyperkit-select>
-  <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+  <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
     {items.map(({ value, label }) => (
       <hyperkit-select-option value={value}>
         <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
@@ -198,7 +198,7 @@ You can use the arrow-nav element to add arrow key navigation to your select. Wh
 </hyperkit-select-summoner>
 <hyperkit-select id="selectWithTransition">
   <hyperkit-arrow-nav>
-    <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+    <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
       <hyperkit-select-option value="option1">
         <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
           Option 1
@@ -234,7 +234,7 @@ You can enhance your select by adding a transition for smooth animations when sh
     exit-from-class="opacity-100"
     exit-to-class="opacity-0"
   >
-    <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+    <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
       <hyperkit-select-option value="option1">
         <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
           Option 1

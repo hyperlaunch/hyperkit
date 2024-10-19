@@ -42,7 +42,7 @@ const items = [
     {
       useTransition ? (
         <hyperkit-transition
-          class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+          class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
           enter-class="transition-all duration-200 ease-in"
           enter-from-class="opacity-0"
           enter-to-class="opacity-100"
@@ -59,7 +59,7 @@ const items = [
           ))}
         </hyperkit-transition>
       ) : useArrowNav ? (
-        <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <hyperkit-arrow-nav>
             {items.map(({ value, label }) => (
               <hyperkit-select-option value={value}>
@@ -71,7 +71,7 @@ const items = [
           </hyperkit-arrow-nav>
         </div>
       ) : (
-        <div class="absolute mt-1 w-36 rounded-md overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           {items.map(({ value, label }) => (
             <hyperkit-select-option value={value}>
               <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
