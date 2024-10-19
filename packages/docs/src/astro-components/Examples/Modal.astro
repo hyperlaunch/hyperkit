@@ -1,0 +1,65 @@
+---
+type Props = {
+  id: string;
+  useTransition?: boolean;
+  contentHidden?: boolean;
+};
+
+const { id, contentHidden = false, useTransition = false } = Astro.props;
+---
+
+<hyperkit-modal-summoner summons={id}>
+  <button
+    class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[active]:bg-zinc-800 flex items-center justify-center font-medium w-min whitespace-nowrap"
+  >
+    Open Modal
+  </button>
+</hyperkit-modal-summoner>
+<hyperkit-modal hidden={contentHidden} id={id}>
+  {
+    useTransition ? (
+      <hyperkit-transition
+        class="absolute inset-0 z-50 flex items-center justify-center bg-black/10"
+        enter-class="transition-all duration-500 ease-in"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        exit-class="transition-all duration-300 ease-out"
+        exit-from-class="opacity-100"
+        exit-to-class="opacity-0"
+      >
+        <hyperkit-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
+        <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
+          <div class="flex justify-between items-center mb-2 text-zinc-800">
+            <div class="font-bold">Transitioning Modal Title</div>
+            <hyperkit-modal-dismisser>
+              <button class="text-xs">Close</button>
+            </hyperkit-modal-dismisser>
+          </div>
+          <div class="text-xs text-zinc-600">
+            This is some example content for the modal.
+          </div>
+        </div>
+      </hyperkit-transition>
+    ) : (
+      <div class="absolute inset-0 z-50 flex items-center justify-center bg-black/10">
+        <hyperkit-modal-backdrop class="absolute inset-0 z-10 bg-black/10" />
+        <div class="relative z-50 w-80 bg-white rounded-lg shadow-lg p-4">
+          <div class="flex justify-between items-center mb-2 text-zinc-800">
+            <div class="font-bold">Modal Title</div>
+            <hyperkit-modal-dismisser>
+              <button class="text-xs">Close</button>
+            </hyperkit-modal-dismisser>
+          </div>
+          <div class="text-xs text-zinc-600">
+            This is some example content for the modal.
+          </div>
+        </div>
+      </div>
+    )
+  }
+</hyperkit-modal>
+
+<script>
+  import "@hyperkitxyz/elements/modal.ts";
+  import "@hyperkitxyz/elements/transition.ts";
+</script>

@@ -1,0 +1,44 @@
+---
+type Props = {
+  id: string;
+  includeInputs?: boolean;
+};
+
+const { id, includeInputs = false } = Astro.props;
+const items = [
+  { label: "First Item", name: "item-1" },
+  { label: "Second Item", name: "item-2" },
+  { label: "Third Item", name: "item-3" },
+  { label: "Fourth Item", name: "item-4" },
+];
+---
+
+<hyperkit-sortable class="bg-white rounded shadow-md w-64 overflow-hidden">
+  {
+    items.map(({ label, name }) => (
+      <hyperkit-sortable-item class="flex items-center justify-between pr-4 pl-3 py-2 border-b border-b-zinc-200 data-[before]:border-t-2 data-[before]:border-t-blue-400 data-[after]:border-b-2 data-[after]:border-b-blue-400 text-zinc-800">
+        <hyperkit-sortable-handle>
+          <button class="cursor-move mr-2 text-zinc-400 select-none font-black px-1">
+            &#8942;
+          </button>
+        </hyperkit-sortable-handle>
+        <span class="text-xs font-medium flex-grow">{label}</span>
+        {includeInputs && (
+          <hyperkit-sortable-position>
+            <input
+              type="text"
+              readonly
+              class="w-8 text-right text-xs text-zinc-400 bg-transparent border-none pointer-events-none"
+              name={`${id}[positions][${name}]`}
+            />
+          </hyperkit-sortable-position>
+        )}
+      </hyperkit-sortable-item>
+    ))
+  }
+</hyperkit-sortable>
+
+<script>
+  import "drag-drop-touch";
+  import "@hyperkitxyz/elements/sortable.ts";
+</script>

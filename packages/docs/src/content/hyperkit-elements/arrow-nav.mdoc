@@ -1,0 +1,66 @@
+---
+name: Arrow Nav  
+tagline: Easily navigate between focusable elements using up and down arrow keys.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-arrow-nav />` element allows keyboard navigation between clickable or focusable elements (e.g., links, buttons) using the up and down arrow keys. This is useful for providing accessible, keyboard-based navigation within lists, menus, or other groupings of focusable elements.
+
+When an element inside the container is focused, pressing the up arrow will move focus to the previous element, and pressing the down arrow will move focus to the next element. If the first element is focused and the up arrow is pressed, or if the last element is focused and the down arrow is pressed, focus will remain on the current element.
+
+{% example hero=true %}
+	{% arrow-nav / %}
+{% /example %}
+
+## Usage
+
+Import the JS:
+```js
+import "@hyperkitxyz/elements/arrow-nav";
+```
+
+Tag:
+```html
+<hyperkit-arrow-nav>...</hyperkit-arrow-nav>
+```
+
+### Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* N/A
+* N/A
+* The `<hyperkit-arrow-nav />` element does not currently take any attributes.
+---
+{% /table %}
+
+### Children
+
+```html
+<hyperkit-arrow-nav>
+  <a />
+  <button />
+</hyperkit-arrow-nav>
+```
+
+#### Focusable Elements
+* Any clickable or focusable element such as `<a>`, `<button>`, or any element with a `tabindex` attribute can be navigated using the arrow keys.
+
+## Example
+
+### Simple Arrow Navigation
+
+This example demonstrates a list of links and buttons that can be navigated using the up and down arrow keys. The navigation will wrap between the first and last elements.
+
+{% example %}
+	{% arrow-nav / %}
+{% /example %}
+
+```html
+<hyperkit-arrow-nav>
+    …
+</hyperkit-arrow-nav>
+```

@@ -1,0 +1,166 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import favicon from "../assets/favicon.svg";
+import og from "../assets/og.png";
+import "../base.css";
+import ComponentNav from "./ComponentNav.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const { title, description } = Astro.props;
+
+const name = "Hyperkit";
+const url = "https://www.hyperkit.xyz";
+const pageTitle = [title, name].filter(Boolean).join(" — ");
+---
+
+<html
+  lang="en"
+  class="bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 font-poppins"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{pageTitle}</title>
+    <meta
+      name="description"
+      content="Headless elements that supercharge HTML with rich UI features like calendars, modals, and forms"
+    />
+    <meta name="robots" content="index, follow" />
+
+    <meta
+      name="keywords"
+      content="Product development, Prototyping, Innovation, Full stack development"
+    />
+
+    <link rel="icon" href={favicon.src} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:title" content={pageTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={og.src} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@hyprlnch" />
+
+    <script>
+      import posthog from "posthog-js";
+
+      posthog.init(import.meta.env.PUBLIC_POSTHOG_API_KEY, {
+        api_host: import.meta.env.PUBLIC_POSTHOG_API_HOST,
+      });
+    </script>
+    <ViewTransitions />
+  </head>
+
+  <body
+    class="p-6 lg:p-8 xl:p-10 2xl:p-12 flex flex-col items-center gap-6 lg:gap-8 xl:gap-10 2xl:gap-12"
+  >
+    <header
+      class="w-full max-w-7xl flex items-center justify-between border-b border-zinc-300 dark:border-zinc-700 pb-6"
+    >
+      <h1
+        class="text-xl font-black text-black dark:text-white flex items-center gap-2"
+      >
+        <a href="/">Hyperkit</a>
+        <span
+          class="px-2 py-1 text-xs font-medium shadow-sm rounded-full bg-zinc-300 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200"
+        >
+          0.0.1
+        </span>
+      </h1>
+
+      <div class="flex items-center gap-4">
+        <a
+          href="https://www.npmjs.com/package/@hyperkitxyz/elements"
+          class="text-zinc-900 dark:text-zinc-100 hover:text-lime-500 dark:hover:text-lime-400"
+        >
+          <svg
+            width="404"
+            height="156"
+            viewBox="0 0 404 156"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-8 h-6"
+          >
+            <path
+              d="M180 123H393V11H11V123H124V22V145H202M79 44V112M191 44V89M236 22V112M303 44V123H348V44"
+              stroke="currentColor"
+              stroke-width="22"></path>
+          </svg>
+
+          <span class="sr-only">NPM</span>
+        </a>
+        <a
+          href="https://github.com/hyperlaunch/hyperkit"
+          class="text-zinc-900 dark:text-zinc-100 hover:text-lime-500 dark:hover:text-lime-400"
+        >
+          <svg class="size-6" viewBox="0 0 24 24" aria-hidden="true"
+            ><path
+              fill="currentColor"
+              d="M12 0C5.37 0 0 5.37 0 12C0 17.31 3.435 21.795 8.205 23.385C8.805 23.49 9.03 23.13 9.03 22.815C9.03 22.53 9.015 21.585 9.015 20.58C6 21.135 5.22 19.845 4.98 19.17C4.845 18.825 4.26 17.76 3.75 17.475C3.33 17.25 2.73 16.695 3.735 16.68C4.68 16.665 5.355 17.55 5.58 17.91C6.66 19.725 8.385 19.215 9.075 18.9C9.18 18.12 9.495 17.595 9.84 17.295C7.17 16.995 4.38 15.96 4.38 11.37C4.38 10.065 4.845 8.985 5.61 8.145C5.49 7.845 5.07 6.615 5.73 4.965C5.73 4.965 6.735 4.65 9.03 6.195C9.99 5.925 11.01 5.79 12.03 5.79C13.05 5.79 14.07 5.925 15.03 6.195C17.325 4.635 18.33 4.965 18.33 4.965C18.99 6.615 18.57 7.845 18.45 8.145C19.215 8.985 19.68 10.05 19.68 11.37C19.68 15.975 16.875 16.995 14.205 17.295C14.64 17.67 15.015 18.39 15.015 19.515C15.015 21.12 15 22.41 15 22.815C15 23.13 15.225 23.505 15.825 23.385C18.2072 22.5808 20.2773 21.0498 21.7438 19.0074C23.2103 16.9651 23.9994 14.5143 24 12C24 5.37 18.63 0 12 0Z"
+            ></path></svg
+          ><span class="sr-only">Github</span>
+        </a>
+        <div class="relative">
+          <hyperkit-popover-summoner summons="menuPopover">
+            <button
+              class="px-2.5 py-2 text-sm shadow-sm rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 data-[active]:bg-zinc-200 dark:data-[active]:bg-zinc-800 flex items-center font-medium transition-color duration-300 border border-zinc-200 dark:border-zinc-800"
+            >
+              Menu
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                data-slot="icon"
+                class="size-4 ml-2 pointer-events-none"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+          </hyperkit-popover-summoner>
+          <hyperkit-popover id="menuPopover" hidden>
+            <hyperkit-transition
+              enter-class="transition-all duration-150 ease-in"
+              enter-from-class="opacity-0"
+              enter-to-class="opacity-100"
+              exit-class="transition-all duration-300 ease-out"
+              exit-from-class="opacity-100"
+              exit-to-class="opacity-0"
+              class="w-64 bg-zinc-100 dark:bg-zinc-800 rounded-lg shadow-lg overflow-hidden absolute right-0 mt-2 p-4 z-50"
+            >
+              <div
+                class="text-sm font-semibold text-zinc-950 dark:text-white mt-0 mb-2"
+              >
+                Components
+              </div>
+              <div class="text-xs text-zinc-600">
+                <ComponentNav />
+              </div>
+            </hyperkit-transition>
+          </hyperkit-popover>
+        </div>
+      </div>
+    </header>
+    <main
+      class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-7xl"
+    >
+      <slot />
+    </main>
+  </body>
+</html>
+<script>
+  import "@hyperkitxyz/elements/popover.ts";
+  import "@hyperkitxyz/elements/transition.ts";
+</script>

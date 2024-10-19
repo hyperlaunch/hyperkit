@@ -1,0 +1,56 @@
+---
+type Props = {
+  id: string;
+  useTransition?: boolean;
+  contentHidden?: boolean;
+};
+
+const { id, contentHidden = false, useTransition = false } = Astro.props;
+---
+
+<div class="relative w-64 block">
+  <hyperkit-popover-summoner summons={id}>
+    <button
+      class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-800 text-zinc-200 data-[active]:bg-zinc-900 flex items-center justify-center font-medium w-min whitespace-nowrap"
+    >
+      Open Popover
+    </button>
+  </hyperkit-popover-summoner>
+  <hyperkit-popover id={id} hidden={contentHidden}>
+    {
+      useTransition ? (
+        <hyperkit-transition
+          class="bg-white rounded-lg shadow-lg overflow-hidden absolute mt-1 p-4"
+          enter-class="transition-all duration-500 ease-in"
+          enter-from-class="opacity-0"
+          enter-to-class="opacity-100"
+          exit-class="transition-all duration-300 ease-out"
+          exit-from-class="opacity-100"
+          exit-to-class="opacity-0"
+        >
+          <div class="font-bold text-zinc-800 mb-1">
+            Transitioning Popover Title
+          </div>
+          <div class="text-xs text-zinc-600">
+            This is some example content for the popover. You can put any HTML
+            content here.
+          </div>
+        </hyperkit-transition>
+      ) : (
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2 p-4">
+          <div class="font-bold text-zinc-800 mb-1">Popover Title</div>
+          <div class="text-xs text-zinc-600">
+            This is some example content for the popover. You can put any HTML
+            content here.
+          </div>
+        </div>
+      )
+    }
+  </hyperkit-popover>
+</div>
+<div class="w-64 h-28"></div>
+
+<script>
+  import "@hyperkitxyz/elements/popover.ts";
+  import "@hyperkitxyz/elements/transition.ts";
+</script>

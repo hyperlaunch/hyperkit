@@ -1,0 +1,46 @@
+---
+type Props = { id: string; useTransition?: boolean };
+
+const { id, useTransition = false } = Astro.props;
+
+const items = ["First", "Second", "Third"];
+---
+
+<div class="block bg-white rounded-lg shadow-lg p-4">
+  {
+    items.map((item, i) => (
+      <div class="mb-4 pb-4 border-b border-b-zinc-200 last:mb-0 last:pb-0 last:border-0 block w-80">
+        <hyperkit-detail-summoner summons={`${id}-${i}`}>
+          <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-600 data-[active]:text-lime-500 hover:text-zinc-900">
+            {item} Item
+          </button>
+        </hyperkit-detail-summoner>
+        <hyperkit-detail
+          id={`${id}-${i}`}
+          hidden={i > 0}
+          class="mt-2 text-xs text-zinc-600"
+        >
+          {useTransition ? (
+            <hyperkit-transition
+              class="block"
+              enter-class="transition-all duration-500 ease-in origin-top"
+              enter-from-class="opacity-0 max-h-0"
+              enter-to-class="opacity-100 max-h-[1000px]"
+              exit-class="transition-all duration-300 ease-out"
+              exit-from-class="opacity-100 max-h-[1000px]"
+              exit-to-class="opacity-0 max-h-0"
+            >
+              This is some example content for the detail item.
+            </hyperkit-transition>
+          ) : (
+            <>This is some example content for the detail item.</>
+          )}
+        </hyperkit-detail>
+      </div>
+    ))
+  }
+</div>
+<script>
+  import "@hyperkitxyz/elements/detail.ts";
+  import "@hyperkitxyz/elements/transition.ts";
+</script>

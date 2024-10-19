@@ -1,0 +1,100 @@
+---
+import { getCollection } from "astro:content";
+import ComponentNav from "../astro-components/ComponentNav.astro";
+import JumpLinks from "../astro-components/JumpLinks.astro";
+import Layout from "../astro-components/Layout.astro";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const entries = await getCollection("hyperkit-elements");
+  return entries.map((entry) => ({
+    params: { element: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { name, tagline } = entry.data;
+const { Content } = await entry.render();
+---
+
+<Layout>
+  <div
+    class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink w-64"
+  >
+    <ComponentNav />
+  </div>
+  <div class="w-full flex-grow max-w-5xl">
+    <div
+      class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-4xl"
+    >
+      <div class="flex-grow w-full max-w-3xl">
+        <header class="mb-6">
+          <h1
+            class="text-5xl lg:text-6xl xl:text-7xl font-black text-black dark:text-white"
+          >
+            {name}
+          </h1>
+          <h2 class="mt-4 lg:mt-4 xl:mt-6 text-xl lg:text-2xl xl:text-3xl">
+            {tagline}
+          </h2>
+        </header>
+        <div
+          class="lg:hidden bg-zinc-100 dark:bg-zinc-900 rounded text-xs border border-zinc-200 dark:border-zinc-800"
+        >
+          <hyperkit-detail-summoner summons="sm-jump-links">
+            <button
+              class="flex items-center w-full font-semibold whitespace-nowrap py-2 px-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-5 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+                ></path>
+              </svg>
+              On this page
+            </button>
+          </hyperkit-detail-summoner>
+          <hyperkit-detail id="sm-jump-links" hidden>
+            <hyperkit-transition
+              class="block"
+              enter-class="transition-all duration-300 ease-in"
+              enter-from-class="opacity-0 max-h-0"
+              enter-to-class="opacity-100 max-h-[1000px]"
+              exit-class="transition-all duration-150 ease-out"
+              exit-from-class="opacity-100 max-h-[1000px]"
+              exit-to-class="opacity-0 max-h-0"
+              class="block p-4 border-t border-t-zinc-200 dark:border-t-zinc-800"
+            >
+              <JumpLinks targetElementId="element-docs" /></hyperkit-transition
+            >
+          </hyperkit-detail>
+        </div>
+        <main
+          class="prose prose-sm dark:prose-invert scroll-mt-10"
+          id="element-docs"
+        >
+          <Content />
+        </main>
+      </div>
+      <aside
+        class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink w-64"
+      >
+        <JumpLinks targetElementId="element-docs" />
+      </aside>
+    </div>
+  </div>
+</Layout>
+<script>
+  import "@hyperkitxyz/elements/detail.ts";
+  import "@hyperkitxyz/elements/transition.ts";
+</script>

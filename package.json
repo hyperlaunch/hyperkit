@@ -1,0 +1,21 @@
+{
+	"name": "hyperkit",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"dev": "bun run --filter './packages/*' dev",
+		"test": "bun test --cwd 'packages/tests'"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.3",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"workspaces": ["packages/*"],
+	"dependencies": {
+		"@tailwindcss/forms": "^0.5.9",
+		"@tailwindcss/typography": "^0.5.15"
+	}
+}

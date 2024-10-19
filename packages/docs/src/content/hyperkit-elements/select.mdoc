@@ -1,0 +1,251 @@
+---
+name: Select
+tagline: A flexible select element that integrates with inputs and fires change events on selection.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-select />` element provides a summoner and a set of selectable options. It can be connected to a hidden input, synchronising its value, and fires a `change` event when a new option is selected. It also supports up and down arrow key navigation. Once the select is open, pressing the down arrow key jumps to the first item. If there is already a selected value, the key navigation starts from that value.
+
+{% example hero=true %}{% select id="heroSelect" / %}{% /example %}
+
+## Usage
+
+Import the JS:
+
+```js
+import "@hyperkitxyz/elements/select";
+```
+
+Tags:
+
+```html
+<hyperkit-select-summoner><button /></hyperkit-select-summoner>
+<hyperkit-select>…</hyperkit-select>
+```
+
+### `<hyperkit-select />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `id`
+* String _(required)_
+* Unique identifier for the select. This is required to link the `<hyperkit-select-summoner />` to the correct set of options.
+---
+* `for`
+* String _(optional)_
+* The `id` of the associated `<input />`. The select will update this input’s value and receive its initial value if provided.
+---
+* `value`
+* String _(optional)_
+* The initial value for the selected option.
+---
+* `hidden`
+* Boolean _(optional)_
+* If true, the options will be hidden until the select is summon.
+---
+{% /table %}
+
+### `<hyperkit-select-summoner />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `summons`
+* String _(required)_
+* The `id` of the associated `<hyperkit-select />` that this summoner controls. Clicking the summoner will toggle the visibility of the select.
+---
+{% /table %}
+
+## Children
+
+```html
+<!-- Select with Summoner and Options -->
+<hyperkit-select-summoner summons="select-id"><button>Open Select</button></hyperkit-select-summoner>
+<hyperkit-select id="select-id" for="hidden-input-id">
+  <hyperkit-select-option value="option1"><button>Option 1</button></hyperkit-select-option>
+  <hyperkit-select-option value="option2"><button>Option 2</button></hyperkit-select-option>
+  <hyperkit-select-option value="option3"><button>Option 3</button></hyperkit-select-option>
+</hyperkit-select>
+```
+
+#### `<hyperkit-select-option />`
+
+* Represents an individual option inside the select.
+* Must contain a `<button />` for accessibility and selection.
+* The `value` attribute is required to identify the option.
+
+## JavaScript API
+
+The `hyperkit-select` element provides a simple JavaScript API to interact with the selected value and listen for changes.
+
+### Accessing the Selected Value
+
+You can access the currently selected value using the `value` property:
+
+```js
+const select = document.querySelector("hyperkit-select");
+console.log(select.value); // Outputs the selected value, e.g., "option1"
+```
+
+### Listening for Value Changes
+
+The element emits a `change` event whenever the selected value changes. The event includes both `previous` and `current` properties, representing the old and new values respectively. You can listen for this event to respond to changes:
+
+```js
+const select = document.querySelector("hyperkit-select");
+
+select.on("change", (event) => {
+  console.log("Previous value:", event.detail.previous);
+  console.log("New value:", event.detail.current);
+});
+```
+
+## Examples
+
+### Styled Example
+
+{% example %}{% select id="styledSelect" / %}{% /example %}
+
+Here’s an example with a styled summoner and option buttons:
+
+```html
+<hyperkit-select-summoner>
+  <button
+    class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-800 text-zinc-200 data-[active]:bg-zinc-900 flex items-center justify-center font-medium w-min whitespace-nowrap"
+  >
+    Choose
+  </button>
+</hyperkit-select-summoner>
+<hyperkit-select>
+  <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+    {items.map(({ value, label }) => (
+      <hyperkit-select-option value={value}>
+        <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+          {label}
+        </button>
+      </hyperkit-select-option>
+    ))}
+  </div>
+</hyperkit-select>
+```
+
+### With an Initial Value
+
+The `value` attribute allows you to set a pre-selected option. Setting the text of `<hyperkit-select-summoner />` to the selected option avoids a flicker when the custom element is first connected.
+
+{% example %}
+  {% select id="selectWithValue" value="2" optionsHidden=true / %}
+{% /example %}
+```html
+<hyperkit-select-summoner>Second Option</hyperkit-select-summoner>
+<hyperkit-select value="2">
+  ...
+</hyperkit-select>
+```
+
+### Connected to an `<input />`
+
+The select can be "connected" to an input using the `for` attribute, which should match the `id` attribute on the input. 
+
+When the select is connected to an input, selecting an option will update the value of the input. Editing the value of the input will, inversely, update the selected option in the select.
+
+{% example %}
+  {% select for="connectedInput" id="selectWithConnectedInput" / %}
+{% /example %}
+
+```html
+<hyperkit-masked-input>
+  <input type="text" id="connectedInput" />
+</hyperkit-masked-input>
+<hyperkit-select for="connectedInput">
+  ...
+</hyperkit-select>
+```
+
+### Default Hidden Example
+
+The `hidden` attribute can be used to ensure the select options remain hidden until the summoner is clicked.
+
+{% example %}
+  {% select id="hiddenSelect" optionsHidden=true / %}
+{% /example %}
+```html
+<hyperkit-select-summoner summons="hiddenSelect">
+  <button>Open Select</button>
+</hyperkit-select-summoner>
+<hyperkit-select id="hiddenSelect" hidden>
+  <hyperkit-select-option value="option1"><button>Option 1</button></hyperkit-select-option>
+  <hyperkit-select-option value="option2"><button>Option 2</button></hyperkit-select-option>
+  <hyperkit-select-option value="option3"><button>Option 3</button></hyperkit-select-option>
+</hyperkit-select>
+```
+
+### Adding Arrow Key Navigation
+
+You can use the arrow-nav element to add arrow key navigation to your select. When the select nests a `<hyperkit-arrow-nav />`, it will enable "jumping" to the first item in the list on downkey press, once the menu is opened:
+
+{% example %}
+  {% select id="selectWithTransition" useArrowNav=true / %}
+{% /example %}
+```html
+<hyperkit-select-summoner summons="selectWithTransition">
+  <button>Open Select</button>
+</hyperkit-select-summoner>
+<hyperkit-select id="selectWithTransition">
+  <hyperkit-arrow-nav>
+    <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <hyperkit-select-option value="option1">
+        <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+          Option 1
+        </button>
+      </hyperkit-select-option>
+      <hyperkit-select-option value="option2">
+        <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+          Option 2
+        </button>
+      </hyperkit-select-option>
+    </div>
+  </hyperkit-arrow-nav>
+</hyperkit-select>
+```
+
+### Using a Transition
+
+You can enhance your select by adding a transition for smooth animations when showing or hiding options. Here’s an example of how to integrate it with your select:
+
+{% example %}
+  {% select id="selectWithTransition" useTransition=true / %}
+{% /example %}
+```html
+<hyperkit-select-summoner summons="selectWithTransition">
+  <button>Open Select</button>
+</hyperkit-select-summoner>
+<hyperkit-select id="selectWithTransition">
+  <hyperkit-transition
+    enter-class="transition-all duration-500 ease-in"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    exit-class="transition-all duration-300 ease-out"
+    exit-from-class="opacity-100"
+    exit-to-class="opacity-0"
+  >
+    <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <hyperkit-select-option value="option1">
+        <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+          Option 1
+        </button>
+      </hyperkit-select-option>
+      <hyperkit-select-option value="option2">
+        <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+          Option 2
+        </button>
+      </hyperkit-select-option>
+    </div>
+  </hyperkit-transition>
+</hyperkit-select>
+```

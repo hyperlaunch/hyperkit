@@ -1,0 +1,254 @@
+---
+name: Fieldset Repeater
+tagline: A flexible and dynamic form component allowing users to add and remove repeated sets of input fields.
+thumbnail: "./thumbnails/modal.png"
+---
+
+{% example hero=true %}{% fieldset-repeater id="heroRepeater" / %}{% /example %}
+
+## Usage
+
+### Import the JS:
+
+```js
+import "@hyperkitxyz/elements/fieldset-repeater";
+```
+
+### Tags:
+
+```html
+<hyperkit-fieldset-repeater id="my-repeater">…</hyperkit-fieldset-repeater>
+<hyperkit-fieldset-creator for="my-repeater">
+  <button>Add Item</button>
+</hyperkit-fieldset-creator>
+```
+
+### `<hyperkit-fieldset-repeater />` Options
+
+{% table %}
+* Attribute
+* Value
+* Description
+---
+* `id`
+* String _(required)_
+* Unique identifier for the fieldset repeater. Used to link a fieldset creator to the correct repeater.
+{% /table %}
+
+### `<hyperkit-fieldset-creator />` Options
+
+{% table %}
+* Attribute
+* Value
+* Description
+---
+* `for`
+* String _(required)_
+* The `id` of the associated fieldset repeater. Clicking this will add a new fieldset to the repeater.
+{% /table %}
+
+## Children
+
+#### `<hyperkit-repeated-fieldset />`
+
+* Encapsulates a repeated set of input fields.
+* Must be contained within `<hyperkit-fieldset-repeater />`.
+* Should include labels, inputs, and a destroyer to remove the fieldset.
+
+#### `<hyperkit-fieldset-destroyer />`
+
+* Child element of `<hyperkit-repeated-fieldset />`.
+* Represents a button to remove the current fieldset.
+* Does not require any attributes.
+
+#### Template for New Fieldsets (`<template slot="new-fieldset">`)
+
+To define the markup for new fieldsets that will be dynamically added, include a `<template>` element with the `slot="new-fieldset"` attribute inside the `hyperkit-fieldset-repeater`. This template contains the HTML structure that will be cloned and inserted into the repeater when new fieldsets are added.
+
+```html
+<hyperkit-fieldset-repeater id="my-repeater">
+  <template slot="new-fieldset">
+    <hyperkit-repeated-fieldset>
+      <label>
+        First Name:
+        <input type="text" name="firstname" />
+      </label>
+      <label>
+        Last Name:
+        <input type="text" name="lastname" />
+      </label>
+      <hyperkit-fieldset-destroyer>
+        <button>Remove</button>
+      </hyperkit-fieldset-destroyer>
+    </hyperkit-repeated-fieldset>
+  </template>
+</hyperkit-fieldset-repeater>
+```
+
+## JavaScript API
+
+### Accessing Fieldsets
+
+You can interact with the fieldsets in JavaScript. For example, you can retrieve the repeater’s children:
+
+```js
+const repeater = document.querySelector("hyperkit-fieldset-repeater");
+console.log(repeater.children); // Outputs the repeated fieldsets
+```
+
+### Adding a Fieldset
+
+To programmatically add a fieldset, use the `add()` method on the `hyperkit-fieldset-repeater` element:
+
+```js
+const repeater = document.querySelector("hyperkit-fieldset-repeater");
+repeater.add();
+```
+
+### Listening for Fieldset Changes
+
+The repeater can emit events when fieldsets are added or removed. For example, listening for a fieldset being added:
+
+```js
+repeater.on("add", (event) => {
+  console.log("New fieldset added:", event.detail);
+});
+```
+
+## Examples
+
+### Styled Example
+
+{% example %}{% fieldset-repeater id="styledRepeater" / %}{% /example %}
+
+```html
+<hyperkit-fieldset-repeater id="my-repeater">
+  <hyperkit-repeated-fieldset>
+    <label>
+      First Name:
+      <input type="text" name="firstname" />
+    </label>
+    <label>
+      Last Name:
+      <input type="text" name="lastname" />
+    </label>
+    <hyperkit-fieldset-destroyer>
+      <button>Remove</button>
+    </hyperkit-fieldset-destroyer>
+  </hyperkit-repeated-fieldset>
+</hyperkit-fieldset-repeater>
+
+<hyperkit-fieldset-creator for="my-repeater">
+  <button>Add</button>
+</hyperkit-fieldset-creator>
+```
+
+### Sortable Fieldsets
+
+You can combine the fieldset repeater with the sortable component to allow drag-and-drop reordering of fieldsets.
+
+{% example %}{% sortable-fieldset id="sortableFieldset" / %}{% /example %}
+```html
+<hyperkit-fieldset-repeater id="sortableRepeater">
+  <hyperkit-sortable class="flex flex-col">
+    <hyperkit-sortable-item>
+      <hyperkit-repeated-fieldset>
+        <label>
+          First Name:
+          <input type="text" name="firstname" />
+        </label>
+        <label>
+          Last Name:
+          <input type="text" name="lastname" />
+        </label>
+        <hyperkit-fieldset-destroyer>
+          <button>Remove</button>
+        </hyperkit-fieldset-destroyer>
+      </hyperkit-repeated-fieldset>
+    </hyperkit-sortable-item>
+  </hyperkit-sortable>
+  <template slot="new-fieldset">
+    <hyperkit-sortable-item>
+      <hyperkit-repeated-fieldset>
+        <label>
+          First Name:
+          <input type="text" name="firstname" />
+        </label>
+        <label>
+          Last Name:
+          <input type="text" name="lastname" />
+        </label>
+        <hyperkit-fieldset-destroyer>
+          <button>Remove</button>
+        </hyperkit-fieldset-destroyer>
+      </hyperkit-repeated-fieldset>
+    </hyperkit-sortable-item>
+  </template>
+</hyperkit-fieldset-repeater>
+
+<hyperkit-fieldset-creator for="sortableRepeater">
+  <button>Add Item</button>
+</hyperkit-fieldset-creator>
+```
+
+### Using a Transition
+
+You can add a transition effect to the fieldsets for smooth animations when they are added or removed.
+
+{% example %}{% transition-fieldset id="transitionFieldset" / %}{% /example %}
+```html
+<hyperkit-fieldset-repeater id="transitionRepeater">
+  <hyperkit-repeated-fieldset>
+    <hyperkit-transition
+      enter-class="transition-all duration-500 ease-in origin-top"
+      enter-from-class="opacity-0 max-h-0"
+      enter-to-class="opacity-100 max-h-[1000px]"
+      exit-class="transition-all duration-300 ease-out"
+      exit-from-class="opacity-100 max-h-[1000px]"
+      exit-to-class="opacity-0 max-h-0"
+    >
+      <label>
+        First Name:
+        <input type="text" name="firstname" />
+      </label>
+      <label>
+        Last Name:
+        <input type="text" name="lastname" />
+      </label>
+      <hyperkit-fieldset-destroyer>
+        <button>Remove</button>
+      </hyperkit-fieldset-destroyer>
+    </hyperkit-transition>
+  </hyperkit-repeated-fieldset>
+  <template slot="new-fieldset">
+    <hyperkit-repeated-fieldset>
+      <hyperkit-transition
+        hidden
+        enter-on-connect
+        enter-class="transition-all duration-500 ease-in origin-top"
+        enter-from-class="opacity-0 max-h-0"
+        enter-to-class="opacity-100 max-h-[1000px]"
+        exit-class="transition-all duration-300 ease-out"
+        exit-from-class="opacity-100 max-h-[1000px]"
+        exit-to-class="opacity-0 max-h-0"
+      >
+        <label>
+          First Name:
+          <input type="text" name="firstname" />
+        </label>
+        <label>
+          Last Name:
+          <input type="text" name="lastname" />
+        </label>
+        <hyperkit-fieldset-destroyer>
+          <button>Remove</button>
+        </hyperkit-fieldset-destroyer>
+      </hyperkit-transition>
+    </hyperkit-repeated-fieldset>
+  </template>
+</hyperkit-fieldset-repeater>
+
+<hyperkit-fieldset-creator for="transitionRepeater">
+  <button>Add Item</button>
+</hyperkit-fieldset-creator>
+```

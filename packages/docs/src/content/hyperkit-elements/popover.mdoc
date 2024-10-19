@@ -1,0 +1,161 @@
+---
+name: Popover
+tagline: A simple popover element for showing contextual information or interactive content in an overlay.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-popover />` element is designed to show hidden content (such as alerts or menus) when a trigger element is clicked. It allows for easy integration into various user interface designs with full control over styling and behaviour, supporting event-driven visibility changes.
+
+The popover can also be closed by pressing the `Escape` key when it is visible.
+
+{% example hero=true %}{% popover id="heroPopover" / %}{% /example %}
+
+## Usage
+
+Import the JS:
+
+```js
+import "@hyperkitxyz/elements/popover";
+```
+
+Tags:
+
+```html
+<hyperkit-popover-summoner summons="popover-id"><button>Open Popover</button></hyperkit-popover-summoner>
+<hyperkit-popover id="popover-id" hidden>…</hyperkit-popover>
+```
+
+### `<hyperkit-popover />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `id`
+* String _(required)_
+* A unique identifier for the popover. This is required to link the `<hyperkit-popover-summoner />` to the correct popover content.
+---
+* `hidden`
+* Boolean _(optional)_
+* If set, the popover content is hidden by default. Can be toggled programmatically.
+---
+{% /table %}
+
+### `<hyperkit-popover-summoner />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `summons`
+* String _(required)_
+* Connects the trigger with a `<hyperkit-popover />` by matching its `id` attribute.
+---
+{% /table %}
+
+### JavaScript API
+
+The `hyperkit-popover` element provides an easy way to control its visibility and listen for changes in visibility.
+
+#### Controlling Visibility
+
+You can manually control the visibility of the popover using the `summon()` and `dismiss()` methods:
+
+```js
+const popover = document.querySelector("hyperkit-popover");
+popover.summon(); // Displays the popover content
+popover.dismiss(); // Hides the popover content
+```
+
+#### Listening for Visibility Changes
+
+The `hyperkit-popover` emits `summon` and `dismiss` events that you can listen for using the `on` method. This is triggered when the visibility of the popover changes.
+
+```js
+popover.on("summon", () => {
+  console.log("Popover is now open");
+});
+
+popover.on("dismiss", () => {
+  console.log("Popover is now closed");
+});
+```
+
+#### Accessing Visibility State
+
+You can access the current visibility state using the `hidden` property:
+
+```js
+const popover = document.querySelector("hyperkit-popover");
+console.log(popover.hidden); // Returns true if the popover is hidden
+```
+
+## Examples
+
+### Styling
+
+All elements can be styled conventionally with classes.
+
+The trigger button also receives a `data-visible` attribute when the popover is visible. This can be used to apply contextual styles, such as highlighting the trigger when the popover is active.
+
+#### Example of a Styled Popover
+
+{% example %}{% popover id="styledPopover" / %}{% /example %}
+
+```html
+<hyperkit-popover-summoner summons="styledPopover">
+  <button class="px-2.5 py-2 text-sm shadow-sm rounded border-none bg-zinc-900 text-zinc-200 data-[active]:bg-zinc-800 flex items-center justify-center font-medium">
+    Open Popover
+  </button>
+</hyperkit-popover-summoner>
+<hyperkit-popover id="styledPopover" hidden class="w-64 bg-white rounded-lg shadow-lg overflow-hidden absolute mt-2">
+  <div class="p-4">
+    <div class="text-lg font-semibold text-zinc-800 mt-0 mb-2">
+      Popover Title
+    </div>
+    <div class="text-sm text-zinc-600">
+      This is some example content for the popover. You can put any HTML
+      content here.
+    </div>
+  </div>
+</hyperkit-popover>
+```
+
+### Default Hidden
+
+The popover content is hidden by default using the `hidden` attribute on the `<hyperkit-popover-content />`. This is the typical configuration, where the content is revealed only after the trigger is clicked.
+
+{% example %}
+{% popover contentHidden=true id="hiddenPopover" / %}
+{% /example %}
+
+```html
+<hyperkit-popover-summoner summons="hiddenPopover"><button>Open Popover</button></hyperkit-popover-summoner>
+<hyperkit-popover id="hiddenPopover" hidden>…</hyperkit-popover>
+```
+
+### Using a Transition
+
+You can enhance your popover by adding a `<hyperkit-transition />` as a child of `<hyperkit-popover-content />`. This allows for smooth transitions when showing or hiding the content, while the popover still controls the visibility lifecycle. The transition will handle animations, and the popover will become fully hidden once the exit transition completes.
+
+{% example %}
+{% popover contentHidden=true useTransition=true id="transitionPopover" / %}
+{% /example %}
+
+```html
+<hyperkit-popover-summoner summons="transitionPopover"><button>Open Popover</button></hyperkit-popover-summoner>
+<hyperkit-popover id="transitionPopover" hidden>
+  <hyperkit-transition
+    enter-class="transition-all duration-500 ease-in"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    exit-class="transition-all duration-300 ease-out"
+    exit-from-class="opacity-100"
+    exit-to-class="opacity-0"
+  >
+    …
+  </hyperkit-transition>
+</hyperkit-popover>
+```

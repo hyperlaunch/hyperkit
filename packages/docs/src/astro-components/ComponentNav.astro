@@ -1,0 +1,24 @@
+---
+import { getComponentTree } from "../utils/component-tree";
+import ComponentNavHeading from "./ComponentNavHeading.astro";
+import ComponentNavItem from "./ComponentNavItem.astro";
+
+const tree = await getComponentTree();
+---
+
+<nav class="flex flex-col gap-y-4">
+  {
+    tree.map(({ name, items }) => (
+      <>
+        <ComponentNavHeading>{name}</ComponentNavHeading>
+        <ul>
+          {items.map((item) => (
+            <ComponentNavItem href={`/${item?.slug}`}>
+              {item?.data.name}
+            </ComponentNavItem>
+          ))}
+        </ul>
+      </>
+    ))
+  }
+</nav>

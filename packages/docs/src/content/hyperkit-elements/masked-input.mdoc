@@ -1,0 +1,67 @@
+---
+name: Masked Input  
+tagline: A flexible input element for applying custom masks to user input.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-masked-input />` element allows for the application of custom input masks, ensuring that user input follows a specified format. This is particularly useful for inputs like dates, phone numbers, or identification numbers. The element enforces the format as the user types and handles backspace deletion accordingly.
+
+The `<hyperkit-masked-input />` works particularly well with the [`<hyperkit-calendar />`](/calendar) element, providing a seamless experience for selecting and validating dates.
+
+{% example hero=true %}
+	{% masked-input placeholder="yyyy-mm-dd" id="selected_date" mask="####-##-##" / %}
+{% /example %}
+
+## Usage
+
+Import the JS:
+```js
+import "@hyperkitxyz/elements/masked-input";
+```
+
+Tag:
+```html
+<hyperkit-masked-input>...</hyperkit-masked-input>
+```
+
+### Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `mask`
+* String _(required)_
+* Specifies the mask format. Use `#` for digits and `L` for letters. For example, a date mask would look like `####-##-##` for a `yyyy-mm-dd` format.
+---
+{% /table %}
+
+### Children
+
+```html
+<hyperkit-masked-input>
+  <input />
+</hyperkit-masked-input>
+```
+
+#### `<input />`
+* The input that the mask behaviour will be applied to
+* Recommended that the input is of type `text` for proper functionality
+
+## Example
+
+### Simple Date Input Mask
+
+This example demonstrates a simple date input with a mask for `yyyy-mm-dd`. As the user types, the mask is enforced automatically, preventing invalid input.
+
+{% example %}
+	{% masked-input placeholder="yyyy-mm-dd" id="selected_date" mask="####-##-##" / %}
+{% /example %}
+
+```html
+<hyperkit-masked-input mask="####-##-##">
+  <input type="text" placeholder="yyyy-mm-dd" />
+</hyperkit-masked-input>
+```
+

@@ -1,0 +1,183 @@
+---
+name: Detail & Accordion
+tagline: Detail and Accordion elements that can be used together for expandable content, with optional accordion functionality and smooth transitions.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-accordion />` element allows you to create an accordion where only one section can be open at a time, while the `<hyperkit-detail />` element can be used independently or within an accordion for expandable sections. Both elements support smooth transitions and custom styling.
+
+{% example hero=true %}{% detail id="heroDetail" / %}{% /example %}
+
+## Usage
+
+Import the JS:
+
+```js
+import "@hyperkitxyz/elements/detail";
+```
+
+Tags:
+
+```html
+<hyperkit-accordion>…</hyperkit-accordion>
+<hyperkit-detail-summoner summons="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
+<hyperkit-detail id="detail-id">…</hyperkit-detail>
+```
+
+### `<hyperkit-detail />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `id`
+* String _(required)_
+* Unique identifier for the detail. This is required to link the `<hyperkit-detail-summoner />` to the correct detail content.
+---
+* `hidden`
+* Boolean _(optional)_
+* If set, the detail content is hidden by default. Can be toggled programmatically.
+---
+{% /table %}
+
+### `<hyperkit-detail-summoner />` Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `summons`
+* String _(required)_
+* The `id` of the associated `<hyperkit-detail />` that this summoner controls. Clicking the summoner will toggle the visibility of the detail linked by the `id`.
+---
+{% /table %}
+
+### `<hyperkit-accordion />` Options
+
+There are no specific options for `<hyperkit-accordion />`. It automatically manages the visibility of nested `<hyperkit-detail />` elements, ensuring only one is open at a time.
+
+## Children
+
+```html
+<!-- Standalone Detail -->
+<hyperkit-detail-summoner summons="detail-id"><button>Open Detail</button></hyperkit-detail-summoner>
+<hyperkit-detail id="detail-id">Detail content</hyperkit-detail>
+
+<!-- Accordion with Multiple Details -->
+<hyperkit-accordion>
+  <hyperkit-detail-summoner summons="detail-1"><button>Open Detail 1</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="detail-1">Detail content 1</hyperkit-detail>
+  <hyperkit-detail-summoner summons="detail-2"><button>Open Detail 2</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="detail-2">Detail content 2</hyperkit-detail>
+</hyperkit-accordion>
+```
+
+#### `<hyperkit-detail-summoner />`
+
+* Acts as the trigger for expanding or collapsing the detail content.
+* Must contain a `<button />` for accessibility and be linked to a `<hyperkit-detail />` via the `summons` attribute.
+
+#### `<hyperkit-detail />`
+
+* Holds the content that will be shown or hidden.
+* Hidden by default unless explicitly set to visible or controlled programmatically.
+
+## JavaScript API
+
+The `hyperkit-detail` element provides a simple JavaScript API to interact with its visibility. There is no JavaScript API for `hyperkit-accordion`.
+
+### Showing or Hiding Details
+
+The `hyperkit-detail` exposes `summon()` and `dismiss()` methods to control visibility.
+
+#### Example Usage
+
+```js
+const detail = document.querySelector("hyperkit-detail");
+
+// Show the detail
+detail.summon();
+
+// Hide the detail
+detail.dismiss();
+```
+
+### Listening for Visibility Changes
+
+The `hyperkit-detail` emits `summon` and `dismiss` events that you can listen for using the `on` method. This is triggered when the visibility of the detail changes.
+
+```js
+detail.on("summon", () => {
+  console.log("Detail is now open");
+});
+
+detail.on("dismiss", () => {
+  console.log("Detail is now closed");
+});
+```
+
+## Examples
+
+### Styling the Details
+
+You can apply custom styles to both the details and their triggers. The button inside `<hyperkit-detail-summoner>` can be styled to indicate its open state. The trigger button also receives a `data-visible` attribute when the corresponding detail is visible.
+
+#### Example of a Styled Detail
+
+{% example %}{% detail id="styledDetail" / %}{% /example %}
+
+```html
+<div class="w-96 bg-white rounded-lg shadow-lg p-4">
+  <hyperkit-detail-summoner summons="styledDetail">
+    <button class="w-full flex justify-between items-center text-left text-sm font-bold text-zinc-700 data-[active]:text-zinc-900 hover:text-zinc-600 transition-colors duration-200">
+      Section Title
+    </button>
+  </hyperkit-detail-summoner>
+  <hyperkit-detail id="styledDetail">
+    This is some example content for the detail.
+  </hyperkit-detail>
+</div>
+```
+
+### Using Transitions
+
+{% example %}{% detail id="transitionDetail" useTransition=true / %}{% /example %}
+
+To animate the visibility of the detail, use the `<hyperkit-transition />` element for smooth show/hide effects.
+
+```html
+<div>
+  <hyperkit-detail-summoner summons="transitionDetail"><button /></hyperkit-detail-summoner>
+  <hyperkit-detail id="transitionDetail">
+    <hyperkit-transition
+      class="block"
+      enter-class="transition-all duration-500 ease-in"
+      enter-from-class="opacity-0 max-h-0"
+      enter-to-class="opacity-100 max-h-[1000px]"
+      exit-class="transition-all duration-300 ease-out"
+      exit-from-class="opacity-100 max-h-[1000px]"
+      exit-to-class="opacity-0 max-h-0"
+    >
+      …
+    </hyperkit-transition>
+  </hyperkit-detail>
+</div>
+```
+
+### Accordion Mode
+
+{% example %}{% accordion / %}{% /example %}
+
+When wrapped in a `<hyperkit-accordion />` tag, only one detail section can be open at a time, automatically closing others when a new section is expanded.
+
+```html
+<hyperkit-accordion>
+  <hyperkit-detail-summoner summons="accordionDetail1"><button>Open Detail 1</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="accordionDetail1">Detail content 1</hyperkit-detail>
+
+  <hyperkit-detail-summoner summons="accordionDetail2"><button>Open Detail 2</button></hyperkit-detail-summoner>
+  <hyperkit-detail id="accordionDetail2">Detail content 2</hyperkit-detail>
+</hyperkit-accordion>
+```

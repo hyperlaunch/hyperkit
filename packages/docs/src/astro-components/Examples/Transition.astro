@@ -1,0 +1,30 @@
+---
+type Props = {
+  enterOnConnect?: boolean;
+  hidden?: boolean;
+};
+
+const { enterOnConnect, hidden } = Astro.props;
+---
+
+<hyperkit-transition
+  enter-class="transition-all duration-1000 ease-out"
+  enter-from-class="opacity-0 translate-y-4"
+  enter-to-class="opacity-100 translate-y-0"
+  exit-class="transition-all duration-1000 ease-in"
+  exit-from-class="opacity-100 translate-y-0"
+  exit-to-class="opacity-0 translate-y-4"
+  enter-on-connect={enterOnConnect}
+  hidden={hidden}
+>
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden p-4 sm:p-6">
+    <div class="font-bold text-zinc-800 mb-1">Transitioning Card</div>
+    <div class="text-xs text-zinc-600">
+      This card transitions in slowly on connect.
+    </div>
+  </div>
+</hyperkit-transition>
+
+<script>
+  import "@hyperkitxyz/elements/transition.ts";
+</script>

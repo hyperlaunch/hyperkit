@@ -1,0 +1,20 @@
+---
+type Props = {
+  hero?: boolean;
+};
+const { hero = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    "isolate relative p-6 xl:p-8 2xl:p-10 aspect-square lg:aspect-video rounded flex items-center justify-center",
+    {
+      "bg-gradient-to-tr from-zinc-300 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700":
+        !hero,
+      "bg-gradient-to-tr from-cyan-500 to-lime-500 dark:from-cyan-400 dark:to-lime-400":
+        hero,
+    },
+  ]}
+>
+  <div class="flex flex-col gap-y-2"><slot /></div>
+</div>

@@ -1,0 +1,123 @@
+---
+name: Transition
+tagline: A flexible transition element for animating content visibility with customizable enter and exit classes.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-transition />` element allows you to apply smooth transitions to content when it\'s shown or hidden. You can define classes for both entering and exiting animations, trigger an immediate transition with the `enter-on-connect` attribute or trigger enter and exit transitions via JavaScript methods.
+
+{% example hero=true %}{% transition hidden=true enterOnConnect=true / %}{% /example %}
+
+## Usage
+
+Import the JS:
+```js
+import "@hyperkitxyz/elements/transition";
+```
+
+Tag:
+```html
+<hyperkit-transition>…</hyperkit-transition>
+```
+
+### Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `enter-class`
+* String _(required)_
+* The base class for the enter transition (applied at the start of the transition)
+---
+* `enter-from-class`
+* String _(required)_
+* The class applied when the element starts entering
+---
+* `enter-to-class`
+* String _(required)_
+* The class applied after the enter-from class is removed
+---
+* `exit-class`
+* String _(required)_
+* The base class for the exit transition (applied at the start of the transition)
+---
+* `exit-from-class`
+* String _(required)_
+* The class applied when the element starts exiting
+---
+* `exit-to-class`
+* String _(required)_
+* The class applied after the exit-from class is removed
+---
+* `enter-on-connect`
+* Boolean _(optional)_
+* If true, the enter transition plays when the element is connected to the DOM
+---
+* `hidden`
+* Boolean _(optional)_
+* If true, the element is hidden until the transition is invoked programmatically
+---
+{% /table %}
+
+## JavaScript API
+
+The `hyperkit-transition` element provides an API for manually triggering transitions.
+
+### Manually Trigger Enter
+
+The `enter()` method triggers the enter transition:
+
+```js
+const transitionElement = document.querySelector("hyperkit-transition");
+transitionElement.enter();
+```
+
+### Manually Trigger Exit
+
+The `exit()` method triggers the exit transition:
+
+```js
+const transitionElement = document.querySelector("hyperkit-transition");
+transitionElement.exit();
+```
+
+### Listening for Transition Events
+
+The `hyperkit-transition` emits `enter` and `exit` events that you can listen for using the `on` method. This is triggered when the state of the transition changes.
+
+```js
+detail.on("enter", () => {
+  console.log("Transition is entering");
+});
+
+detail.on("exit", () => {
+  console.log("Transition is exiting");
+});
+```
+
+## Examples
+
+### Shifting `opacity` and `translate-y` on Enter
+
+{% example %}{% transition hidden=true enterOnConnect=true / %}{% /example %}
+
+```html
+<hyperkit-transition
+  enter-class="transition-all duration-1000 ease-out"
+  enter-from-class="opacity-0 translate-y-4"
+  enter-to-class="opacity-100 translate-y-0"
+>
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="text-lg font-semibold text-zinc-800 mb-2">
+        Transitioning Card
+      </div>
+      <div class="text-sm text-zinc-600">
+        This card transitions in slowly on connect.
+      </div>
+    </div>
+  </div>
+</hyperkit-transition>
+```

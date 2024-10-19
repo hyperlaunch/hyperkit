@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = Omit<HTMLAttributes<"input">, "class" | "type"> & { mask: string };
+
+const { mask, ...props } = Astro.props;
+---
+
+<hyperkit-masked-input mask={mask}>
+  <input
+    type="text"
+    class="w-72 px-5 py-2.5 text-base border-none bg-white rounded shadow-md text-zinc-800 text-sm"
+    {...props}
+  />
+</hyperkit-masked-input>
+
+<script>
+  import "@hyperkitxyz/elements/masked-input.ts";
+</script>

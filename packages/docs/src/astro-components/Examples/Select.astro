@@ -1,0 +1,92 @@
+---
+type Props = {
+  id: string;
+  value?: string;
+  for?: string;
+  useTransition?: boolean;
+  useArrowNav?: boolean;
+  optionsHidden?: boolean;
+};
+
+const {
+  id,
+  value,
+  for: forElement,
+  optionsHidden = false,
+  useTransition = false,
+  useArrowNav = false,
+} = Astro.props;
+
+const items = [
+  { value: "1", label: "First Option" },
+  { value: "2", label: "Second Option" },
+  { value: "3", label: "Third Option" },
+];
+---
+
+<div class="relative">
+  {forElement && <input id={forElement} type="hidden" />}
+  <hyperkit-select-summoner summons={id}>
+    <button
+      class="px-4 py-2 text-xs shadow-sm rounded border-none bg-zinc-800 text-zinc-200 data-[active]:bg-zinc-900 flex items-center justify-center font-medium w-min whitespace-nowrap"
+    >
+      {value ? items.find((item) => item.value === value)?.label : "Choose"}
+    </button>
+  </hyperkit-select-summoner>
+  <hyperkit-select
+    for={forElement}
+    id={id}
+    hidden={optionsHidden}
+    value={value}
+  >
+    {
+      useTransition ? (
+        <hyperkit-transition
+          class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+          enter-class="transition-all duration-200 ease-in"
+          enter-from-class="opacity-0"
+          enter-to-class="opacity-100"
+          exit-class="transition-all duration-300 ease-out"
+          exit-from-class="opacity-100"
+          exit-to-class="opacity-0"
+        >
+          {items.map(({ value, label }) => (
+            <hyperkit-select-option value={value}>
+              <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+                {label}
+              </button>
+            </hyperkit-select-option>
+          ))}
+        </hyperkit-transition>
+      ) : useArrowNav ? (
+        <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <hyperkit-arrow-nav>
+            {items.map(({ value, label }) => (
+              <hyperkit-select-option value={value}>
+                <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+                  {label}
+                </button>
+              </hyperkit-select-option>
+            ))}
+          </hyperkit-arrow-nav>
+        </div>
+      ) : (
+        <div class="absolute mt-1 w-36 rounded overflow-hidden shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+          {items.map(({ value, label }) => (
+            <hyperkit-select-option value={value}>
+              <button class="block w-full px-4 py-2 text-xs text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 text-left font-medium group:first-of-type:rounded-t-md group:last-of-type:rounded-b-md focus:bg-zinc-200 focus:outline-none data-[selected]:bg-lime-200">
+                {label}
+              </button>
+            </hyperkit-select-option>
+          ))}
+        </div>
+      )
+    }
+  </hyperkit-select>
+</div>
+<div class="w-36 h-24"></div>
+<script>
+  import "@hyperkitxyz/elements/select.ts";
+  import "@hyperkitxyz/elements/arrow-nav.ts";
+  import "@hyperkitxyz/elements/transition.ts";
+</script>
