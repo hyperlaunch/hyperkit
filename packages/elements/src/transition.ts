@@ -24,7 +24,7 @@ export class HyperkitTransition extends HyperkitElement<{
 	} as const;
 
 	connectedCallback() {
-		if (this.prop("enter-on-connect")) this.enter();
+		requestAnimationFrame(() => this.prop("enter-on-connect") && this.enter());
 	}
 
 	enter() {
