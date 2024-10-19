@@ -153,11 +153,14 @@ const pageTitle = [title, name].filter(Boolean).join(" — ");
         </div>
       </div>
     </header>
-    <main
-      class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-7xl"
+    <slot />
+    <footer
+      class="w-full max-w-7xl border-t border-zinc-300 dark:border-zinc-700 pt-6"
     >
-      <slot />
-    </main>
+      © {new Date().getFullYear()}
+      <a href="httphttps://hyperlaunch.com/">Hyperlaunch</a>. All rights
+      reserved.
+    </footer>
   </body>
 </html>
 <script>

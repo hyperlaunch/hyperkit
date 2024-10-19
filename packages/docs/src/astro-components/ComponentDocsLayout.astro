@@ -1,0 +1,18 @@
+---
+import Layout from "./Layout.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const { title, description } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <main
+    class="lg:flex lg:items-start lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-7xl"
+  >
+    <slot />
+  </main>
+</Layout>
