@@ -31,13 +31,14 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
             A suite of unstyled custom elements designed for building rich,
             interactive UIs rapidly &mdash; without writing JavaScript. From
             sortable lists to calendars, modals, and repeating forms, Hyperkit
-            is let's you create dynamic, scalable interfaces, with pure HTML.
+            let's you create dynamic, scalable interfaces, with pure HTML &amp;
+            CSS.
           </p>
         </div>
       </div>
     </div>
     <div
-      class="bg-zinc-300 dark:bg-zinc-700 rounded-md shadow-md px-4 py-2 mx-auto white-space-no-wrap text-zinc-950 dark:text-white text-sm lg:text-base font-medium"
+      class="bg-zinc-950 dark:bg-white border border-zinc-700 dark:border-zinc-400 ring-2 dark:ring-offset-zinc-950 ring-offset-1 ring-zinc-500 rounded-md shadow-md px-4 py-2 mx-auto white-space-no-wrap text-zinc-100 dark:text-zinc-950 text-sm lg:text-base font-medium"
     >
       bun add @hyperkitxyz/elements
     </div>
@@ -58,22 +59,72 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
         </div>
       </div>
     </div>
-    <nav class="w-full flex flex-col gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
+    <nav class="w-full flex flex-col gap-6 lg:gap-4 xl:gap-6 2xl:gap-4">
       {
-        tree.map(({ name, items }) => (
-          <div>
-            <h2>{name}</h2>
-            <div class="grid gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {items.map((item) => (
-                <a href={`/${item?.slug}`}>
-                  <h3>{item?.data.name}</h3>
-                  <p>{item?.data.tagline}</p>
-                </a>
-              ))}
-            </div>
-          </div>
+        tree.map(({ name, items }, i) => (
+          <>
+            <hyperkit-detail-summoner summons={`component-grid-${i}`}>
+              <button class="w-full flex items-center justify-between text-left px-4 py-2 lg:px-6 bg-zinc-200 dark:bg-zinc-800 rounded-md font-bold group">
+                {name}
+                <span class="group-data-[active]:rotate-180 transition-rotate duration-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m4.5 15.75 7.5-7.5 7.5 7.5"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </hyperkit-detail-summoner>
+            <hyperkit-detail id={`component-grid-${i}`}>
+              <hyperkit-transition
+                class="grid lg:gap-4 xl:gap-6 2xl:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                enter-class="transition-all duration-500 ease-in"
+                enter-from-class="opacity-0 max-h-0"
+                enter-to-class="opacity-100 max-h-[1000px]"
+                exit-class="transition-all duration-300 ease-out"
+                exit-from-class="opacity-100 max-h-[1000px]"
+                exit-to-class="opacity-0 max-h-0"
+              >
+                {items.map((item) => (
+                  <a
+                    href={`/${item?.slug}`}
+                    class="group border border-zinc-200 dark:border-zinc-800 rounded-md overflow-hidden hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-color duration-300"
+                  >
+                    {/* {item?.data && (
+                      <Picture
+                        src={item?.data.thumbnail}
+                        format="webp"
+                        alt=""
+                        widths={[375, 750, 1200, 1500]}
+                      />
+                    )} */}
+                    <div class="p-4 lg:p-6 xl:p-8">
+                      <h3 class="lg:text-lg xl:text-xl font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-lime-500 dark:group-hover:text-lime-400 mb-2">
+                        {item?.data.name}
+                      </h3>
+                      <p class="group-hover:text-zinc-900 dark:group-hover:text-zinc-100">
+                        {item?.data.tagline}
+                      </p>
+                    </div>
+                  </a>
+                ))}
+              </hyperkit-transition>
+            </hyperkit-detail>
+          </>
         ))
       }
     </nav>
   </div>
 </Layout>
+<script>
+  import "@hyperkitxyz/elements/detail.ts";
+</script>

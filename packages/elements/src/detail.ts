@@ -24,7 +24,7 @@ export class HyperkitDetailSummoner extends HyperkitDisclosureSummoner {
 		`hyperkit-detail[id=${this.prop("summons")}`,
 	);
 
-	dismisssummonContent = !this.closest("hyperkit-accordion");
+	dismissContent = !this.closest("hyperkit-accordion");
 }
 
 if (!customElements.get("hyperkit-detail-summoner"))

@@ -118,7 +118,7 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 		`hyperkit-select[id="${this.prop("summons")}"]`,
 	);
 
-	dismisssummonContent = true;
+	dismissContent = true;
 	originalButtonText = "";
 
 	connectedCallback() {

@@ -2,10 +2,12 @@ import { defineCollection, z } from "astro:content";
 
 const elementsCollection = defineCollection({
 	type: "content",
-	schema: z.object({
-		name: z.string(),
-		tagline: z.string().optional(),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			name: z.string(),
+			tagline: z.string().optional(),
+			thumbnail: image(),
+		}),
 });
 
 export const collections = {
