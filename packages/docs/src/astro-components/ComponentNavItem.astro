@@ -4,7 +4,8 @@ type Props = {
 };
 
 const { href } = Astro.props;
-const active = Astro.url.pathname === href;
+const normalize = (str: string) => str.replace(/^\/+|\/+$/g, "");
+const active = normalize(Astro.url.pathname) === normalize(href);
 ---
 
 <li class="pb-2 last:pb-0">

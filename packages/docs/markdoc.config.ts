@@ -110,6 +110,9 @@ export default defineMarkdocConfig({
 				"./src/astro-components/Examples/FieldsetRepeater/TransitionFieldsetRepeater.astro",
 			),
 		},
+		copyable: {
+			render: component("./src/astro-components/Examples/Copyable.astro"),
+		},
 	},
 	extends: [
 		shiki({
