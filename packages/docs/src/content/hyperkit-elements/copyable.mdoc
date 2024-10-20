@@ -1,0 +1,83 @@
+---
+name: Copyable  
+tagline: A button that allows easy copying of text to the clipboard.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-copyable />` element provides an easy way to copy specified text to the user's clipboard. It wraps a button element, which, when clicked, copies the provided text value to the clipboard. Additionally, it fires a `copied` event when the action is successful and sets a `data-copied` attribute on the button.
+
+{% example hero=true %}{% copyable / %}{% /example %}
+
+## Usage
+
+Import the JS:
+```js
+import "@hyperkitxyz/elements/copyable";
+```
+
+Tag:
+```html
+<hyperkit-copyable value="Text to copy">
+	<button>Copy</button>
+</hyperkit-copyable>
+```
+
+### Options
+
+{% table %}
+* Attribute
+* Value
+* 
+---
+* `value`
+* String _(required)_
+* Specifies the text that will be copied to the clipboard when the button is clicked.
+---
+{% /table %}
+
+### Children
+
+```html
+<hyperkit-copyable value="Text to copy">
+  <button>Copy</button>
+</hyperkit-copyable>
+```
+
+#### `<button />`
+* The button that triggers the copy action when clicked.
+* Can be styled according to your needs and can contain any text or content.
+
+## JavaScript API
+
+The `hyperkit-copyable` element provides a simple JavaScript API to interact with its functionality and listen for events.
+
+### Listening for the `copied` Event
+
+The element emits a `copied` event whenever the text is successfully copied to the clipboard. You can listen for this event to respond to the copy action:
+
+```js
+const copyable = document.querySelector("hyperkit-copyable");
+
+copyable.on("copied", (event) => {
+  console.log("Copied value:", event.detail.value);
+});
+```
+
+## Examples
+
+### Styling the button
+
+This example shows how you can use the data-copied attribute to toggle the visible text when the button is used.
+
+{% example %}{% copyable / %}{% /example %}
+
+```html
+<hyperkit-copyable value="https://www.hyperkit.xyz/">
+  <button
+    class="group px-4 py-2 bg-white text-xs text-gray-800 rounded shadow hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+  >
+    <span class="group-data-[copied]:hidden">Copy</span>
+    <span class="hidden group-data-[copied]:block">Copied</span>
+  </button>
+</hyperkit-copyable>
+```

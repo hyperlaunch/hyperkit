@@ -1,6 +1,7 @@
 ---
 import { Picture } from "astro:assets";
-import robot from "../assets/robot.png";
+import darkRocket from "../assets/rockets/dark.png";
+import lightRocket from "../assets/rockets/light.png";
 import Layout from "../astro-components/Layout.astro";
 import { getComponentTree } from "../utils/component-tree";
 
@@ -10,10 +11,17 @@ const tree = await getComponentTree();
 <Layout>
   <div class="flex flex-col items-center justify-end relative">
     <Picture
-      src={robot}
+      src={lightRocket}
       format="webp"
       alt=""
-      class="w-full max-w-5xl"
+      class="w-full max-w-5xl dark:hidden"
+      widths={[375, 750, 1200, 1500]}
+    />
+    <Picture
+      src={darkRocket}
+      format="webp"
+      alt=""
+      class="w-full max-w-5xl hidden dark:block"
       widths={[375, 750, 1200, 1500]}
     />
     <div class="lg:absolute z-40">
@@ -24,7 +32,7 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
         <h1
           class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-4 lg:mb-6 xl:mb-8"
         >
-          Headless Elements, Supercharged UIs
+          Headless Elements, Supercharged Sites
         </h1>
         <p class="md:text-lg lg:text-xl xl:text-2xl">
           A suite of unstyled custom elements designed for building rich,
@@ -36,11 +44,40 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
       </div>
     </div>
   </div>
-  <div
-    class="bg-zinc-950 dark:bg-white border border-zinc-700 dark:border-zinc-400 rounded shadow-md px-4 py-2 mr-auto lg:mx-auto white-space-no-wrap text-zinc-100 dark:text-zinc-950 text-sm lg:text-base font-medium"
-  >
-    bun add @hyperkitxyz/elements
-  </div>
+  <hyperkit-copyable value="bun add @hyperkitxyz/elements">
+    <button
+      class="group flex items-center gap-x-2 bg-zinc-950 dark:bg-white border border-zinc-700 dark:border-zinc-400 rounded shadow-md px-4 py-2 mr-auto lg:mx-auto white-space-no-wrap text-zinc-100 dark:text-zinc-950 text-sm lg:text-base font-medium"
+    >
+      bun add @hyperkitxyz/elements
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-5 group-data-[copied]:hidden"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"
+        ></path>
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-5 hidden group-data-[copied]:block"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m4.5 12.75 6 6 9-13.5"></path>
+      </svg>
+    </button>
+  </hyperkit-copyable>
   <div class="flex items-center justify-center w-full max-w-3xl">
     <div class="relative flex items-center w-full max-w-screen-lg">
       <div
@@ -117,4 +154,5 @@ lg:[text-shadow:_0_1px_50px_rgb(255_255_255/_100%)] dark:[text-shadow:_0_1px_30p
 </Layout>
 <script>
   import "@hyperkitxyz/elements/detail.ts";
+  import "@hyperkitxyz/elements/copyable.ts";
 </script>

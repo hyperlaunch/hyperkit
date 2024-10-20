@@ -3,6 +3,7 @@ import { getEntry } from "astro:content";
 export async function getComponentTree() {
 	const groups = {
 		UI: ["modal", "popover", "detail"],
+		UX: ["copyable"],
 		Form: [
 			"select",
 			"sortable",
