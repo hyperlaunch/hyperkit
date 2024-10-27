@@ -1,0 +1,57 @@
+---
+name: Link  
+tagline: Fetch pages via Ajax, manage navigation, and enhance perceived speed.
+thumbnail: "./thumbnails/modal.png"
+---
+
+The `<hyperkit-link />` element provides efficient, Ajax-based page navigation, replacing the body content while maintaining back/forward button support. When wrapped around an anchor tag, it fetches the linked page via Ajax on navigation and updates the document`s `<body>` without a full page reload. This makes multi-page apps feel as responsive as SPAs by enabling faster transitions, prefetching for improved user experience, and graceful fallbacks for non-200 responses.
+
+Key features include prefetching content on mouseover, initiating navigation on `mousedown` or `touchstart` for reduced perceived latency, and handling all back/forward navigation actions. It also supports a default timeout of 5 seconds, which can be overridden with the `timeout` attribute. 
+
+Links must be explicitly wrapped in `<hyperkit-link>` to inherit this functionality, aligning with Hyperkit’s goal of explicit behaviours over implicit assumptions.
+
+## Usage
+
+Import the JS:
+```js
+import "@hyperkitxyz/elements/link";
+```
+
+Tag:
+```html
+<hyperkit-link>
+  <a href="/path">Go to Path</a>
+</hyperkit-link>
+```
+
+### Options
+
+{% table %}
+* Attribute
+* Value
+* Description
+---
+* `timeout`
+* Number (milliseconds)
+* Optional. Sets the maximum duration to wait for the page load before falling back. Default: 5000ms.
+{% /table %}
+
+### Behaviour
+
+- **Ajax-based Navigation**: Fetches linked pages via Ajax, replacing the body content while updating the address bar URL. If the response isn`t a 200 status, it falls back to standard browser behaviour.
+
+- **Prefetching**: On `mouseover`, the linked page content is prefetched to enhance load speed on navigation. Pages larger than 100KB are not cached, and a FIFO cache limit of 5 pages is enforced to avoid excessive memory use.
+
+- **Enhanced Perceived Speed**: Binds to `mousedown` and `touchstart` events to initiate navigation, creating a faster perceived response on click/tap.
+
+- **Back/Forward Navigation**: Listens for `popstate` events to load the appropriate page content when navigating history. The element restores scroll position where possible for a smoother experience.
+
+- **Graceful Fallbacks**: For non-200 responses or if fetch fails, it falls back to standard navigation to ensure reliability.
+
+- **Timeout Control**: The `timeout` attribute allows fine-tuning for delayed network responses. Defaults to 5000ms if unset.
+
+By requiring explicit wrapping in `<hyperkit-link>`, Hyperkit ensures that any added Ajax-driven navigation is intentional, transparent, and compatible with browser standards and accessibility.
+
+### Final Note
+
+If you're working with frameworks like Astro, be aware that `<hyperkit-link />` might not be necessary, as these frameworks often have their own optimised methods for handling client-side navigation and page transitions. Using `<hyperkit-link />` in such contexts could lead to redundant functionality or conflict with native navigation handling provided by the framework.

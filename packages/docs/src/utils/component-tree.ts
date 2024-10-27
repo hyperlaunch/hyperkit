@@ -11,7 +11,7 @@ export async function getComponentTree() {
 			"calendar",
 			"masked-input",
 		],
-		Primitives: ["transition", "arrow-nav"],
+		Primitives: ["transition", "link", "arrow-nav"],
 	};
 
 	return await Promise.all(

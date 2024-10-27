@@ -5,7 +5,7 @@ A collection of unstyled, headless custom elements designed to make building ric
 ## Overview
 
 **Hyperkit**  
-Version: 0.0.2  
+Version: 0.0.3  
 [Github](https://github.com/hyperlaunch/hyperkit)
 
 **Headless Elements, Supercharged UIs**  

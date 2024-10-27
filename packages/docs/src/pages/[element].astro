@@ -19,7 +19,7 @@ const { name, tagline } = entry.data;
 const { Content } = await entry.render();
 ---
 
-<ComponentDocsLayout>
+<ComponentDocsLayout title={entry.data.name}>
   <div
     class="hidden lg:block sticky lg:top-4 xl:top-6 2xl:top-8 max-h-[100svh] overflow-auto flex-shrink w-64"
   >
