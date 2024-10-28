@@ -5,6 +5,7 @@ export async function getComponentTree() {
 		UI: ["modal", "popover", "detail"],
 		UX: ["copyable"],
 		Form: [
+			"form",
 			"select",
 			"sortable",
 			"fieldset-repeater",

@@ -1,0 +1,58 @@
+---
+name: Form
+tagline: Submit forms with Ajax, handle redirections, and display server responses.
+thumbnail: "./thumbnails/form.png"
+---
+
+The `<hyperkit-form />` element enables Ajax-based form submissions, replacing the body content while managing redirection and validation errors. When wrapping around a `<form>` tag, it submits the form via Ajax for either `GET` or `POST` requests, appending query parameters for `GET` requests or sending form data for `POST`. Based on the response, it will display validation errors inline or navigate to a new page on redirect. For other response statuses, it gracefully falls back to traditional form submission.
+
+Key features include support for both `GET` and `POST` methods, response handling for status codes like `200` and `422` to show content inline, and redirection management via `302` or `303` responses. It also supports a default timeout of 5 seconds, adjustable via the `timeout` attribute.
+
+Forms must be explicitly wrapped in `<hyperkit-form>` to inherit this functionality, aligning with Hyperkit’s goal of explicit behaviours over implicit assumptions.
+
+## Usage
+
+Import the JS:
+\```js
+import "@hyperkitxyz/elements/form";
+\```
+
+Tag:
+\```html
+<hyperkit-form>
+  <form action="/submit" method="POST">
+    <input type="text" name="example" required />
+    <button type="submit">Submit</button>
+  </form>
+</hyperkit-form>
+\```
+
+### Options
+
+{% table %}
+* Attribute
+* Value
+* Description
+---
+* `timeout`
+* Number (milliseconds)
+* Optional. Sets the maximum duration to wait for a form response before falling back. Default: 5000ms.
+{% /table %}
+
+### Behaviour
+
+- **Ajax-based Form Submission**: Submits forms via Ajax, either appending query parameters (for `GET` requests) or posting form data (for `POST` requests). The form content is updated without a full page reload, providing a smoother user experience.
+
+- **Redirection Handling**: Automatically follows redirects for `302` and `303` responses by fetching and replacing the page content, updating the address bar URL. If a `Location` header is missing, it gracefully falls back to traditional submission.
+
+- **Inline Validation Error Display**: For `422` or `200` responses, replaces the content inline to display validation feedback directly within the current view.
+
+- **Graceful Fallbacks**: For unhandled response codes or failed fetch requests, `<hyperkit-form>` falls back to standard form submission to ensure reliability.
+
+- **Timeout Control**: The `timeout` attribute allows fine-tuning for slower network responses. Defaults to 5000ms if unset.
+
+By requiring explicit wrapping in `<hyperkit-form>`, Hyperkit ensures any added Ajax-driven form behaviour is intentional, transparent, and compatible with browser standards and accessibility.
+
+### Final Note
+
+If you're working with frameworks like Astro, keep in mind that `<hyperkit-form />` might not be necessary, as these frameworks often offer optimised form handling. Using `<hyperkit-form />` in such cases could lead to redundant functionality or conflict with the native form handling provided by the framework.
