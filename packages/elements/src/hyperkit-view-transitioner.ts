@@ -1,4 +1,4 @@
-import { HyperkitElement } from "@hyperkitxyz/elements/hyperkit-element";
+import { HyperkitElement } from "./hyperkit-element";
 
 export abstract class HyperkitViewTransitioner extends HyperkitElement<{
 	propTypes: { timeout: "number" };
