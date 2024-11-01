@@ -1,4 +1,4 @@
-import { HyperkitArrowNav } from "./arrow-nav"; // Import HyperkitArrowNav
+import type { HyperkitArrowNav } from "./arrow-nav";
 import {
 	HyperkitDisclosureContent,
 	HyperkitDisclosureSummoner,
@@ -53,15 +53,19 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 		super.connectedCallback();
 
 		requestAnimationFrame(() => {
-			this.value = this.getAttribute("value") || undefined;
+			const valueAttr = this.getAttribute("value") || undefined;
 
 			const forAttr = this.getAttribute("for");
 			this.connectedInput = forAttr
 				? document.querySelector<HTMLInputElement>(`#${forAttr}`)
 				: null;
 
+			this.value = valueAttr || this.connectedInput?.value;
+
+			this.setInitialSelection();
+
 			if (forAttr && this.connectedInput)
-				this.value = this.connectedInput.value;
+				this.connectedInput.value = String(this.value);
 
 			this.summonBy?.setAttribute("aria-controls", this.id);
 			this.setAttribute("role", "listbox");
@@ -78,9 +82,19 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 		});
 	}
 
+	setInitialSelection() {
+		if (!this.value) return;
+
+		const option = this.querySelector<HyperkitSelectOption>(
+			`hyperkit-select-option[value="${this.value}"]`,
+		);
+
+		option && this.selected(option);
+	}
+
 	selected(option: HyperkitSelectOption) {
 		const previous = this.value;
-		const current = String(option.prop("value"));
+		const current = option.prop("value");
 
 		for (const opt of Array.from(
 			this.querySelectorAll<HyperkitSelectOption>("hyperkit-select-option"),
@@ -98,7 +112,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 			selectedButton.setAttribute("aria-selected", "true");
 		}
 
-		this.value = String(current);
+		this.value = current || undefined;
 
 		if (this.connectedInput) this.connectedInput.value = String(current);
 
@@ -144,9 +158,11 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 	}
 
 	onKeyDown(event: KeyboardEvent) {
-		const arrowNav = this.summons.querySelector("hyperkit-arrow-nav");
+		const arrowNav =
+			this.summons?.querySelector<HyperkitArrowNav>("hyperkit-arrow-nav");
 
 		if (!arrowNav) return;
+
 		if (
 			event.key === "ArrowDown" &&
 			this.summons &&
@@ -170,7 +186,9 @@ class HyperkitSelectSummoner extends HyperkitDisclosureSummoner {
 				`hyperkit-select-option[value="${value}"]`,
 			);
 			const optionButton = option?.querySelector("button");
-			textContent = optionButton ? String(optionButton.textContent) : value;
+			textContent = optionButton
+				? String(optionButton.textContent)
+				: this.originalButtonText || value;
 		}
 
 		if (this.button) this.button.textContent = textContent;

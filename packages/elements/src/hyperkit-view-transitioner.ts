@@ -138,8 +138,10 @@ export abstract class HyperkitViewTransitioner extends HyperkitElement<{
 	}
 
 	pageCacheKey({ url }: { url: string }) {
-		const pathname = new URL(url, "http://hyperkit.xyz").pathname;
-		return `cachedContent:${pathname.toLowerCase()}`;
+		const parsedUrl = new URL(url, "http://hyperkit.xyz");
+		const pathname = parsedUrl.pathname.toLowerCase();
+		const queryString = parsedUrl.search; // includes the "?" if present
+		return `cachedContent:${pathname}${queryString}`;
 	}
 
 	cachePage(url: string, html: string) {
