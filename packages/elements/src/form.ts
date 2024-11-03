@@ -25,13 +25,15 @@ class HyperkitForm extends HyperkitViewTransitioner {
 	}
 
 	get action() {
-		return this.form?.action || document.location.href;
+		return String(this.form?.action);
 	}
 
 	async handleGet() {
-		const queryString = new URLSearchParams(this.formData).toString();
+		const formData = this.formData;
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		const queryString = new URLSearchParams(formData as any).toString();
 
-		const url = `${this.action}?${queryString}`;
+		const url = `${this.action?.split("?")[0]}?${queryString}`;
 
 		await this.startViewTransition();
 		const html = await this.getPotentiallyCachedContent({ url, bust: true });

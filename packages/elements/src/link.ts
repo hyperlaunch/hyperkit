@@ -25,7 +25,20 @@ class HyperkitLink extends HyperkitViewTransitioner {
 		return String(this.anchor?.getAttribute("href"));
 	}
 
-	async handleNavigation(event: Event) {
+	opensOutsideTab(event: MouseEvent) {
+		const isMiddleClick = event.button === 1;
+
+		const isCtrlOrMetaClick =
+			(event.ctrlKey || event.metaKey) && event.button === 0;
+
+		const isShiftClick = event.shiftKey && event.button === 0;
+
+		return isMiddleClick || isCtrlOrMetaClick || isShiftClick;
+	}
+
+	async handleNavigation(event: MouseEvent | TouchEvent) {
+		if (event instanceof MouseEvent && this.opensOutsideTab(event)) return;
+
 		event.preventDefault();
 
 		try {

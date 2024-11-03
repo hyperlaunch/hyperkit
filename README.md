@@ -5,7 +5,7 @@ A collection of unstyled, headless custom elements designed to make building ric
 ## Overview
 
 **Hyperkit**  
-Version: 0.0.4  
+Version: 0.0.5  
 [Github](https://github.com/hyperlaunch/hyperkit)
 
 **Headless Elements, Supercharged UIs**  
@@ -19,6 +19,8 @@ The monorepo includes the following elements:
 - **Popover**: A simple popover element for showing contextual information or interactive content in an overlay.
 - **Detail & Accordion**: Expandable content elements, with optional accordion functionality and smooth transitions.
 - **Select**: A flexible select element that integrates with inputs and fires change events on selection.
+- **Form**: Submit forms with Ajax, handle redirections, and display server responses.
+- **Link**: Fetch pages via Ajax, manage navigation, and enhance perceived speed.
 - **Fieldset Repeater**: A dynamic form component allowing users to add and remove repeated sets of input fields.
 - **Masked Input**: An input element for applying custom masks to user input.
 - **Sortable List**: A drag-and-drop sortable list with optional position tracking.

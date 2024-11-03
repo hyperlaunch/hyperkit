@@ -114,7 +114,7 @@ class HyperkitSelect extends HyperkitDisclosureContent<{
 
 		this.value = current || undefined;
 
-		if (this.connectedInput) this.connectedInput.value = String(current);
+		if (this.connectedInput) this.connectedInput.value = current;
 
 		this.fire("change", { detail: { previous, current } });
 
