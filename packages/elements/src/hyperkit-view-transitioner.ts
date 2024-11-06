@@ -63,12 +63,13 @@ export abstract class HyperkitViewTransitioner extends HyperkitElement<{
 
 		const request = await this.fetch({ url });
 
-		if (!request.status.toString().startsWith("2"))
-			throw new Error("Bad status");
+		if (!request.ok) throw new Error("Bad status");
 
-		const html = String(await request.text());
+		const html = await request.text();
 
-		if (new Blob([html]).size <= this.maxCacheSize) this.cachePage(url, html);
+		if (new Blob([html]).size <= this.maxCacheSize) {
+			this.cachePage(url, html);
+		}
 
 		return html;
 	}
@@ -140,7 +141,7 @@ export abstract class HyperkitViewTransitioner extends HyperkitElement<{
 	pageCacheKey({ url }: { url: string }) {
 		const parsedUrl = new URL(url, "http://hyperkit.xyz");
 		const pathname = parsedUrl.pathname.toLowerCase();
-		const queryString = parsedUrl.search; // includes the "?" if present
+		const queryString = parsedUrl.search;
 		return `cachedContent:${pathname}${queryString}`;
 	}
 
@@ -165,7 +166,6 @@ export abstract class HyperkitViewTransitioner extends HyperkitElement<{
 		try {
 			const response = await fetch(url, {
 				signal: controller.signal,
-				redirect: "manual",
 				...fetchProps,
 			});
 

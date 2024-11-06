@@ -46,17 +46,6 @@ class HyperkitForm extends HyperkitViewTransitioner {
 		);
 	}
 
-	async handleRedirect({ url }: { url: string | null }) {
-		if (!url) throw new Error("Redirect reponses but no location specified");
-
-		await this.startViewTransition();
-
-		const html = await this.getPotentiallyCachedContent({ url, bust: true });
-		await this.replaceContent({ html });
-
-		history.pushState(null, "", url);
-	}
-
 	async handlePost() {
 		const response = await this.fetch({
 			url: this.action,
@@ -65,21 +54,12 @@ class HyperkitForm extends HyperkitViewTransitioner {
 			headers: { Accept: "text/html" },
 		});
 
-		if (response.status === 422 || response.status.toString().startsWith("2")) {
-			const html = await response.text();
-			return await this.replaceContent({ html });
-		}
-		if ([302, 303].includes(response.status))
-			return this.handleRedirect({
-				url: response.headers.get("location"),
-			});
+		await this.startViewTransition();
 
-		if (response.type === "opaqueredirect")
-			return this.handleRedirect({
-				url: response.url,
-			});
+		const html = await response.text();
+		await this.replaceContent({ html });
 
-		throw new Error("Bad status");
+		return history.pushState(null, "", response.url);
 	}
 
 	async handleSubmit(event: Event) {
